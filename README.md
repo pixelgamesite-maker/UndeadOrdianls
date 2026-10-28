@@ -2,11 +2,9 @@
 
 **The Dead Don't Stay Dead on Bitcoin.**
 
-Official Whitepaper | Version 1.2 | DRAFT
+Official Whitepaper
 
 *Items in [square brackets] are placeholders only the team can confirm. Numbers marked "proposed" are working values pending simulation and legal review.*
-
----
 
 ## 1. Executive Summary
 
@@ -32,8 +30,6 @@ Three ideas drive the project:
 | Category | Digital collectibles, gaming, Bitcoin-native ecosystem |
 | Mint price / date | [TBA] |
 
----
-
 ## 2. Trust Model at a Glance
 
 Bitcoin secures ownership and token balances. It does not run game logic. This table shows exactly what lives where.
@@ -49,7 +45,6 @@ Bitcoin secures ownership and token balances. It does not run game logic. This t
 
 We do not call any component audited, trustless or exploit-proof until a completed review supports the claim.
 
----
 
 ## 3. Principles
 
@@ -60,7 +55,6 @@ We do not call any component audited, trustless or exploit-proof until a complet
 - **Budgeted economics.** Rewards are capped and modeled. Nothing is a guaranteed return.
 - **Core loop first.** We ship and test expeditions before expanding.
 
----
 
 ## 4. Lore: Rise of the Undead
 
@@ -76,7 +70,6 @@ They were not created to disappear. They were resurrected to explore, evolve and
 
 *The lore defines the world and look of the collection. Game mechanics, rewards and token rules are governed by the published rules in this document, not by the story.*
 
----
 
 ## 5. The Collection
 
@@ -106,7 +99,6 @@ Faction counts: [Phantoms / Berserkers / Neomancers / Wardens, confirm]. Trait c
 
 Holding an Undead gives access to eligible ecosystem features, subject to each feature's published rules. Ownership does not guarantee rewards, future value or access to features that have not launched.
 
----
 
 ## 6. The Catacombs of Consensus
 
@@ -154,7 +146,6 @@ Bitcoin block data is used as one input, never the only one. Proposed process:
 
 This prevents the server from changing outcomes after seeing the block, and prevents players from timing entries against a known block. A miner could in theory withhold a block to influence a result, but doing so forfeits a block reward that far exceeds any expedition prize at these fee levels. If a chain reorganization changes the seed block before 6 confirmations, the run re-resolves from the new block. A public block hash alone is never described as a complete randomness solution.
 
----
 
 ## 7. The Five Crypt Chambers
 
@@ -170,7 +161,6 @@ Chambers are modifiers that can trigger during an expedition. Trigger odds and c
 
 Chamber effects are included in the published expected-return calculations. No chamber or multiplier is a guaranteed payout.
 
----
 
 ## 8. Wallet-Verified Soft Staking
 
@@ -192,7 +182,6 @@ Your Undead stays in your wallet. Staking is tracked, not custodial.
 - **Indexer lag and reorgs:** points are finalized only after 6 confirmations. Disputed states pause accrual until resolved.
 - **Honest boundary:** this is wallet-verified participation, not a trustless contract. It depends on our verifier and on Bitcoin indexers, and we publish how both behave.
 
----
 
 ## 9. Burn to Evolve
 
@@ -221,7 +210,6 @@ Evolved appearances are stored in a companion metadata system and shown by suppo
 
 Evolution supports identity and progression. It does not promise higher market value.
 
----
 
 ## 10. $GRAVE: The Ecosystem Rune
 
@@ -295,7 +283,6 @@ Before launch, we simulate low, expected and high activity scenarios against the
 
 $GRAVE is not an investment. No price, return, liquidity level or appreciation is promised.
 
----
 
 ## 11. Bitcoin-Native Architecture
 
@@ -309,8 +296,6 @@ $GRAVE is not an investment. No price, return, liquidity level or appreciation i
 | Companion metadata | Evolved looks and stats | Original inscription unchanged |
 
 We will publish which components the team operates, which records are public, how downtime is handled, and which claims users can verify themselves.
-
----
 
 ## 12. Fairness, Security and Abuse Prevention
 
@@ -326,7 +311,6 @@ We will document the controls actually deployed, not just planned ones.
 
 No system is called audited or exploit-proof unless a completed review supports it.
 
----
 
 ## 13. Roadmap
 
@@ -363,7 +347,6 @@ The roadmap is milestone-based. Dates are announced once scope and dependencies 
 
 Milestones are not guarantees of delivery on any date.
 
----
 
 ## 14. Long-Term Vision
 
@@ -375,7 +358,6 @@ The priority is not the number of features. It is a reliable core experience, cl
 
 The collection is the beginning. The world around it is what we build.
 
----
 
 **UNDEAD ORDINALS**
 
