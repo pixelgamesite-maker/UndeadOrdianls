@@ -26,7 +26,7 @@ function DemandCounter({ count }: { count: number | null }) {
       <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
         <LiveDot label="HORDE GROWING" color={C.ember} />
       </div>
-      <p style={{ fontFamily: display, fontSize: "clamp(1.4rem,5vw,2.4rem)", color: C.ice, margin: "0 0 6px", textShadow: `0 0 24px ${C.ice}66` }}>
+      <p style={{ fontFamily: display, fontSize: "clamp(1.4rem,5vw,2.4rem)", color: C.btc, margin: "0 0 6px", textShadow: `0 0 24px ${C.btc}66` }}>
         {count == null ? "— — —" : count.toLocaleString()}
       </p>
       <p style={{ fontFamily: mono, fontSize: "1.1rem", color: C.muted, letterSpacing: "0.12em", textTransform: "uppercase", margin: 0 }}>
@@ -97,11 +97,11 @@ export default function Verify() {
           <DemandCounter count={count} />
 
           {spot != null ? (
-            <Panel color={C.ice} glow={C.ice} pad={28} style={{ textAlign: "center" }}>
+            <Panel color={C.btc} glow={C.btc} pad={28} style={{ textAlign: "center" }}>
               <motion.div initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5, ease: "easeOut" }}>
-                <div style={{ width: 64, height: 64, margin: "0 auto 18px", background: C.ice, display: "grid", placeItems: "center", fontSize: "1.8rem", color: C.void, boxShadow: `0 0 40px ${C.ice}`, clipPath: notch(11) }}>✓</div>
+                <div style={{ width: 64, height: 64, margin: "0 auto 18px", background: C.btc, display: "grid", placeItems: "center", fontSize: "1.8rem", color: C.void, boxShadow: `0 0 40px ${C.btc}`, clipPath: notch(11) }}>✓</div>
                 <h2 style={{ fontFamily: display, fontSize: "0.9rem", color: C.bone, margin: "0 0 10px" }}>SPOT SECURED</h2>
-                <p style={{ fontFamily: display, fontSize: "clamp(1.6rem,7vw,3rem)", color: C.ice, margin: "0 0 10px", textShadow: `0 0 26px ${C.ice}88` }}>
+                <p style={{ fontFamily: display, fontSize: "clamp(1.6rem,7vw,3rem)", color: C.btc, margin: "0 0 10px", textShadow: `0 0 26px ${C.btc}88` }}>
                   #{String(spot).padStart(4, "0")}
                 </p>
                 <p style={{ fontFamily: body, fontSize: "0.98rem", color: C.muted, lineHeight: 1.75, margin: 0 }}>
@@ -119,8 +119,8 @@ export default function Verify() {
               <div style={{ display: "flex", gap: 8, marginBottom: 18 }}>
                 {(["ordinals", "eth"] as const).map((k) => (
                   <button key={k} onClick={() => { setKind(k); setCommunity(""); }} style={{
-                    flex: 1, padding: "12px", background: kind === k ? C.ice : "transparent",
-                    color: kind === k ? C.void : C.muted, border: `2px solid ${kind === k ? C.ice : C.tomb}`,
+                    flex: 1, padding: "12px", background: kind === k ? C.btc : "transparent",
+                    color: kind === k ? C.void : C.muted, border: `2px solid ${kind === k ? C.btc : C.tomb}`,
                     clipPath: notch(8), fontFamily: mono, fontSize: "1.05rem", letterSpacing: "0.1em",
                     textTransform: "uppercase", cursor: "pointer", transition: "all .15s",
                   }}>
@@ -137,8 +137,8 @@ export default function Verify() {
                   const on = community === c.key;
                   return (
                     <button key={c.key} onClick={() => setCommunity(c.key)} style={{
-                      padding: "11px 10px", background: on ? `${C.ice}18` : C.void,
-                      color: on ? C.ice : C.muted, border: `2px solid ${on ? C.ice : C.tomb}`,
+                      padding: "11px 10px", background: on ? `${C.btc}18` : C.void,
+                      color: on ? C.btc : C.muted, border: `2px solid ${on ? C.btc : C.tomb}`,
                       fontFamily: mono, fontSize: "1rem", letterSpacing: "0.03em", cursor: "pointer",
                       textAlign: "left", transition: "all .15s", lineHeight: 1.3,
                     }}
@@ -157,7 +157,7 @@ export default function Verify() {
                 placeholder={kind === "ordinals" ? "bc1p…" : "0x…"}
                 onChange={(e) => { setAddr(e.target.value); setErr(""); }}
                 onKeyDown={(e) => e.key === "Enter" && ready && verify()}
-                onFocus={(e) => (e.target.style.borderColor = C.ice)}
+                onFocus={(e) => (e.target.style.borderColor = C.btc)}
                 onBlur={(e) => (e.target.style.borderColor = C.tomb)} />
               <p style={{ fontFamily: body, fontSize: "0.84rem", color: C.faint, margin: "9px 0 0", lineHeight: 1.55 }}>
                 The public address that holds your {kind === "ordinals" ? "inscription" : "NFT"}. Read-only — it never leaves your clipboard as anything but text.
@@ -167,11 +167,11 @@ export default function Verify() {
 
               <button onClick={verify} disabled={!ready || busy} style={{
                 width: "100%", marginTop: 18, padding: "17px",
-                background: ready ? C.ice : "transparent", color: ready ? C.void : C.faint,
-                border: `2px solid ${ready ? C.ice : C.tomb}`, clipPath: notch(10),
+                background: ready ? C.btc : "transparent", color: ready ? C.void : C.faint,
+                border: `2px solid ${ready ? C.btc : C.tomb}`, clipPath: notch(10),
                 fontFamily: display, fontSize: "0.72rem", letterSpacing: "0.04em", textTransform: "uppercase",
                 cursor: ready && !busy ? "pointer" : "not-allowed",
-                boxShadow: ready ? `0 0 28px ${C.ice}66` : "none",
+                boxShadow: ready ? `0 0 28px ${C.btc}66` : "none",
                 transition: "all .2s",
               }}>
                 {busy ? "Checking the snapshot…" : "Verify & claim spot"}
@@ -180,7 +180,7 @@ export default function Verify() {
           )}
 
           <p style={{ fontFamily: body, fontSize: "0.86rem", color: C.faint, textAlign: "center", margin: "4px auto 0", maxWidth: "52ch", lineHeight: 1.6 }}>
-            Not holding an OG NFT? You can still <Link href="/raffle" style={{ color: C.ice }}>enter the raffle</Link> by posting about the Undead.
+            Not holding an OG NFT? You can still <Link href="/raffle" style={{ color: C.btc }}>enter the raffle</Link> by posting about the Undead.
           </p>
         </div>
       </Section>

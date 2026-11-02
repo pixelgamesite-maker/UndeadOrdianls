@@ -26,13 +26,13 @@ function Meter({ done }: { done: boolean[] }) {
       <div style={{ display: "flex", gap: 5, height: 16 }}>
         {done.map((d, i) => (
           <div key={i} style={{
-            flex: 1, background: d ? C.ice : C.tomb,
-            boxShadow: d ? `0 0 12px ${C.ice}99` : "none",
+            flex: 1, background: d ? C.btc : C.tomb,
+            boxShadow: d ? `0 0 12px ${C.btc}99` : "none",
             transition: "background .3s, box-shadow .3s",
           }} />
         ))}
       </div>
-      <p style={{ fontFamily: mono, fontSize: "1.05rem", color: n === total ? C.ice : C.faint, margin: "9px 0 0", letterSpacing: "0.15em", textTransform: "uppercase" }}>
+      <p style={{ fontFamily: mono, fontSize: "1.05rem", color: n === total ? C.btc : C.faint, margin: "9px 0 0", letterSpacing: "0.15em", textTransform: "uppercase" }}>
         {n === total ? "◆ Fully Resurrected" : `Resurrection ${n} / ${total}`}
       </p>
     </div>
@@ -42,13 +42,13 @@ function Meter({ done }: { done: boolean[] }) {
 function Ghost({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
   return (
     <button onClick={onClick} style={{
-      marginTop: 9, width: "100%", background: "transparent", color: C.ice,
-      border: `2px solid ${C.ice}`, clipPath: notch(7), padding: "11px",
+      marginTop: 9, width: "100%", background: "transparent", color: C.btc,
+      border: `2px solid ${C.btc}`, clipPath: notch(7), padding: "11px",
       fontFamily: mono, fontSize: "1.05rem", cursor: "pointer",
       letterSpacing: "0.1em", textTransform: "uppercase", transition: "background .15s, color .15s",
     }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = C.ice; e.currentTarget.style.color = C.void; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = C.ice; }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = C.btc; e.currentTarget.style.color = C.void; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = C.btc; }}
     >{children}</button>
   );
 }
@@ -58,13 +58,13 @@ function Step({ n, title, hint, done, locked, children }: {
 }) {
   return (
     <div style={{
-      border: `2px solid ${done ? C.ice : locked ? C.line : C.tomb}`,
+      border: `2px solid ${done ? C.btc : locked ? C.line : C.tomb}`,
       padding: "16px 16px 14px", marginBottom: 10, background: locked ? "transparent" : C.void,
-      opacity: locked ? 0.4 : 1, boxShadow: done ? `0 0 18px ${C.ice}22` : "none",
+      opacity: locked ? 0.4 : 1, boxShadow: done ? `0 0 18px ${C.btc}22` : "none",
       transition: "border-color .25s, box-shadow .25s, opacity .25s",
     }}>
       <div style={{ display: "flex", gap: 11, alignItems: "baseline", marginBottom: locked ? 0 : 11 }}>
-        <span style={{ fontFamily: display, fontSize: "0.68rem", color: done ? C.ice : C.muted }}>{String(n).padStart(2, "0")}</span>
+        <span style={{ fontFamily: display, fontSize: "0.68rem", color: done ? C.btc : C.muted }}>{String(n).padStart(2, "0")}</span>
         <div>
           <p style={{ fontFamily: display, fontSize: "0.6rem", margin: 0, color: C.bone, letterSpacing: "0.02em", lineHeight: 1.5 }}>{title}</p>
           <p style={{ fontFamily: body, fontSize: "0.92rem", color: C.muted, margin: "6px 0 0", lineHeight: 1.55 }}>{hint}</p>
@@ -85,7 +85,7 @@ function LinkStep({ value, onChange, onSave, saved, placeholder, launchLabel, la
       <input value={value} style={{ ...inputStyle, marginTop: 9 }} placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && isXLink(value) && onSave()}
-        onFocus={(e) => (e.target.style.borderColor = C.ice)}
+        onFocus={(e) => (e.target.style.borderColor = C.btc)}
         onBlur={(e) => (e.target.style.borderColor = C.tomb)} />
       {value && !isXLink(value) && (
         <p style={{ fontFamily: body, fontSize: "0.88rem", color: C.ember, margin: "6px 0 0" }}>
@@ -163,7 +163,7 @@ export default function Raffle() {
       <section style={{ position: "relative", overflow: "hidden", padding: "clamp(66px,10vw,110px) clamp(18px,5vw,40px) clamp(30px,5vw,50px)", textAlign: "center" }}>
         <AshField density={22} />
         <div style={{ position: "relative", zIndex: 2, maxWidth: 680, margin: "0 auto" }}>
-          <Pill color={C.ice}>{isWaitlist ? "PUBLIC PHASE · OPEN TO ALL" : "RAFFLE PHASE · LIVE"}</Pill>
+          <Pill color={C.btc}>{isWaitlist ? "PUBLIC PHASE · OPEN TO ALL" : "RAFFLE PHASE · LIVE"}</Pill>
           <div style={{ marginTop: 16 }}>
             <GlitchText size="clamp(1.4rem,6vw,2.8rem)">{title}</GlitchText>
           </div>
@@ -173,10 +173,10 @@ export default function Raffle() {
 
       <Section tone="crypt" style={{ paddingTop: 0 }}>
         <div style={{ maxWidth: 560, margin: "0 auto" }}>
-          <Panel color={C.tombUp} glow={C.ice} pad={24}>
+          <Panel color={C.tombUp} glow={C.btc} pad={24}>
             {sent || already ? (
               <div style={{ textAlign: "center", padding: "20px 0 10px" }}>
-                <div style={{ width: 60, height: 60, margin: "0 auto 18px", background: C.ice, display: "grid", placeItems: "center", fontSize: "1.7rem", color: C.void, boxShadow: `0 0 36px ${C.ice}88`, clipPath: notch(10) }}>✓</div>
+                <div style={{ width: 60, height: 60, margin: "0 auto 18px", background: C.btc, display: "grid", placeItems: "center", fontSize: "1.7rem", color: C.void, boxShadow: `0 0 36px ${C.btc}88`, clipPath: notch(10) }}>✓</div>
                 <h2 style={{ fontFamily: display, fontSize: "0.9rem", margin: "0 0 12px", color: C.bone, letterSpacing: "0.02em" }}>
                   {sent ? "YOU'RE IN" : "ALREADY ENTERED"}
                 </h2>
@@ -185,7 +185,7 @@ export default function Raffle() {
                   keep an eye on {X_HANDLE}. The more you post, the louder the horde.
                 </p>
                 <div style={{ marginTop: 22, display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-                  <Btn href={X_URL} color={C.ice} small>Follow {X_HANDLE}</Btn>
+                  <Btn href={X_URL} color={C.btc} small>Follow {X_HANDLE}</Btn>
                   <Link href="/verify"><Btn tone="ghost" color={C.bone} small>Hold an OG NFT? Verify →</Btn></Link>
                 </div>
               </div>
@@ -197,7 +197,7 @@ export default function Raffle() {
                   <input value={handle} style={inputStyle} placeholder="@yourhandle"
                     onChange={(e) => { setHandle(e.target.value); setHandleOk(false); }}
                     onKeyDown={(e) => e.key === "Enter" && setHandleOk(true)}
-                    onFocus={(e) => (e.target.style.borderColor = C.ice)}
+                    onFocus={(e) => (e.target.style.borderColor = C.btc)}
                     onBlur={(e) => (e.target.style.borderColor = C.tomb)} />
                   {!s1 && handle.trim().length > 1 && <Ghost onClick={() => setHandleOk(true)}>Save handle</Ghost>}
                 </Step>
@@ -218,7 +218,7 @@ export default function Raffle() {
                   <input value={addr} style={inputStyle} placeholder="bc1p…  or  0x…"
                     onChange={(e) => { setAddr(e.target.value); setAddrOk(false); }}
                     onKeyDown={(e) => e.key === "Enter" && isValidAddress(addr) && setAddrOk(true)}
-                    onFocus={(e) => (e.target.style.borderColor = C.ice)}
+                    onFocus={(e) => (e.target.style.borderColor = C.btc)}
                     onBlur={(e) => (e.target.style.borderColor = C.tomb)} />
                   {addr && !isValidAddress(addr) && (
                     <p style={{ fontFamily: body, fontSize: "0.88rem", color: C.ember, margin: "6px 0 0" }}>
@@ -235,11 +235,11 @@ export default function Raffle() {
 
                 <button onClick={send} disabled={!all || sending} style={{
                   width: "100%", marginTop: 16, padding: "17px",
-                  background: all ? C.ice : "transparent", color: all ? C.void : C.faint,
-                  border: `2px solid ${all ? C.ice : C.tomb}`, clipPath: notch(10),
+                  background: all ? C.btc : "transparent", color: all ? C.void : C.faint,
+                  border: `2px solid ${all ? C.btc : C.tomb}`, clipPath: notch(10),
                   fontFamily: display, fontSize: "0.72rem", letterSpacing: "0.04em", textTransform: "uppercase",
                   cursor: all && !sending ? "pointer" : "not-allowed",
-                  boxShadow: all ? `0 0 28px ${C.ice}66` : "none",
+                  boxShadow: all ? `0 0 28px ${C.btc}66` : "none",
                   transition: "background .2s, color .2s, border-color .2s, box-shadow .2s",
                 }}>
                   {sending ? "Sealing…" : all ? (isWaitlist ? "Join the waitlist" : "Enter the raffle") : "Finish all five steps"}
@@ -249,7 +249,7 @@ export default function Raffle() {
           </Panel>
 
           <p style={{ fontFamily: body, fontSize: "0.86rem", color: C.faint, textAlign: "center", margin: "18px auto 0", maxWidth: "48ch", lineHeight: 1.6 }}>
-            Hold an OG Ordinals or ETH NFT? You can <Link href="/verify" style={{ color: C.ice }}>verify your holdings</Link> for a priority spot — no wallet connect required.
+            Hold an OG Ordinals or ETH NFT? You can <Link href="/verify" style={{ color: C.btc }}>verify your holdings</Link> for a priority spot — no wallet connect required.
           </p>
         </div>
       </Section>

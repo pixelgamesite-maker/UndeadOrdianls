@@ -25,13 +25,13 @@ img { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; }
-::selection { background: #37E0FF; color: #05060A; }
+::selection { background: #F7931A; color: #05060A; }
 
 /* Thin cold scrollbar. */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: #05060A; }
 ::-webkit-scrollbar-thumb { background: #1B2030; border: 2px solid #05060A; }
-::-webkit-scrollbar-thumb:hover { background: #37E0FF; }
+::-webkit-scrollbar-thumb:hover { background: #F7931A; }
 
 /* ── Faint CRT scanline overlay across the whole page.
       Subtle — reads as "old terminal" without hurting legibility. ── */
@@ -124,6 +124,6 @@ body::after {
 /* Utility: the glowing "molten/plasma" seam used as a section rule. */
 .seam {
   height: 2px;
-  background: linear-gradient(90deg, transparent, #1C7E96 18%, #37E0FF 50%, #1C7E96 82%, transparent);
-  opacity: 0.7;
+  background: linear-gradient(90deg, transparent, #C76E12 18%, #F7931A 50%, #C76E12 82%, transparent);
+  opacity: 0.8;
 }

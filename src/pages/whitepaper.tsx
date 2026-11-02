@@ -20,13 +20,13 @@ const PRINCIPLES = [
 
 function Accordion({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
   return (
-    <div style={{ border: `2px solid ${open ? C.ice : C.tomb}`, background: C.crypt, transition: "border-color .2s" }}>
+    <div style={{ border: `2px solid ${open ? C.btc : C.tomb}`, background: C.crypt, transition: "border-color .2s" }}>
       <button onClick={onToggle} style={{
         width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 14,
         background: "transparent", border: "none", cursor: "pointer", padding: "17px 18px", textAlign: "left",
       }}>
-        <span style={{ fontFamily: mono, fontSize: "1.2rem", color: open ? C.ice : C.bone, letterSpacing: "0.03em" }}>{q}</span>
-        <span style={{ fontFamily: display, fontSize: "0.7rem", color: open ? C.ice : C.muted, flexShrink: 0 }}>{open ? "–" : "+"}</span>
+        <span style={{ fontFamily: mono, fontSize: "1.2rem", color: open ? C.btc : C.bone, letterSpacing: "0.03em" }}>{q}</span>
+        <span style={{ fontFamily: display, fontSize: "0.7rem", color: open ? C.btc : C.muted, flexShrink: 0 }}>{open ? "–" : "+"}</span>
       </button>
       <AnimatePresence initial={false}>
         {open && (
@@ -60,8 +60,8 @@ export default function Whitepaper() {
       {/* executive summary */}
       <Section tone="crypt" style={{ paddingTop: 0 }}>
         <Reveal>
-          <Panel color={C.tombUp} glow={C.ice}>
-            <Kicker color={C.ice}>Executive Summary</Kicker>
+          <Panel color={C.tombUp} glow={C.btc}>
+            <Kicker color={C.btc}>Executive Summary</Kicker>
             <p style={{ fontFamily: body, fontSize: "1.05rem", color: C.bone, lineHeight: 1.85, margin: "0 0 14px" }}>
               Bitcoin was built to last forever. So were we.
             </p>
@@ -70,7 +70,7 @@ export default function Whitepaper() {
               artifacts inscribed on Bitcoin</strong>, and the foundation of a Bitcoin-native gaming ecosystem. Holders
               send their Undead into the Catacombs of Consensus, earn materials and rewards, evolve their characters,
               and take part in an economy powered by the {PROJECT.token} Rune. Three ideas drive the project:
-              <strong style={{ color: C.ice }}> permanence</strong> (the artwork lives on Bitcoin and never changes),
+              <strong style={{ color: C.btc }}> permanence</strong> (the artwork lives on Bitcoin and never changes),
               <strong style={{ color: C.volt }}> play</strong> (reasons to return after the mint), and
               <strong style={{ color: C.gold }}> clarity</strong> (every rule is written down).
             </p>
@@ -88,7 +88,7 @@ export default function Whitepaper() {
           {PRINCIPLES.map(([t, d], i) => (
             <Reveal key={t} delay={i * 0.05}>
               <Panel color={C.tomb} pad={18} style={{ height: "100%" }}>
-                <p style={{ fontFamily: mono, fontSize: "1.2rem", color: C.ice, letterSpacing: "0.03em", margin: "0 0 7px" }}>{t}</p>
+                <p style={{ fontFamily: mono, fontSize: "1.2rem", color: C.btc, letterSpacing: "0.03em", margin: "0 0 7px" }}>{t}</p>
                 <p style={{ fontFamily: body, fontSize: "0.94rem", color: C.muted, lineHeight: 1.6, margin: 0 }}>{d}</p>
               </Panel>
             </Reveal>
@@ -111,7 +111,7 @@ export default function Whitepaper() {
                 borderTop: i ? `1px solid ${C.line}` : "none",
               }}>
                 <span style={{ fontFamily: mono, fontSize: "1.1rem", color: C.bone, letterSpacing: "0.03em" }}>{t.component}</span>
-                <span style={{ fontFamily: mono, fontSize: "0.98rem", color: C.ice, letterSpacing: "0.06em", textTransform: "uppercase" }}>{t.where}</span>
+                <span style={{ fontFamily: mono, fontSize: "0.98rem", color: C.btc, letterSpacing: "0.06em", textTransform: "uppercase" }}>{t.where}</span>
                 <span style={{ fontFamily: body, fontSize: "0.92rem", color: C.muted, lineHeight: 1.5 }}>{t.trust}</span>
               </div>
             ))}
@@ -122,7 +122,7 @@ export default function Whitepaper() {
       {/* FAQ */}
       <Section tone="void">
         <Reveal style={{ marginBottom: 24 }}>
-          <Kicker color={C.ice}>FAQ</Kicker>
+          <Kicker color={C.btc}>FAQ</Kicker>
           <Heading size="md">The questions that actually matter.</Heading>
         </Reveal>
         <div style={{ display: "grid", gap: 10, maxWidth: 760 }}>
@@ -142,7 +142,7 @@ export default function Whitepaper() {
             Born from forgotten blocks. Resurrected on Bitcoin. {PROJECT.supply.toLocaleString()} Undead. No Second Death.
           </p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/verify"><Btn color={C.ice}>Verify & Claim</Btn></Link>
+            <Link href="/verify"><Btn color={C.btc}>Verify & Claim</Btn></Link>
             <Btn href={X_URL} tone="ghost" color={C.bone}>Follow on X</Btn>
           </div>
         </Reveal>

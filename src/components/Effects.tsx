@@ -136,7 +136,7 @@ export function SparkField() {
         const t = s.life / s.max;
         if (t >= 1) continue;
         ctx.globalAlpha = 1 - t * t;
-        ctx.fillStyle = s.hot && t < 0.5 ? C.ice : C.ember;
+        ctx.fillStyle = s.hot && t < 0.5 ? C.btc : C.ember;
         const px = Math.round(s.size);
         ctx.fillRect(Math.round(s.x), Math.round(s.y), px, px);
         alive.push(s);

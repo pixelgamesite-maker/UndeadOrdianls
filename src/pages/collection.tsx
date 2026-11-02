@@ -18,7 +18,7 @@ export default function Collection() {
       <section style={{ position: "relative", overflow: "hidden", padding: "clamp(70px,11vw,120px) clamp(18px,5vw,40px) clamp(40px,7vw,64px)", textAlign: "center" }}>
         <AshField density={22} />
         <div style={{ position: "relative", zIndex: 2, maxWidth: 820, margin: "0 auto" }}>
-          <Kicker color={C.ice}><span style={{ marginInline: "auto" }}>The Collection</span></Kicker>
+          <Kicker color={C.btc}><span style={{ marginInline: "auto" }}>The Collection</span></Kicker>
           <GlitchText size="clamp(1.5rem,6vw,3rem)">THE UNDEAD</GlitchText>
           <p style={{ fontFamily: body, fontSize: "clamp(0.98rem,2.4vw,1.1rem)", color: C.muted, maxWidth: "58ch", margin: "22px auto 0", lineHeight: 1.8 }}>
             {PROJECT.supply.toLocaleString()} unique inscriptions on Bitcoin Mainnet using the Ordinals protocol.
@@ -38,7 +38,7 @@ export default function Collection() {
             ["FACTIONS", "4"],
           ].map(([l, v]) => (
             <Panel key={l} color={C.tomb} style={{ textAlign: "center" }} pad={16}>
-              <p style={{ fontFamily: display, fontSize: "clamp(0.85rem,2.4vw,1.2rem)", color: C.ice, margin: "0 0 7px" }}>{v}</p>
+              <p style={{ fontFamily: display, fontSize: "clamp(0.85rem,2.4vw,1.2rem)", color: C.btc, margin: "0 0 7px" }}>{v}</p>
               <p style={{ fontFamily: mono, fontSize: "0.95rem", letterSpacing: "0.18em", color: C.muted, margin: 0 }}>{l}</p>
             </Panel>
           ))}
@@ -79,12 +79,12 @@ export default function Collection() {
       {/* rarity / traits note */}
       <Section tone="crypt">
         <Reveal>
-          <Panel color={C.tombUp} glow={C.ice}>
+          <Panel color={C.tombUp} glow={C.btc}>
             <Kicker color={C.gold}>Traits & Rarity</Kicker>
             <p style={{ fontFamily: body, fontSize: "1.02rem", color: C.muted, lineHeight: 1.85, margin: 0 }}>
               Trait categories and the rarity methodology will be published before mint. Traits may affect staking
               weight — every such effect is disclosed and capped at up to <strong style={{ color: C.bone }}>1.5×</strong>.
-              <strong style={{ color: C.ice }}> No trait gives hidden advantages in expedition outcomes.</strong> Faction
+              <strong style={{ color: C.btc }}> No trait gives hidden advantages in expedition outcomes.</strong> Faction
               counts and reserved supply (team, giveaways, partners) are confirmed and published before mint.
             </p>
           </Panel>
@@ -96,7 +96,7 @@ export default function Collection() {
         <Reveal>
           <Heading size="md">Claim an Undead before the gates close.</Heading>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginTop: 8 }}>
-            <Link href={cta.to}><Btn color={C.ice}>{cta.label}</Btn></Link>
+            <Link href={cta.to}><Btn color={C.btc}>{cta.label}</Btn></Link>
             <Link href="/catacombs"><Btn tone="ghost" color={C.bone}>See what they do</Btn></Link>
           </div>
         </Reveal>

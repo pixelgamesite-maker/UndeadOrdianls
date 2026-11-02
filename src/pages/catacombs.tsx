@@ -17,7 +17,7 @@ const LOOP = [
 ];
 
 const ALLOC = [
-  ["Expedition rewards", "45%", C.ice],
+  ["Expedition rewards", "45%", C.btc],
   ["Staking rewards", "20%", C.volt],
   ["Liquidity", "15%", C.gold],
   ["Ecosystem treasury", "10%", C.bone],
@@ -74,7 +74,7 @@ export default function Catacombs() {
             <Reveal key={t.name} delay={i * 0.06}>
               <Panel color={C.tomb} glow={i === 3 ? C.ember : undefined} style={{ height: "100%" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-                  <Pill color={i === 3 ? C.ember : C.ice}>{t.risk}</Pill>
+                  <Pill color={i === 3 ? C.ember : C.btc}>{t.risk}</Pill>
                   <span style={{ fontFamily: mono, fontSize: "1.15rem", color: C.gold }}>relic {t.relic}</span>
                 </div>
                 <p style={{ fontFamily: display, fontSize: "0.68rem", color: C.bone, margin: "0 0 16px", lineHeight: 1.4 }}>{t.name}</p>
@@ -93,7 +93,7 @@ export default function Catacombs() {
         <Reveal delay={0.1}>
           <Panel color={C.tombUp} style={{ marginTop: 16 }} pad={18}>
             <p style={{ fontFamily: body, fontSize: "0.96rem", color: C.muted, margin: 0, lineHeight: 1.75 }}>
-              <strong style={{ color: C.ice }}>Design target:</strong> expected {PROJECT.token} returned to players is
+              <strong style={{ color: C.btc }}>Design target:</strong> expected {PROJECT.token} returned to players is
               ~70–85% of fees paid, with the rest delivered as materials and relics. This keeps the game a net token
               sink. Outcomes use a commit-reveal scheme seeded with a future Bitcoin block hash — anyone can recompute
               the result from public data. A block hash alone is never described as a complete randomness solution.
@@ -117,7 +117,7 @@ export default function Catacombs() {
                   <p style={{ fontFamily: mono, fontSize: "1.2rem", color: C.bone, margin: "0 0 2px", letterSpacing: "0.04em" }}>{c.name}</p>
                   <p style={{ fontFamily: body, fontSize: "0.92rem", color: C.muted, margin: 0, lineHeight: 1.5 }}>{c.effect}</p>
                 </div>
-                <span style={{ flexShrink: 0, fontFamily: mono, fontSize: "1.15rem", color: C.ice }}>{c.chance}</span>
+                <span style={{ flexShrink: 0, fontFamily: mono, fontSize: "1.15rem", color: C.btc }}>{c.chance}</span>
               </div>
             </Reveal>
           ))}
@@ -181,13 +181,13 @@ export default function Catacombs() {
             </Panel>
           </Reveal>
           <Reveal delay={0.08}>
-            <Panel color={C.tomb} glow={C.ice} style={{ height: "100%" }}>
-              <Kicker color={C.ice}>Wallet-Verified Soft Staking</Kicker>
+            <Panel color={C.tomb} glow={C.btc} style={{ height: "100%" }}>
+              <Kicker color={C.btc}>Wallet-Verified Soft Staking</Kicker>
               <p style={{ fontFamily: body, fontSize: "1rem", color: C.muted, lineHeight: 1.8, margin: "0 0 12px" }}>
                 Your Undead stays in your wallet. Staking is tracked, not custodial. Sign a one-time challenge and
                 earn Grave Points per hour while the condition holds — no deposits, no contracts holding your inscription.
               </p>
-              <p style={{ fontFamily: mono, fontSize: "1.15rem", color: C.ice, letterSpacing: "0.03em", margin: 0 }}>
+              <p style={{ fontFamily: mono, fontSize: "1.15rem", color: C.btc, letterSpacing: "0.03em", margin: 0 }}>
                 You keep your Undead. Points finalize after 6 confirmations.
               </p>
             </Panel>

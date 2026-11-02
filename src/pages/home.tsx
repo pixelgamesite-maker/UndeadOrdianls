@@ -39,7 +39,7 @@ export default function Home() {
         <div aria-hidden style={{
           position: "absolute", top: "18%", left: "50%", transform: "translateX(-50%)",
           width: "min(80vw,620px)", height: "min(80vw,620px)",
-          background: `radial-gradient(circle, ${C.ice}22, transparent 62%)`, pointerEvents: "none",
+          background: `radial-gradient(circle, ${C.btc}22, transparent 62%)`, pointerEvents: "none",
         }} />
 
         <div style={{ position: "relative", zIndex: 2, maxWidth: 1080, margin: "0 auto", padding: "80px clamp(18px,5vw,40px) 60px", textAlign: "center", width: "100%" }}>
@@ -51,19 +51,19 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             style={{
               width: "clamp(140px,26vw,220px)", height: "auto", margin: "0 auto 26px", display: "block",
-              border: `3px solid ${C.tombUp}`, boxShadow: `0 0 50px ${C.ice}55, inset 0 0 20px #000`,
+              border: `3px solid ${C.tombUp}`, boxShadow: `0 0 50px ${C.btc}55, inset 0 0 20px #000`,
               animation: "float 6s ease-in-out infinite",
             }}
           />
 
           <div style={{ marginBottom: 14 }}>
-            <Pill color={C.ice}>{PROJECT.supply.toLocaleString()} ON BITCOIN</Pill>
+            <Pill color={C.btc}>{PROJECT.supply.toLocaleString()} ON BITCOIN</Pill>
           </div>
 
           <GlitchText size="clamp(1.9rem,8vw,4.6rem)" style={{ display: "block", marginBottom: 6 }}>UNDEAD</GlitchText>
           <GlitchText size="clamp(1.9rem,8vw,4.6rem)" style={{ display: "block", marginBottom: 22 }}>ORDINALS</GlitchText>
 
-          <p style={{ fontFamily: mono, fontSize: "clamp(1.2rem,3.4vw,1.7rem)", color: C.ice, letterSpacing: "0.08em", margin: "0 0 10px" }}>
+          <p style={{ fontFamily: mono, fontSize: "clamp(1.2rem,3.4vw,1.7rem)", color: C.btc, letterSpacing: "0.08em", margin: "0 0 10px" }}>
             {PROJECT.tagline}
           </p>
           <p style={{ fontFamily: body, fontSize: "clamp(0.98rem,2.4vw,1.12rem)", color: C.muted, maxWidth: "58ch", margin: "0 auto 34px", lineHeight: 1.75 }}>
@@ -73,20 +73,20 @@ export default function Home() {
           </p>
 
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href={banner.to}><Btn color={C.ice}>{banner.cta}</Btn></Link>
+            <Link href={banner.to}><Btn color={C.btc}>{banner.cta}</Btn></Link>
             <Link href="/collection"><Btn tone="ghost" color={C.bone}>Meet the Undead</Btn></Link>
           </div>
 
           {/* live phase chip */}
           <div style={{ marginTop: 30, display: "inline-flex", alignItems: "center", gap: 12, border: `1px solid ${C.tombUp}`, clipPath: notch(7), padding: "9px 16px", background: "rgba(10,12,19,0.7)" }}>
-            <LiveDot label={banner.dot} color={banner.dot === "LIVE" ? C.ember : C.ice} />
+            <LiveDot label={banner.dot} color={banner.dot === "LIVE" ? C.ember : C.btc} />
             <span style={{ fontFamily: body, fontSize: "0.92rem", color: C.muted }}>{banner.text}</span>
           </div>
         </div>
       </section>
 
       {/* ───────────────── TICKER ───────────────── */}
-      <div style={{ background: C.ice, color: C.void, overflow: "hidden", whiteSpace: "nowrap", borderTop: `2px solid ${C.void}`, borderBottom: `2px solid ${C.void}`, position: "relative", zIndex: 1 }}>
+      <div style={{ background: C.btc, color: C.void, overflow: "hidden", whiteSpace: "nowrap", borderTop: `2px solid ${C.void}`, borderBottom: `2px solid ${C.void}`, position: "relative", zIndex: 1 }}>
         <div style={{ display: "inline-flex", animation: "marquee 22s linear infinite" }}>
           {[0, 1].map((rep) => (
             <div key={rep} style={{ display: "inline-flex", flexShrink: 0 }}>
@@ -104,7 +104,7 @@ export default function Home() {
       <Section tone="void">
         <div style={{ display: "grid", gap: 14, gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))" }}>
           {[
-            ["SUPPLY", PROJECT.supply.toLocaleString(), C.ice],
+            ["SUPPLY", PROJECT.supply.toLocaleString(), C.btc],
             ["BLOCKCHAIN", "Bitcoin", C.bone],
             ["TOKEN", PROJECT.token, C.gold],
             ["FACTIONS", "4", C.volt],
@@ -132,7 +132,7 @@ export default function Home() {
                 For years, it remained silent.
               </p>
               <p>
-                Then came the <strong style={{ color: C.ice }}>Sat Mortis</strong> — a mysterious awakening that
+                Then came the <strong style={{ color: C.btc }}>Sat Mortis</strong> — a mysterious awakening that
                 stirred the fragments of Bitcoin's history. From the depths emerged {PROJECT.supply.toLocaleString()} Undead
                 Ordinals, each carrying the scars of the digital afterlife.
               </p>
@@ -141,7 +141,7 @@ export default function Home() {
               </p>
             </div>
             <div style={{ marginTop: 26 }}>
-              <Link href="/catacombs"><Btn tone="ghost" color={C.ice}>Enter the lore</Btn></Link>
+              <Link href="/catacombs"><Btn tone="ghost" color={C.btc}>Enter the lore</Btn></Link>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
@@ -202,7 +202,7 @@ export default function Home() {
           {TRUST.map((t, i) => (
             <Reveal key={t.component} delay={i * 0.05}>
               <Panel color={C.tomb} pad={18} style={{ height: "100%" }}>
-                <p style={{ fontFamily: mono, fontSize: "1.15rem", color: C.ice, letterSpacing: "0.04em", margin: "0 0 4px" }}>{t.component}</p>
+                <p style={{ fontFamily: mono, fontSize: "1.15rem", color: C.btc, letterSpacing: "0.04em", margin: "0 0 4px" }}>{t.component}</p>
                 <p style={{ fontFamily: mono, fontSize: "0.98rem", color: C.gold, letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 10px" }}>{t.where}</p>
                 <p style={{ fontFamily: body, fontSize: "0.92rem", color: C.muted, margin: 0, lineHeight: 1.6 }}>{t.trust}</p>
               </Panel>
@@ -222,7 +222,7 @@ export default function Home() {
             <Reveal key={p.numeral} delay={i * 0.05}>
               <div style={{ display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 8 }}>
                 <div style={{ flexShrink: 0, width: 56, textAlign: "center" }}>
-                  <div style={{ fontFamily: display, fontSize: "0.9rem", color: C.ice, border: `2px solid ${C.tombUp}`, padding: "12px 0", background: C.crypt, boxShadow: `0 0 18px ${C.ice}22` }}>{p.numeral}</div>
+                  <div style={{ fontFamily: display, fontSize: "0.9rem", color: C.btc, border: `2px solid ${C.tombUp}`, padding: "12px 0", background: C.crypt, boxShadow: `0 0 18px ${C.btc}22` }}>{p.numeral}</div>
                   {i < ROADMAP.length - 1 && <div style={{ width: 2, height: 22, background: C.tombUp, margin: "0 auto" }} />}
                 </div>
                 <Panel color={C.tomb} pad={18} style={{ flex: 1, marginBottom: 14 }}>
@@ -232,7 +232,7 @@ export default function Home() {
                   <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 7 }}>
                     {p.points.map((pt) => (
                       <li key={pt} style={{ fontFamily: body, fontSize: "0.94rem", color: C.muted, display: "flex", gap: 9, lineHeight: 1.5 }}>
-                        <span style={{ color: C.ice, flexShrink: 0 }}>▸</span>{pt}
+                        <span style={{ color: C.btc, flexShrink: 0 }}>▸</span>{pt}
                       </li>
                     ))}
                   </ul>

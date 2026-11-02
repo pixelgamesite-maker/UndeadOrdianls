@@ -43,7 +43,7 @@ export function Section({
 }
 
 /* ── Eyebrow label (small terminal-style kicker) ── */
-export function Kicker({ children, color = C.ice }: { children: ReactNode; color?: string }) {
+export function Kicker({ children, color = C.btc }: { children: ReactNode; color?: string }) {
   return (
     <p style={{
       fontFamily: mono, fontSize: "1.05rem", letterSpacing: "0.35em",
@@ -73,11 +73,12 @@ export function Heading({
 
 /* ── Button ── solid (ice) or ghost. Chamfered corners + glow. ── */
 export function Btn({
-  children, onClick, href, tone = "solid", color = C.ice, full = false, small = false,
+  children, onClick, href, tone = "solid", color = C.btc, full = false, small = false,
 }: {
   children: ReactNode; onClick?: () => void; href?: string;
   tone?: "solid" | "ghost"; color?: string; full?: boolean; small?: boolean;
 }) {
+  color = color === C.ice ? C.btc : color;
   const solid = tone === "solid";
   const cut = small ? 7 : 10;
   const style: CSSProperties = {

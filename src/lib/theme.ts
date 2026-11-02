@@ -14,12 +14,14 @@ export const C = {
   void:   "#05060A",  // page base — cold black
   crypt:  "#0A0C13",  // raised panels
   tomb:   "#11141F",  // borders, inputs
-  tombUp: "#1B2030",  // hover borders
-  ice:    "#37E0FF",  // PRIMARY — phantom blue-flame (actions, links)
-  iceDim: "#1C7E96",  // dim cyan, used for rims/seams
-  volt:   "#8A6CFF",  // arcane violet — secondary glow
+  tombUp: "#201A12",  // hover borders — a touch warm now
+  btc:    "#F7931A",  // PRIMARY — Bitcoin orange (actions, links, glow, counter)
+  btcDim: "#C76E12",  // dim orange — rims, seams, hover
+  ice:    "#37E0FF",  // cold accent — phantom / ambient atmosphere only
+  iceDim: "#1C7E96",  // dim cyan
+  volt:   "#8A6CFF",  // arcane violet — ambient / neomancer
   ember:  "#FF4332",  // berserker heat — value, danger, alerts
-  gold:   "#F4B740",  // relic / $GRAVE accent
+  gold:   "#FFC94D",  // relic / $GRAVE accent — pushed yellower so it reads apart from the orange primary
   bone:   "#F2EAD9",  // text
   muted:  "rgba(242,234,217,0.56)",
   faint:  "rgba(242,234,217,0.30)",

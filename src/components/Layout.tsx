@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { C, display, body, mono } from "@/lib/theme";
+// primary accent is Bitcoin orange (C.btc); C.btc stays cold/ambient
 import { ACTIVE_PHASE, PROJECT, X_URL, X_HANDLE, ASSET, DISCORD } from "@/lib/theme";
 import { Btn, notch } from "@/components/ui";
 import { SparkField } from "@/components/Effects";
@@ -66,10 +67,10 @@ function Nav() {
       }}>
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 11 }}>
           <img src={ASSET.logo} alt="" width={38} height={38}
-            style={{ border: `2px solid ${C.tombUp}`, boxShadow: `0 0 16px ${C.ice}44`, animation: "flicker 7s infinite" }} />
+            style={{ border: `2px solid ${C.tombUp}`, boxShadow: `0 0 16px ${C.btc}44`, animation: "flicker 7s infinite" }} />
           <span style={{ fontFamily: display, fontSize: "0.72rem", color: C.bone, letterSpacing: "0.02em", lineHeight: 1.4 }}>
             UNDEAD<br />
-            <span style={{ color: C.ice, fontSize: "0.6rem" }}>ORDINALS</span>
+            <span style={{ color: C.btc, fontSize: "0.6rem" }}>ORDINALS</span>
           </span>
         </Link>
 
@@ -80,12 +81,12 @@ function Nav() {
             return (
               <Link key={to} href={to} style={{
                 fontFamily: mono, fontSize: "1.15rem", letterSpacing: "0.1em",
-                textTransform: "uppercase", color: active ? C.ice : C.muted,
-                borderBottom: `2px solid ${active ? C.ice : "transparent"}`,
+                textTransform: "uppercase", color: active ? C.btc : C.muted,
+                borderBottom: `2px solid ${active ? C.btc : "transparent"}`,
                 paddingBottom: 3, transition: "color .15s, border-color .15s",
               }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = C.bone)}
-                onMouseLeave={(e) => (e.currentTarget.style.color = active ? C.ice : C.muted)}>
+                onMouseLeave={(e) => (e.currentTarget.style.color = active ? C.btc : C.muted)}>
                 {label}
               </Link>
             );
@@ -97,7 +98,7 @@ function Nav() {
         <button className="uo-burger" onClick={() => setOpen((o) => !o)} aria-label="Menu"
           style={{
             display: "flex", background: "transparent", border: `2px solid ${C.tombUp}`,
-            clipPath: notch(6), color: C.ice, padding: "9px 12px", cursor: "pointer",
+            clipPath: notch(6), color: C.btc, padding: "9px 12px", cursor: "pointer",
             fontFamily: mono, fontSize: "1.1rem", letterSpacing: "0.1em",
           }}>
           {open ? "CLOSE" : "MENU"}
@@ -113,7 +114,7 @@ function Nav() {
           {NAV.map(([label, to]) => (
             <Link key={to} href={to} style={{
               display: "block", fontFamily: display, fontSize: "0.72rem",
-              color: loc === to ? C.ice : C.bone, padding: "15px 0",
+              color: loc === to ? C.btc : C.bone, padding: "15px 0",
               borderBottom: `1px solid ${C.line}`, letterSpacing: "0.02em",
             }}>{label}</Link>
           ))}
@@ -144,7 +145,7 @@ function Footer() {
       }}>
         <div>
           <img src={ASSET.logo} alt="" width={54} height={54}
-            style={{ border: `2px solid ${C.tombUp}`, boxShadow: `0 0 20px ${C.ice}44`, margin: "0 auto 14px", display: "block" }} />
+            style={{ border: `2px solid ${C.tombUp}`, boxShadow: `0 0 20px ${C.btc}44`, margin: "0 auto 14px", display: "block" }} />
           <p style={{ fontFamily: display, fontSize: "0.82rem", color: C.bone, margin: "0 0 8px", letterSpacing: "0.03em" }}>
             UNDEAD ORDINALS
           </p>
@@ -170,7 +171,7 @@ function Footer() {
 }
 
 const footLink = {
-  fontFamily: mono, fontSize: "1.05rem", letterSpacing: "0.12em", color: C.ice,
+  fontFamily: mono, fontSize: "1.05rem", letterSpacing: "0.12em", color: C.btc,
   border: `1px solid ${C.tombUp}`, padding: "8px 14px", clipPath: notch(6),
 } as const;
 
