@@ -1,0 +1,13 @@
+# Optional static-server config (used only if you deploy the built /dist
+# behind Caddy, e.g. in a Docker image). The default Railway path uses
+# `npm run build` + `npm run serve` (vite preview) and does NOT need this.
+{
+    admin off
+}
+
+:8080 {
+    root * /app/dist
+    encode gzip
+    try_files {path} /index.html
+    file_server
+}

@@ -2,6 +2,8 @@
 
 **The Dead Don't Stay Dead on Bitcoin.**
 
+> 🛠 **Building or deploying the website?** See **[DEPLOY.md](./DEPLOY.md)** (Railway + Supabase) and **[supabase/README.md](./supabase/README.md)**. This file below is the project whitepaper, mirrored on the site's `/whitepaper` page.
+
 Official Whitepaper
 
 *Items in [square brackets] are placeholders only the team can confirm. Numbers marked "proposed" are working values pending simulation and legal review.*
