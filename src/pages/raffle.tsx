@@ -1,73 +1,58 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { Link } from "wouter";
 import {
-  Section, Kicker, Btn, Panel, GlitchText, Pill, notch,
-  C, display, body, mono,
+  Section, Btn, Wordmark, Reveal, Tag, Sigil, Seq, Corners,
+  C, display, serif,
 } from "@/components/ui";
-import { AshField } from "@/components/Effects";
 import { ACTIVE_PHASE, X_URL, X_HANDLE, PINNED_URL } from "@/lib/theme";
 import { submitApplication, hasSupabase } from "@/lib/supabase";
 import { isValidAddress, isXLink } from "@/lib/utils";
 
-const inputStyle: CSSProperties = {
-  width: "100%", background: C.void, color: C.bone,
-  border: `2px solid ${C.tomb}`, padding: "13px 14px",
-  fontSize: "1.05rem", fontFamily: mono, outline: "none",
-  boxSizing: "border-box", letterSpacing: "0.03em",
+const field: CSSProperties = {
+  width: "100%", background: C.slab, color: C.boneHi, border: `1px solid ${C.stoneUp}`,
+  padding: "13px 14px", fontSize: "0.86rem", fontFamily: display, outline: "none",
+  boxSizing: "border-box", letterSpacing: "0.01em",
 };
 
-/* Progress reads as a resurrection meter — the more steps done, the
-   more "alive" the horde gauge becomes. */
 function Meter({ done }: { done: boolean[] }) {
   const n = done.filter(Boolean).length;
   const total = done.length;
   return (
-    <div style={{ marginBottom: 22 }}>
-      <div style={{ display: "flex", gap: 5, height: 16 }}>
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ display: "flex", gap: 5, height: 10 }}>
         {done.map((d, i) => (
-          <div key={i} style={{
-            flex: 1, background: d ? C.btc : C.tomb,
-            boxShadow: d ? `0 0 12px ${C.btc}99` : "none",
-            transition: "background .3s, box-shadow .3s",
-          }} />
+          <div key={i} style={{ flex: 1, background: d ? C.ember : C.stoneUp, transition: "background .3s" }} />
         ))}
       </div>
-      <p style={{ fontFamily: mono, fontSize: "1.05rem", color: n === total ? C.btc : C.faint, margin: "9px 0 0", letterSpacing: "0.15em", textTransform: "uppercase" }}>
-        {n === total ? "◆ Fully Resurrected" : `Resurrection ${n} / ${total}`}
+      <p style={{ fontFamily: display, fontSize: "0.72rem", color: n === total ? C.ember : C.faint, margin: "10px 0 0" }}>
+        {n === total ? "Fully resurrected" : `Resurrection ${n} of ${total}`}
       </p>
     </div>
   );
 }
 
-function Ghost({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
+function Act({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
   return (
     <button onClick={onClick} style={{
-      marginTop: 9, width: "100%", background: "transparent", color: C.btc,
-      border: `2px solid ${C.btc}`, clipPath: notch(7), padding: "11px",
-      fontFamily: mono, fontSize: "1.05rem", cursor: "pointer",
-      letterSpacing: "0.1em", textTransform: "uppercase", transition: "background .15s, color .15s",
+      marginTop: 10, width: "100%", background: "transparent", color: C.rune,
+      border: `1px solid ${C.rune}`, padding: "11px", fontFamily: display, fontSize: "0.72rem",
+      cursor: "pointer", transition: "background .15s, color .15s",
     }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = C.btc; e.currentTarget.style.color = C.void; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = C.btc; }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = C.rune; e.currentTarget.style.color = C.ash; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = C.rune; }}
     >{children}</button>
   );
 }
 
-function Step({ n, title, hint, done, locked, children }: {
-  n: number; title: string; hint: string; done: boolean; locked: boolean; children?: React.ReactNode;
-}) {
+function Step({ n, title, hint, done, locked, children }: { n: number; title: string; hint: string; done: boolean; locked: boolean; children?: React.ReactNode }) {
   return (
-    <div style={{
-      border: `2px solid ${done ? C.btc : locked ? C.line : C.tomb}`,
-      padding: "16px 16px 14px", marginBottom: 10, background: locked ? "transparent" : C.void,
-      opacity: locked ? 0.4 : 1, boxShadow: done ? `0 0 18px ${C.btc}22` : "none",
-      transition: "border-color .25s, box-shadow .25s, opacity .25s",
-    }}>
-      <div style={{ display: "flex", gap: 11, alignItems: "baseline", marginBottom: locked ? 0 : 11 }}>
-        <span style={{ fontFamily: display, fontSize: "0.68rem", color: done ? C.btc : C.muted }}>{String(n).padStart(2, "0")}</span>
+    <div style={{ position: "relative", border: `1px solid ${done ? C.ember : locked ? C.lineLo : C.stoneUp}`, background: locked ? "transparent" : C.stone, padding: "16px 16px 14px", marginBottom: 10, opacity: locked ? 0.45 : 1, transition: "border-color .25s, opacity .25s" }}>
+      {!locked && <Corners color={done ? C.ember : C.rune} />}
+      <div style={{ display: "flex", gap: 12, alignItems: "baseline", marginBottom: locked ? 0 : 11 }}>
+        <Seq color={done ? C.ember : C.muted}>{String(n).padStart(2, "0")}</Seq>
         <div>
-          <p style={{ fontFamily: display, fontSize: "0.6rem", margin: 0, color: C.bone, letterSpacing: "0.02em", lineHeight: 1.5 }}>{title}</p>
-          <p style={{ fontFamily: body, fontSize: "0.92rem", color: C.muted, margin: "6px 0 0", lineHeight: 1.55 }}>{hint}</p>
+          <p style={{ fontFamily: display, fontSize: "0.74rem", margin: 0, color: C.boneHi, lineHeight: 1.45 }}>{title}</p>
+          <p style={{ fontFamily: serif, fontSize: "1rem", color: C.muted, margin: "6px 0 0", lineHeight: 1.55 }}>{hint}</p>
         </div>
       </div>
       {!locked && children}
@@ -75,34 +60,26 @@ function Step({ n, title, hint, done, locked, children }: {
   );
 }
 
-function LinkStep({ value, onChange, onSave, saved, placeholder, launchLabel, launchTo }: {
-  value: string; onChange: (v: string) => void; onSave: () => void; saved: boolean;
-  placeholder: string; launchLabel: string; launchTo: string;
-}) {
+function LinkStep({ value, onChange, onSave, saved, placeholder, launch }: { value: string; onChange: (v: string) => void; onSave: () => void; saved: boolean; placeholder: string; launch: string }) {
   return (
     <>
-      <Ghost onClick={() => window.open(launchTo, "_blank", "noopener")}>{launchLabel}</Ghost>
-      <input value={value} style={{ ...inputStyle, marginTop: 9 }} placeholder={placeholder}
+      <Act onClick={() => window.open(launch, "_blank", "noopener")}>Open the pinned post</Act>
+      <input value={value} style={{ ...field, marginTop: 10 }} placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && isXLink(value) && onSave()}
-        onFocus={(e) => (e.target.style.borderColor = C.btc)}
-        onBlur={(e) => (e.target.style.borderColor = C.tomb)} />
-      {value && !isXLink(value) && (
-        <p style={{ fontFamily: body, fontSize: "0.88rem", color: C.ember, margin: "6px 0 0" }}>
-          Needs to be a real x.com link — paste the full URL from the address bar or the Share button.
-        </p>
-      )}
-      {isXLink(value) && !saved && <Ghost onClick={onSave}>Save link</Ghost>}
+        onFocus={(e) => (e.target.style.borderColor = C.ember)} onBlur={(e) => (e.target.style.borderColor = C.stoneUp)} />
+      {value && !isXLink(value) && <p style={{ fontFamily: serif, fontSize: "0.94rem", color: C.oxblood, margin: "7px 0 0" }}>That needs to be a real x.com link — paste the full URL.</p>}
+      {isXLink(value) && !saved && <Act onClick={onSave}>Save link</Act>}
     </>
   );
 }
 
 export default function Raffle() {
   const isWaitlist = ACTIVE_PHASE === "waitlist";
-  const title = isWaitlist ? "THE PUBLIC WAITLIST" : "THE RAFFLE";
+  const title = isWaitlist ? "THE WAITLIST" : "THE RAFFLE";
   const lead = isWaitlist
-    ? "Open to everyone. Complete the steps, drop your address, and claim your place in line before the mint."
-    : "Prove you're part of the horde. Complete the steps, enter your address, and you're in the draw.";
+    ? "Open to everyone. Complete the rites, drop your address, and take your place in line before the mint."
+    : "Prove you belong to the horde. Complete the rites, enter your address, and you are in the draw.";
 
   const [handle, setHandle] = useState("");
   const [handleOk, setHandleOk] = useState(false);
@@ -122,9 +99,7 @@ export default function Raffle() {
   useEffect(() => {
     try {
       const s = JSON.parse(localStorage.getItem("uo_wl") ?? "{}");
-      setHandle(s.handle ?? ""); setQuoteLink(s.quoteLink ?? "");
-      setCommentLink(s.commentLink ?? ""); setAddr(s.addr ?? "");
-      setFollowed(!!s.followed);
+      setHandle(s.handle ?? ""); setQuoteLink(s.quoteLink ?? ""); setCommentLink(s.commentLink ?? ""); setAddr(s.addr ?? ""); setFollowed(!!s.followed);
       if (localStorage.getItem("uo_wl_sent") === "true") setAlready(true);
     } catch { /* first visit */ }
   }, []);
@@ -140,18 +115,14 @@ export default function Raffle() {
   const all = s1 && s2 && s3 && s4 && s5;
 
   async function send() {
-    if (!all) { setErr("Finish all five steps first."); return; }
+    if (!all) { setErr("Finish all five rites first."); return; }
     if (already) { setErr("This browser has already entered."); return; }
-    if (!hasSupabase()) { setErr("The entry backend isn't configured yet. (Set VITE_SUPABASE_URL / _ANON_KEY.)"); return; }
+    if (!hasSupabase()) { setErr("The entry backend isn't configured yet (set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY)."); return; }
     setErr(""); setSending(true);
-    const { error } = await submitApplication({
-      address: addr, twitter: handle, quote_url: quoteLink, comment_url: commentLink, phase: ACTIVE_PHASE,
-    });
+    const { error } = await submitApplication({ address: addr, twitter: handle, quote_url: quoteLink, comment_url: commentLink, phase: ACTIVE_PHASE });
     setSending(false);
     if (error) {
-      setErr(/duplicate|unique/i.test(error.message ?? "")
-        ? "That address is already entered."
-        : "That didn't save. Check your connection and try again.");
+      setErr(/duplicate|unique/i.test(error.message ?? "") ? "That address is already entered." : "That didn't save. Check your connection and try again.");
       return;
     }
     localStorage.setItem("uo_wl_sent", "true");
@@ -160,96 +131,78 @@ export default function Raffle() {
 
   return (
     <>
-      <section style={{ position: "relative", overflow: "hidden", padding: "clamp(66px,10vw,110px) clamp(18px,5vw,40px) clamp(30px,5vw,50px)", textAlign: "center" }}>
-        <AshField density={22} />
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 680, margin: "0 auto" }}>
-          <Pill color={C.btc}>{isWaitlist ? "PUBLIC PHASE · OPEN TO ALL" : "RAFFLE PHASE · LIVE"}</Pill>
-          <div style={{ marginTop: 16 }}>
-            <GlitchText size="clamp(1.4rem,6vw,2.8rem)">{title}</GlitchText>
-          </div>
-          <p style={{ fontFamily: body, fontSize: "1.02rem", color: C.muted, margin: "20px auto 0", maxWidth: "52ch", lineHeight: 1.75 }}>{lead}</p>
+      <section style={{ padding: "clamp(50px,8vw,90px) clamp(18px,5vw,44px) clamp(22px,4vw,36px)", textAlign: "center" }}>
+        <div style={{ maxWidth: 640, margin: "0 auto" }}>
+          <div style={{ display: "inline-flex", marginBottom: 16 }}><Tag color={C.ember}>{isWaitlist ? "Public phase — open to all" : "Raffle phase — live"}</Tag></div>
+          <Wordmark size="clamp(1.5rem,6vw,2.8rem)">{title}</Wordmark>
+          <p className="standfirst" style={{ fontFamily: serif, fontSize: "1.1rem", color: C.muted, margin: "18px auto 0", maxWidth: "48ch", lineHeight: 1.6 }}>{lead}</p>
         </div>
       </section>
 
-      <Section tone="crypt" style={{ paddingTop: 0 }}>
-        <div style={{ maxWidth: 560, margin: "0 auto" }}>
-          <Panel color={C.tombUp} glow={C.btc} pad={24}>
+      <Section tone="slab" style={{ paddingTop: 0 }}>
+        <div style={{ maxWidth: 540, margin: "0 auto" }}>
+          <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.stone, padding: "26px clamp(18px,4vw,26px)" }}>
+            <Corners color={C.ember} size={15} />
             {sent || already ? (
-              <div style={{ textAlign: "center", padding: "20px 0 10px" }}>
-                <div style={{ width: 60, height: 60, margin: "0 auto 18px", background: C.btc, display: "grid", placeItems: "center", fontSize: "1.7rem", color: C.void, boxShadow: `0 0 36px ${C.btc}88`, clipPath: notch(10) }}>✓</div>
-                <h2 style={{ fontFamily: display, fontSize: "0.9rem", margin: "0 0 12px", color: C.bone, letterSpacing: "0.02em" }}>
-                  {sent ? "YOU'RE IN" : "ALREADY ENTERED"}
-                </h2>
-                <p style={{ fontFamily: body, color: C.muted, margin: 0, lineHeight: 1.75, fontSize: "0.98rem" }}>
-                  Your entry is recorded. Selected addresses are announced on X before mint —
-                  keep an eye on {X_HANDLE}. The more you post, the louder the horde.
+              <div style={{ textAlign: "center", padding: "16px 0 8px" }}>
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}><Sigil size={58} color={C.ember} /></div>
+                <h2 style={{ fontFamily: display, fontSize: "0.95rem", margin: "0 0 12px", color: C.boneHi }}>{sent ? "You're in" : "Already entered"}</h2>
+                <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.muted, margin: 0, lineHeight: 1.75 }}>
+                  Your entry is recorded. Selected addresses are announced on X before mint — watch {X_HANDLE}. The louder
+                  the horde, the better the draw.
                 </p>
                 <div style={{ marginTop: 22, display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-                  <Btn href={X_URL} color={C.btc} small>Follow {X_HANDLE}</Btn>
-                  <Link href="/verify"><Btn tone="ghost" color={C.bone} small>Hold an OG NFT? Verify →</Btn></Link>
+                  <Btn href={X_URL} small>Follow {X_HANDLE}</Btn>
+                  <Link href="/verify"><Btn tone="bone" small>Hold an OG NFT? Verify</Btn></Link>
                 </div>
               </div>
             ) : (
               <>
                 <Meter done={[s1, s2, s3, s4, s5]} />
 
-                <Step n={1} title="YOUR X HANDLE" hint="So we can match your account to your entry." done={s1} locked={false}>
-                  <input value={handle} style={inputStyle} placeholder="@yourhandle"
+                <Step n={1} title="Your X handle" hint="So we can match your account to your entry." done={s1} locked={false}>
+                  <input value={handle} style={field} placeholder="@yourhandle"
                     onChange={(e) => { setHandle(e.target.value); setHandleOk(false); }}
                     onKeyDown={(e) => e.key === "Enter" && setHandleOk(true)}
-                    onFocus={(e) => (e.target.style.borderColor = C.btc)}
-                    onBlur={(e) => (e.target.style.borderColor = C.tomb)} />
-                  {!s1 && handle.trim().length > 1 && <Ghost onClick={() => setHandleOk(true)}>Save handle</Ghost>}
+                    onFocus={(e) => (e.target.style.borderColor = C.ember)} onBlur={(e) => (e.target.style.borderColor = C.stoneUp)} />
+                  {!s1 && handle.trim().length > 1 && <Act onClick={() => setHandleOk(true)}>Save handle</Act>}
                 </Step>
 
-                <Step n={2} title="FOLLOW" hint={`Follow ${X_HANDLE} on X.`} done={s2} locked={!s1}>
-                  {!s2 && <Ghost onClick={() => { window.open(X_URL, "_blank", "noopener"); setTimeout(() => setFollowed(true), 900); }}>Open X & follow</Ghost>}
+                <Step n={2} title="Follow" hint={`Follow ${X_HANDLE} on X.`} done={s2} locked={!s1}>
+                  {!s2 && <Act onClick={() => { window.open(X_URL, "_blank", "noopener"); setTimeout(() => setFollowed(true), 900); }}>Open X and follow</Act>}
                 </Step>
 
-                <Step n={3} title="LIKE & QUOTE" hint="Like the pinned post, then quote it with a caption on why you're bullish on the Undead. Paste your quote link." done={s3} locked={!s2}>
-                  {!s3 && <LinkStep value={quoteLink} onChange={(v) => { setQuoteLink(v); setQuoteOk(false); }} onSave={() => setQuoteOk(true)} saved={s3} placeholder="https://x.com/you/status/…" launchLabel="Open the pinned post" launchTo={PINNED_URL} />}
+                <Step n={3} title="Like and quote" hint="Like the pinned post, then quote it with a caption on why you're bullish on the Undead. Paste your quote link." done={s3} locked={!s2}>
+                  {!s3 && <LinkStep value={quoteLink} onChange={(v) => { setQuoteLink(v); setQuoteOk(false); }} onSave={() => setQuoteOk(true)} saved={s3} placeholder="https://x.com/you/status/…" launch={PINNED_URL} />}
                 </Step>
 
-                <Step n={4} title="COMMENT & TAG 3" hint="Comment on the pinned post tagging 3 friends who belong in the Catacombs. Paste your comment link." done={s4} locked={!s3}>
-                  {!s4 && <LinkStep value={commentLink} onChange={(v) => { setCommentLink(v); setCommentOk(false); }} onSave={() => setCommentOk(true)} saved={s4} placeholder="https://x.com/you/status/…" launchLabel="Open the pinned post" launchTo={PINNED_URL} />}
+                <Step n={4} title="Comment and tag three" hint="Comment on the pinned post tagging three friends who belong in the Catacombs. Paste your comment link." done={s4} locked={!s3}>
+                  {!s4 && <LinkStep value={commentLink} onChange={(v) => { setCommentLink(v); setCommentOk(false); }} onSave={() => setCommentOk(true)} saved={s4} placeholder="https://x.com/you/status/…" launch={PINNED_URL} />}
                 </Step>
 
-                <Step n={5} title="YOUR ADDRESS" hint="The Bitcoin (bc1p…) or ETH (0x…) address you'll mint with." done={s5} locked={!s4}>
-                  <input value={addr} style={inputStyle} placeholder="bc1p…  or  0x…"
+                <Step n={5} title="Your address" hint="The Bitcoin (bc1p…) or ETH (0x…) address you'll mint with." done={s5} locked={!s4}>
+                  <input value={addr} style={field} placeholder="bc1p…   or   0x…"
                     onChange={(e) => { setAddr(e.target.value); setAddrOk(false); }}
                     onKeyDown={(e) => e.key === "Enter" && isValidAddress(addr) && setAddrOk(true)}
-                    onFocus={(e) => (e.target.style.borderColor = C.btc)}
-                    onBlur={(e) => (e.target.style.borderColor = C.tomb)} />
-                  {addr && !isValidAddress(addr) && (
-                    <p style={{ fontFamily: body, fontSize: "0.88rem", color: C.ember, margin: "6px 0 0" }}>
-                      That doesn't look like a valid Bitcoin or ETH address.
-                    </p>
-                  )}
-                  {!s5 && isValidAddress(addr) && <Ghost onClick={() => setAddrOk(true)}>Save address</Ghost>}
-                  <p style={{ fontFamily: body, fontSize: "0.84rem", color: C.faint, margin: "10px 0 0", lineHeight: 1.55 }}>
+                    onFocus={(e) => (e.target.style.borderColor = C.ember)} onBlur={(e) => (e.target.style.borderColor = C.stoneUp)} />
+                  {addr && !isValidAddress(addr) && <p style={{ fontFamily: serif, fontSize: "0.94rem", color: C.oxblood, margin: "7px 0 0" }}>That doesn't look like a valid Bitcoin or ETH address.</p>}
+                  {!s5 && isValidAddress(addr) && <Act onClick={() => setAddrOk(true)}>Save address</Act>}
+                  <p style={{ fontFamily: serif, fontSize: "0.9rem", color: C.faint, margin: "11px 0 0", lineHeight: 1.55 }}>
                     We only need your public address. Nobody from Undead Ordinals will ever ask for a seed phrase.
                   </p>
                 </Step>
 
-                {err && <p style={{ fontFamily: body, color: C.ember, fontSize: "0.9rem", margin: "12px 0 0" }}>{err}</p>}
+                {err && <p style={{ fontFamily: serif, color: C.oxblood, fontSize: "0.98rem", margin: "12px 0 0" }}>{err}</p>}
 
-                <button onClick={send} disabled={!all || sending} style={{
-                  width: "100%", marginTop: 16, padding: "17px",
-                  background: all ? C.btc : "transparent", color: all ? C.void : C.faint,
-                  border: `2px solid ${all ? C.btc : C.tomb}`, clipPath: notch(10),
-                  fontFamily: display, fontSize: "0.72rem", letterSpacing: "0.04em", textTransform: "uppercase",
-                  cursor: all && !sending ? "pointer" : "not-allowed",
-                  boxShadow: all ? `0 0 28px ${C.btc}66` : "none",
-                  transition: "background .2s, color .2s, border-color .2s, box-shadow .2s",
-                }}>
-                  {sending ? "Sealing…" : all ? (isWaitlist ? "Join the waitlist" : "Enter the raffle") : "Finish all five steps"}
-                </button>
+                <div style={{ marginTop: 16 }}>
+                  <Btn full onClick={send}>{sending ? "Sealing…" : all ? (isWaitlist ? "Join the waitlist" : "Enter the raffle") : "Finish all five rites"}</Btn>
+                </div>
               </>
             )}
-          </Panel>
+          </div>
 
-          <p style={{ fontFamily: body, fontSize: "0.86rem", color: C.faint, textAlign: "center", margin: "18px auto 0", maxWidth: "48ch", lineHeight: 1.6 }}>
-            Hold an OG Ordinals or ETH NFT? You can <Link href="/verify" style={{ color: C.btc }}>verify your holdings</Link> for a priority spot — no wallet connect required.
+          <p style={{ fontFamily: serif, fontSize: "0.96rem", color: C.faint, textAlign: "center", margin: "18px auto 0", maxWidth: "48ch", lineHeight: 1.6 }}>
+            Hold an OG Ordinals or ETH NFT? <Link href="/verify" style={{ color: C.rune }}>Verify your holdings</Link> for a priority spot — no wallet connect required.
           </p>
         </div>
       </Section>

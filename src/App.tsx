@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Router, Route, Switch, useLocation, Link } from "wouter";
 import Layout from "@/components/Layout";
-import { Btn, GlitchText, C, mono, body } from "@/components/ui";
+import { Btn, Wordmark, Sigil, C, display, serif } from "@/components/ui";
 
 import Home from "@/pages/home";
 import Collection from "@/pages/collection";
@@ -19,13 +19,11 @@ function ScrollTop() {
 
 function NotFound() {
   return (
-    <div style={{
-      minHeight: "72vh", display: "flex", flexDirection: "column",
-      alignItems: "center", justifyContent: "center", gap: 18, padding: 24, textAlign: "center",
-    }}>
-      <GlitchText size="clamp(2rem,9vw,4rem)">404</GlitchText>
-      <p style={{ fontFamily: mono, fontSize: "1.3rem", color: C.muted, letterSpacing: "0.1em", margin: 0 }}>
-        THIS CRYPT IS EMPTY. THE LINK IS WRONG, NOT THE CHAIN.
+    <div style={{ minHeight: "74vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 20, padding: 24, textAlign: "center" }}>
+      <Sigil size={64} color={C.rune} />
+      <Wordmark size="clamp(2rem,9vw,4rem)">404</Wordmark>
+      <p className="standfirst" style={{ fontFamily: serif, fontSize: "1.25rem", color: C.muted, margin: 0, maxWidth: "40ch", lineHeight: 1.6 }}>
+        This crypt is empty. The link is wrong, not the chain.
       </p>
       <Link href="/"><Btn>Back to the surface</Btn></Link>
     </div>

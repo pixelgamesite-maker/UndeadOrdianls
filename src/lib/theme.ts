@@ -1,50 +1,53 @@
 /* ──────────────────────────────────────────────────────────────
    UNDEAD ORDINALS — design tokens & project config
 
-   One cold black base. A single electric "blue-flame" cyan as the
-   primary (it's the colour of the logo skull), with the four faction
-   heats as accents. Nothing here is a neutral grey — every dark value
-   is tinted cold, every light value is bone.
+   Art direction: "Exhumed relic, catalogued." The undead are cursed
+   artifacts pulled off the chain and mounted like museum specimens —
+   raw pixel-horror art in refined reliquary frames. Bone and crypt
+   stone as surfaces, Bitcoin ember as the one source of living light,
+   oxblood and verdigris as the colours of the dead.
 
-   EVERYTHING a non-engineer would want to change (supply, dates,
-   links, which campaign phase is live) lives in this file.
+   EVERYTHING a non-engineer edits (supply, dates, links, phase) lives
+   in this file.
    ────────────────────────────────────────────────────────────── */
 
 export const C = {
-  void:   "#05060A",  // page base — cold black
-  crypt:  "#0A0C13",  // raised panels
-  tomb:   "#11141F",  // borders, inputs
-  tombUp: "#201A12",  // hover borders — a touch warm now
-  btc:    "#F7931A",  // PRIMARY — Bitcoin orange (actions, links, glow, counter)
-  btcDim: "#C76E12",  // dim orange — rims, seams, hover
-  ice:    "#37E0FF",  // cold accent — phantom / ambient atmosphere only
-  iceDim: "#1C7E96",  // dim cyan
-  volt:   "#8A6CFF",  // arcane violet — ambient / neomancer
-  ember:  "#FF4332",  // berserker heat — value, danger, alerts
-  gold:   "#FFC94D",  // relic / $GRAVE accent — pushed yellower so it reads apart from the orange primary
-  bone:   "#F2EAD9",  // text
-  muted:  "rgba(242,234,217,0.56)",
-  faint:  "rgba(242,234,217,0.30)",
-  line:   "rgba(242,234,217,0.09)",
+  ash:     "#100D16",  // base — crypt violet-black
+  stone:   "#191521",  // raised plates / panels
+  stoneUp: "#241E30",  // borders, hover, inputs
+  slab:    "#0B0910",  // recessed / deepest wells
+  ember:   "#F7931A",  // PRIMARY — Bitcoin ember, the living light
+  emberLo: "#C06A15",  // dim ember — rims, pressed states
+  oxblood: "#9A2B22",  // dried-blood red — danger, berserker heat
+  rune:    "#5E8A86",  // verdigris patina — cold occult accent
+  bone:    "#E8DDC6",  // text + parchment relic surfaces
+  boneHi:  "#F3ECDA",  // brightest bone
+  muted:   "rgba(232,221,198,0.56)",
+  faint:   "rgba(232,221,198,0.30)",
+  line:    "rgba(232,221,198,0.11)",
+  lineLo:  "rgba(232,221,198,0.055)",
 } as const;
 
-/** The four factions, each with its signature heat. */
+/** The four factions, re-tuned to filmic/occult tones (not neon). */
 export const FACTION_COLOR = {
-  phantom:   "#37E0FF", // Phase-Shift Phantoms — glitch cyan
-  berserker: "#FF5A2E", // Coronal Berserkers — flame
-  neomancer: "#B14DFF", // Synthesized Neomancers — arcane violet
-  warden:    "#8FB2CC", // Titanium Wardens — cold steel
+  phantom:   "#63B6C6", // Phase-Shift Phantoms — muted steel-cyan
+  berserker: "#D04B2C", // Coronal Berserkers — ember-oxblood
+  neomancer: "#9068B8", // Synthesized Neomancers — muted violet
+  warden:    "#9DAAB5", // Titanium Wardens — pale steel
 } as const;
 
 /* ── Typography ───────────────────────────────────────────────
-   Three tiers:
-   - display : "Press Start 2P"  — arcade impact, used sparingly
-   - body    : "Pixelify Sans"   — readable pixel face for prose/UI
-   - mono    : "VT323"           — terminal readouts, data, addresses
-   (The <link> is already in index.html so there's no FOUC.)        */
-export const display = "'Press Start 2P', 'Courier New', monospace";
-export const body = "'Pixelify Sans', 'Trebuchet MS', sans-serif";
-export const mono = "'VT323', 'Courier New', monospace";
+   Two families only:
+   - display : "DotGothic16"  — pixel-gothic; wordmark, headers, data
+   - serif   : "Spectral"     — literary serif; all body prose
+   The pixel identity lives in the display face + the art; prose is a
+   grimoire serif so long text stays legible and the page reads crafted,
+   not arcade. (Loaded in index.html — no FOUC.)                      */
+export const display = "'DotGothic16', 'Courier New', monospace";
+export const serif = "'Spectral', 'Iowan Old Style', Georgia, serif";
+/* kept so existing imports resolve; data/addresses use the pixel face */
+export const body = serif;
+export const mono = display;
 
 /* ════════════════════════════════════════════════════════════════
    PROJECT CONSTANTS — edit these, not the components.
@@ -52,23 +55,21 @@ export const mono = "'VT323', 'Courier New', monospace";
 
 export const PROJECT = {
   name: "Undead Ordinals",
-  tagline: "The Dead Don't Stay Dead on Bitcoin.",
-  /* Supply: the whitepaper fixes this at 3,232. The campaign note says
-     "6K or less, final number TBC" — change this one value and it
-     updates everywhere on the site. */
+  tagline: "The dead don't stay dead on Bitcoin.",
+  /* Whitepaper fixes supply at 3,232. Campaign note says "6K or less,
+     TBC" — change this one value and it updates everywhere. */
   supply: 3232,
   chain: "Bitcoin",
   token: "$GRAVE",
   tokenSupply: "21,000,000",
 } as const;
 
-/* ── Links ── (swap these for the real accounts before launch) ── */
+/* ── Links ── (swap for the real accounts before launch) ── */
 export const X_URL = "https://x.com/UndeadOrdinals";
 export const X_HANDLE = "@UndeadOrdinals";
-/* The pinned post everyone likes / quotes / comments on during the raffle. */
 export const PINNED_URL = "https://x.com/UndeadOrdinals";
 export const MAGICEDEN = "https://magiceden.io/ordinals";
-export const DISCORD = ""; // optional — leave "" to hide the Discord link
+export const DISCORD = ""; // leave "" to hide
 
 /* ── Assets in /public ── */
 export const ASSET = {
@@ -80,59 +81,34 @@ export const ASSET = {
 } as const;
 
 /* ════════════════════════════════════════════════════════════════
-   CAMPAIGN PHASE CONTROL
-
-   The whole mint runs in ordered phases. `ACTIVE_PHASE` decides what
-   the site pushes people toward (the hero CTA, the /raffle gate).
-   Flip this one string as each phase opens — no code changes needed.
-
-     "teaser"   — pre-launch. No entry yet; collect interest / hype.
-     "raffle"   — OG Ordinals + ETH verified-holder raffle is LIVE.
-     "waitlist" — public waitlist is LIVE (open to everyone).
-     "minting"  — mint is live.
-     "minted"   — sold out / post-mint.
-
-   Each phase is independent, so you can re-order the campaign
-   (e.g. open the public waitlist before the raffle) just by changing
-   this value and redeploying.
+   CAMPAIGN PHASE CONTROL — flip one string to re-point the whole site.
+     "teaser" | "raffle" | "waitlist" | "minting" | "minted"
    ════════════════════════════════════════════════════════════════ */
 export type Phase = "teaser" | "raffle" | "waitlist" | "minting" | "minted";
 export const ACTIVE_PHASE: Phase = "raffle";
 
 /* ── Supabase table / function names (see supabase/schema.sql) ── */
 export const DB = {
-  applications: "wl_applications", // public raffle / waitlist entries (anon insert)
-  eligibility: "holder_eligibility", // imported holder snapshot (edge-function only)
-  claims: "spot_claims", // confirmed verified-holder spots (edge-function only)
+  applications: "wl_applications",
+  eligibility: "holder_eligibility",
+  claims: "spot_claims",
   claimFunction: "claim-spot",
 } as const;
 
-/* ── Verified-holder spot pool (the /verify page) ──
-   Per the strategy, we do NOT publicly announce how many OG spots
-   exist before demand is seen. The UI therefore shows a live "claimed"
-   count and heat, never a remaining number, unless you set
-   SHOW_REMAINING true. CLAIM_TOTAL is only the hard ceiling the edge
-   function enforces. */
+/* ── Verified-holder spot pool (/verify) ── */
 export const CLAIM_TOTAL = 6000;
 export const SHOW_REMAINING = false;
 
-/* Communities eligible in the verified-holder raffle. `key` MUST match
-   the "community" value in the holder snapshot exactly (compared
-   case-insensitively by the edge function). */
-export type Community = {
-  key: string;
-  name: string;
-  kind: "ordinals" | "eth";
-};
+export type Community = { key: string; name: string; kind: "ordinals" | "eth" };
 export const COMMUNITIES: Community[] = [
-  { key: "NodeMonkes",       name: "NodeMonkes",        kind: "ordinals" },
-  { key: "Bitcoin Puppets",  name: "Bitcoin Puppets",   kind: "ordinals" },
-  { key: "Quantum Cats",     name: "Quantum Cats",      kind: "ordinals" },
-  { key: "Runestone",        name: "Runestone",         kind: "ordinals" },
-  { key: "OMB",              name: "Ordinal Maxi Biz",  kind: "ordinals" },
-  { key: "Bitcoin Frogs",    name: "Bitcoin Frogs",     kind: "ordinals" },
-  { key: "Pizza Ninjas",     name: "Pizza Ninjas",      kind: "ordinals" },
-  { key: "Basedangels",      name: "Based Angels",      kind: "eth" },
-  { key: "Miladys",          name: "Milady Maker",      kind: "eth" },
-  { key: "Lilpudgys",        name: "Lil Pudgys",        kind: "eth" },
+  { key: "NodeMonkes",      name: "NodeMonkes",       kind: "ordinals" },
+  { key: "Bitcoin Puppets", name: "Bitcoin Puppets",  kind: "ordinals" },
+  { key: "Quantum Cats",    name: "Quantum Cats",     kind: "ordinals" },
+  { key: "Runestone",       name: "Runestone",        kind: "ordinals" },
+  { key: "OMB",             name: "Ordinal Maxi Biz", kind: "ordinals" },
+  { key: "Bitcoin Frogs",   name: "Bitcoin Frogs",    kind: "ordinals" },
+  { key: "Pizza Ninjas",    name: "Pizza Ninjas",     kind: "ordinals" },
+  { key: "Basedangels",     name: "Based Angels",     kind: "eth" },
+  { key: "Miladys",         name: "Milady Maker",     kind: "eth" },
+  { key: "Lilpudgys",       name: "Lil Pudgys",       kind: "eth" },
 ];

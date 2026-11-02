@@ -2,47 +2,40 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
-  Section, Kicker, Btn, Panel, GlitchText, Pill, LiveDot, notch,
-  C, display, body, mono,
+  Section, Btn, Wordmark, Tag, Sigil, Live, Corners,
+  C, display, serif,
 } from "@/components/ui";
-import { AshField } from "@/components/Effects";
 import { COMMUNITIES, CLAIM_TOTAL, SHOW_REMAINING, X_HANDLE } from "@/lib/theme";
 import { claimSpot, countClaims, hasSupabase } from "@/lib/supabase";
 import { isValidAddress } from "@/lib/utils";
 
-const inputStyle: CSSProperties = {
-  width: "100%", background: C.void, color: C.bone,
-  border: `2px solid ${C.tomb}`, padding: "14px 15px",
-  fontSize: "1.1rem", fontFamily: mono, outline: "none",
-  boxSizing: "border-box", letterSpacing: "0.03em",
+const field: CSSProperties = {
+  width: "100%", background: C.slab, color: C.boneHi, border: `1px solid ${C.stoneUp}`,
+  padding: "14px 15px", fontSize: "0.92rem", fontFamily: display, outline: "none",
+  boxSizing: "border-box", letterSpacing: "0.01em",
 };
 
-/* Live demand counter. Per the campaign: we show how many have claimed
-   (the heat), never how many remain — unless SHOW_REMAINING is flipped. */
 function DemandCounter({ count }: { count: number | null }) {
   const pct = count == null ? 0 : Math.min(100, (count / CLAIM_TOTAL) * 100);
   return (
-    <Panel color={C.tombUp} glow={C.ember} pad={20} style={{ textAlign: "center" }}>
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
-        <LiveDot label="HORDE GROWING" color={C.ember} />
-      </div>
-      <p style={{ fontFamily: display, fontSize: "clamp(1.4rem,5vw,2.4rem)", color: C.btc, margin: "0 0 6px", textShadow: `0 0 24px ${C.btc}66` }}>
+    <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.stone, padding: 24, textAlign: "center" }}>
+      <Corners color={C.ember} />
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}><Live label="The horde is growing" /></div>
+      <p style={{ fontFamily: display, fontSize: "clamp(1.6rem,6vw,2.8rem)", color: C.ember, margin: "0 0 8px" }}>
         {count == null ? "— — —" : count.toLocaleString()}
       </p>
-      <p style={{ fontFamily: mono, fontSize: "1.1rem", color: C.muted, letterSpacing: "0.12em", textTransform: "uppercase", margin: 0 }}>
-        Undead have claimed their spot
+      <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "1.1rem", color: C.muted, margin: 0 }}>
+        undead have claimed their spot
       </p>
       {SHOW_REMAINING && count != null && (
         <>
-          <div style={{ height: 10, background: C.void, border: `1px solid ${C.tomb}`, marginTop: 16 }}>
-            <div style={{ height: "100%", width: `${pct}%`, background: C.ember, boxShadow: `0 0 14px ${C.ember}` }} />
+          <div style={{ height: 8, background: C.slab, border: `1px solid ${C.stoneUp}`, marginTop: 16 }}>
+            <div style={{ height: "100%", width: `${pct}%`, background: C.ember }} />
           </div>
-          <p style={{ fontFamily: mono, fontSize: "1rem", color: C.faint, margin: "8px 0 0", letterSpacing: "0.1em" }}>
-            {(CLAIM_TOTAL - count).toLocaleString()} remaining
-          </p>
+          <p style={{ fontFamily: display, fontSize: "0.72rem", color: C.faint, margin: "9px 0 0" }}>{(CLAIM_TOTAL - count).toLocaleString()} remaining</p>
         </>
       )}
-    </Panel>
+    </div>
   );
 }
 
@@ -58,129 +51,102 @@ export default function Verify() {
   useEffect(() => { if (hasSupabase()) countClaims().then(setCount); }, []);
 
   const list = COMMUNITIES.filter((c) => c.kind === kind);
-  const ready = !!community && isValidAddress(addr);
 
   async function verify() {
     setErr("");
-    if (!community) { setErr("Pick your community first."); return; }
+    if (!community) { setErr("Choose your community first."); return; }
     if (!isValidAddress(addr)) { setErr("Enter a valid Bitcoin or ETH address."); return; }
-    if (!hasSupabase()) { setErr("The verification backend isn't configured yet. (Set VITE_SUPABASE_URL / _ANON_KEY and deploy the claim-spot function.)"); return; }
+    if (!hasSupabase()) { setErr("The verification backend isn't configured yet (set the Supabase vars and deploy the claim-spot function)."); return; }
     setBusy(true);
     const res = await claimSpot(addr, community);
     setBusy(false);
-    if (res.ok) {
-      setSpot(res.spot);
-      setCount((c) => (c == null ? c : c + 1));
-    } else {
-      setErr(res.error);
-    }
+    if (res.ok) { setSpot(res.spot); setCount((c) => (c == null ? c : c + 1)); }
+    else setErr(res.error);
   }
 
   return (
     <>
-      <section style={{ position: "relative", overflow: "hidden", padding: "clamp(66px,10vw,110px) clamp(18px,5vw,40px) clamp(28px,5vw,44px)", textAlign: "center" }}>
-        <AshField density={24} />
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 720, margin: "0 auto" }}>
-          <Pill color={C.gold}>NO WALLET CONNECT · NO SIGNING · EVER</Pill>
-          <div style={{ marginTop: 16 }}>
-            <GlitchText size="clamp(1.4rem,6vw,2.8rem)">PROVE YOUR HOLDINGS</GlitchText>
-          </div>
-          <p style={{ fontFamily: body, fontSize: "1.02rem", color: C.muted, margin: "20px auto 0", maxWidth: "56ch", lineHeight: 1.75 }}>
-            Hold an OG Ordinals or ETH NFT? Verify it for a priority spot. We check your public address against the
-            holder snapshot — <strong style={{ color: C.bone }}>you never connect a wallet, sign a transaction, or share a seed phrase.</strong>
+      <section style={{ padding: "clamp(50px,8vw,90px) clamp(18px,5vw,44px) clamp(20px,4vw,34px)", textAlign: "center" }}>
+        <div style={{ maxWidth: 700, margin: "0 auto" }}>
+          <div style={{ display: "inline-flex", marginBottom: 16 }}><Tag color={C.rune}>No wallet connect, no signing, ever</Tag></div>
+          <Wordmark size="clamp(1.5rem,6vw,2.8rem)">PROVE YOUR HOLDINGS</Wordmark>
+          <p className="standfirst" style={{ fontFamily: serif, fontSize: "1.12rem", color: C.muted, margin: "18px auto 0", maxWidth: "54ch", lineHeight: 1.6 }}>
+            Hold an OG Ordinals or ETH NFT? Verify it for a priority spot. We check your public address against the holder
+            snapshot — you never connect a wallet, sign a transaction, or share a seed phrase.
           </p>
         </div>
       </section>
 
-      <Section tone="crypt" style={{ paddingTop: 0 }}>
-        <div style={{ maxWidth: 640, margin: "0 auto", display: "grid", gap: 18 }}>
+      <Section tone="slab" style={{ paddingTop: 0 }}>
+        <div style={{ maxWidth: 620, margin: "0 auto", display: "grid", gap: 18 }}>
           <DemandCounter count={count} />
 
           {spot != null ? (
-            <Panel color={C.btc} glow={C.btc} pad={28} style={{ textAlign: "center" }}>
-              <motion.div initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5, ease: "easeOut" }}>
-                <div style={{ width: 64, height: 64, margin: "0 auto 18px", background: C.btc, display: "grid", placeItems: "center", fontSize: "1.8rem", color: C.void, boxShadow: `0 0 40px ${C.btc}`, clipPath: notch(11) }}>✓</div>
-                <h2 style={{ fontFamily: display, fontSize: "0.9rem", color: C.bone, margin: "0 0 10px" }}>SPOT SECURED</h2>
-                <p style={{ fontFamily: display, fontSize: "clamp(1.6rem,7vw,3rem)", color: C.btc, margin: "0 0 10px", textShadow: `0 0 26px ${C.btc}88` }}>
-                  #{String(spot).padStart(4, "0")}
-                </p>
-                <p style={{ fontFamily: body, fontSize: "0.98rem", color: C.muted, lineHeight: 1.75, margin: 0 }}>
+            <div style={{ position: "relative", border: `1px solid ${C.ember}`, background: C.stone, padding: 30, textAlign: "center" }}>
+              <Corners color={C.ember} size={16} />
+              <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5, ease: "easeOut" }}>
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}><Sigil size={60} color={C.ember} /></div>
+                <h2 style={{ fontFamily: display, fontSize: "0.92rem", color: C.boneHi, margin: "0 0 12px" }}>Spot secured</h2>
+                <Wordmark size="clamp(1.8rem,8vw,3.2rem)">{`#${String(spot).padStart(4, "0")}`}</Wordmark>
+                <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.muted, lineHeight: 1.75, margin: "16px 0 0" }}>
                   Your address is verified and your priority spot is locked. Mint details are announced on {X_HANDLE}.
                   Screenshot this — your spot number is your proof.
                 </p>
-                <div style={{ marginTop: 22 }}>
-                  <Link href="/collection"><Btn tone="ghost" color={C.bone} small>Meet the Undead →</Btn></Link>
-                </div>
+                <div style={{ marginTop: 22 }}><Link href="/collection"><Btn tone="bone" small>Meet the undead</Btn></Link></div>
               </motion.div>
-            </Panel>
+            </div>
           ) : (
-            <Panel color={C.tombUp} pad={24}>
-              {/* kind toggle */}
-              <div style={{ display: "flex", gap: 8, marginBottom: 18 }}>
+            <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.stone, padding: "26px clamp(18px,4vw,26px)" }}>
+              <Corners color={C.rune} />
+              <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
                 {(["ordinals", "eth"] as const).map((k) => (
                   <button key={k} onClick={() => { setKind(k); setCommunity(""); }} style={{
-                    flex: 1, padding: "12px", background: kind === k ? C.btc : "transparent",
-                    color: kind === k ? C.void : C.muted, border: `2px solid ${kind === k ? C.btc : C.tomb}`,
-                    clipPath: notch(8), fontFamily: mono, fontSize: "1.05rem", letterSpacing: "0.1em",
-                    textTransform: "uppercase", cursor: "pointer", transition: "all .15s",
-                  }}>
-                    {k === "ordinals" ? "Ordinals" : "ETH Collections"}
-                  </button>
+                    flex: 1, padding: "12px", background: kind === k ? C.ember : "transparent",
+                    color: kind === k ? C.ash : C.muted, border: `1px solid ${kind === k ? C.ember : C.stoneUp}`,
+                    fontFamily: display, fontSize: "0.74rem", cursor: "pointer", transition: "all .15s",
+                  }}>{k === "ordinals" ? "Ordinals" : "ETH collections"}</button>
                 ))}
               </div>
 
-              <p style={{ fontFamily: mono, fontSize: "1.05rem", color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 10px" }}>
-                1 · Your community
-              </p>
-              <div style={{ display: "grid", gap: 7, gridTemplateColumns: "repeat(auto-fill,minmax(130px,1fr))", marginBottom: 22 }}>
+              <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "1rem", color: C.faint, margin: "0 0 11px" }}>Your community</p>
+              <div style={{ display: "grid", gap: 8, gridTemplateColumns: "repeat(auto-fill,minmax(132px,1fr))", marginBottom: 22 }}>
                 {list.map((c) => {
                   const on = community === c.key;
                   return (
                     <button key={c.key} onClick={() => setCommunity(c.key)} style={{
-                      padding: "11px 10px", background: on ? `${C.btc}18` : C.void,
-                      color: on ? C.btc : C.muted, border: `2px solid ${on ? C.btc : C.tomb}`,
-                      fontFamily: mono, fontSize: "1rem", letterSpacing: "0.03em", cursor: "pointer",
-                      textAlign: "left", transition: "all .15s", lineHeight: 1.3,
+                      position: "relative", padding: "12px 11px", background: on ? C.slab : "transparent",
+                      color: on ? C.ember : C.muted, border: `1px solid ${on ? C.ember : C.stoneUp}`,
+                      fontFamily: display, fontSize: "0.68rem", cursor: "pointer", textAlign: "left", lineHeight: 1.35, transition: "all .15s",
                     }}
-                      onMouseEnter={(e) => { if (!on) e.currentTarget.style.borderColor = C.tombUp; }}
-                      onMouseLeave={(e) => { if (!on) e.currentTarget.style.borderColor = C.tomb; }}>
-                      {on ? "◆ " : ""}{c.name}
+                      onMouseEnter={(e) => { if (!on) e.currentTarget.style.borderColor = C.rune; }}
+                      onMouseLeave={(e) => { if (!on) e.currentTarget.style.borderColor = C.stoneUp; }}>
+                      {c.name}
                     </button>
                   );
                 })}
               </div>
 
-              <p style={{ fontFamily: mono, fontSize: "1.05rem", color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 10px" }}>
-                2 · Your {kind === "ordinals" ? "Bitcoin" : "ETH"} address
+              <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "1rem", color: C.faint, margin: "0 0 11px" }}>
+                Your {kind === "ordinals" ? "Bitcoin" : "ETH"} address
               </p>
-              <input value={addr} style={inputStyle}
-                placeholder={kind === "ordinals" ? "bc1p…" : "0x…"}
+              <input value={addr} style={field} placeholder={kind === "ordinals" ? "bc1p…" : "0x…"}
                 onChange={(e) => { setAddr(e.target.value); setErr(""); }}
-                onKeyDown={(e) => e.key === "Enter" && ready && verify()}
-                onFocus={(e) => (e.target.style.borderColor = C.btc)}
-                onBlur={(e) => (e.target.style.borderColor = C.tomb)} />
-              <p style={{ fontFamily: body, fontSize: "0.84rem", color: C.faint, margin: "9px 0 0", lineHeight: 1.55 }}>
-                The public address that holds your {kind === "ordinals" ? "inscription" : "NFT"}. Read-only — it never leaves your clipboard as anything but text.
+                onKeyDown={(e) => e.key === "Enter" && verify()}
+                onFocus={(e) => (e.target.style.borderColor = C.ember)} onBlur={(e) => (e.target.style.borderColor = C.stoneUp)} />
+              <p style={{ fontFamily: serif, fontSize: "0.9rem", color: C.faint, margin: "10px 0 0", lineHeight: 1.55 }}>
+                The public address that holds your {kind === "ordinals" ? "inscription" : "NFT"}. It stays read-only text — nothing to connect or sign.
               </p>
 
-              {err && <p style={{ fontFamily: body, color: C.ember, fontSize: "0.92rem", margin: "14px 0 0", lineHeight: 1.5 }}>{err}</p>}
+              {err && <p style={{ fontFamily: serif, color: C.oxblood, fontSize: "0.98rem", margin: "14px 0 0", lineHeight: 1.5 }}>{err}</p>}
 
-              <button onClick={verify} disabled={!ready || busy} style={{
-                width: "100%", marginTop: 18, padding: "17px",
-                background: ready ? C.btc : "transparent", color: ready ? C.void : C.faint,
-                border: `2px solid ${ready ? C.btc : C.tomb}`, clipPath: notch(10),
-                fontFamily: display, fontSize: "0.72rem", letterSpacing: "0.04em", textTransform: "uppercase",
-                cursor: ready && !busy ? "pointer" : "not-allowed",
-                boxShadow: ready ? `0 0 28px ${C.btc}66` : "none",
-                transition: "all .2s",
-              }}>
-                {busy ? "Checking the snapshot…" : "Verify & claim spot"}
-              </button>
-            </Panel>
+              <div style={{ marginTop: 18 }}>
+                <Btn full onClick={verify}>{busy ? "Reading the snapshot…" : "Verify and claim spot"}</Btn>
+              </div>
+            </div>
           )}
 
-          <p style={{ fontFamily: body, fontSize: "0.86rem", color: C.faint, textAlign: "center", margin: "4px auto 0", maxWidth: "52ch", lineHeight: 1.6 }}>
-            Not holding an OG NFT? You can still <Link href="/raffle" style={{ color: C.btc }}>enter the raffle</Link> by posting about the Undead.
+          <p style={{ fontFamily: serif, fontSize: "0.96rem", color: C.faint, textAlign: "center", margin: "2px auto 0", maxWidth: "52ch", lineHeight: 1.6 }}>
+            Not holding an OG NFT? You can still <Link href="/raffle" style={{ color: C.rune }}>enter the raffle</Link> by posting about the Undead.
           </p>
         </div>
       </Section>

@@ -1,185 +1,142 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
-  Section, Kicker, Heading, Btn, Panel, GlitchText, Reveal, Pill, LiveDot, notch,
-  C, display, body, mono,
+  Section, SectionHead, Plate, Btn, Wordmark, Sigil, Reveal, Rule, Tag, Seq, Live, Corners,
+  C, display, serif,
 } from "@/components/ui";
-import { AshField } from "@/components/Effects";
+import { HeroScan } from "@/components/Effects";
 import { PROJECT, ACTIVE_PHASE, ASSET } from "@/lib/theme";
 import { FACTIONS, ROADMAP, TRUST } from "@/lib/lore";
 
-const TICKER = [
-  "THE DEAD DON'T STAY DEAD",
-  "INSCRIBED ON BITCOIN",
-  "ENTER THE CATACOMBS",
-  "POWERED BY $GRAVE",
-  "NO SECOND DEATH",
-  "RESURRECTED ON-CHAIN",
-];
-
-function phaseBanner() {
+function phaseLine() {
   switch (ACTIVE_PHASE) {
-    case "teaser":   return { dot: "SOON", text: "The horde is gathering. Join before the gates open.", cta: "Join the Horde", to: "/raffle" };
-    case "raffle":   return { dot: "LIVE", text: "Verified-holder raffle is open. Prove your holdings — no wallet connect.", cta: "Verify & Claim", to: "/verify" };
-    case "waitlist": return { dot: "LIVE", text: "Public waitlist is open to everyone. Secure your place in line.", cta: "Join Waitlist", to: "/raffle" };
-    case "minting":  return { dot: "LIVE", text: "Mint is live. The Catacombs are open.", cta: "Mint Now", to: "/verify" };
-    case "minted":   return { dot: "DONE", text: "Minted out. Explore the collection and the Catacombs.", cta: "View Collection", to: "/collection" };
+    case "teaser":   return { status: "Gathering", live: false, text: "The horde is assembling before the gates open.", cta: "Join the horde", to: "/raffle" };
+    case "raffle":   return { status: "Raffle open", live: true, text: "Verified-holder raffle is live. Prove your holdings — no wallet connect.", cta: "Verify holdings", to: "/verify" };
+    case "waitlist": return { status: "Waitlist open", live: true, text: "The public waitlist is open to everyone.", cta: "Join waitlist", to: "/raffle" };
+    case "minting":  return { status: "Minting", live: true, text: "Mint is live. The Catacombs are open.", cta: "Mint", to: "/verify" };
+    case "minted":   return { status: "Minted out", live: false, text: "The collection is sealed. Explore what rose.", cta: "View collection", to: "/collection" };
   }
 }
 
+const RECORD = [
+  ["Designation", PROJECT.supply.toLocaleString()],
+  ["Chain", "Bitcoin"],
+  ["Rune", PROJECT.token],
+  ["Factions", "Four"],
+];
+
 export default function Home() {
-  const banner = phaseBanner();
+  const p = phaseLine();
 
   return (
     <>
-      {/* ───────────────── HERO ───────────────── */}
-      <section style={{ position: "relative", overflow: "hidden", minHeight: "92vh", display: "flex", alignItems: "center" }}>
-        <AshField density={34} />
-        {/* glow pool behind the skull */}
-        <div aria-hidden style={{
-          position: "absolute", top: "18%", left: "50%", transform: "translateX(-50%)",
-          width: "min(80vw,620px)", height: "min(80vw,620px)",
-          background: `radial-gradient(circle, ${C.btc}22, transparent 62%)`, pointerEvents: "none",
-        }} />
+      {/* ───────────── HERO — catalogued specimen ───────────── */}
+      <section style={{ position: "relative", padding: "clamp(40px,7vw,86px) clamp(18px,5vw,44px) clamp(48px,7vw,80px)" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gap: "clamp(32px,5vw,64px)", gridTemplateColumns: "1fr", alignItems: "center" }} className="uo-hero">
+          {/* left: wordmark + record */}
+          <div>
+            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
+              <div style={{ display: "inline-flex", marginBottom: 20 }}>
+                <Tag color={p.live ? C.ember : C.rune}>{p.status}</Tag>
+              </div>
+              <Wordmark size="clamp(2.3rem,8.5vw,5rem)" style={{ display: "block" }}>UNDEAD</Wordmark>
+              <Wordmark size="clamp(2.3rem,8.5vw,5rem)" style={{ display: "block", marginTop: 2 }}>ORDINALS</Wordmark>
 
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 1080, margin: "0 auto", padding: "80px clamp(18px,5vw,40px) 60px", textAlign: "center", width: "100%" }}>
-          <motion.img
-            src={ASSET.logo} alt="Undead Ordinals"
-            width={200} height={200}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            style={{
-              width: "clamp(140px,26vw,220px)", height: "auto", margin: "0 auto 26px", display: "block",
-              border: `3px solid ${C.tombUp}`, boxShadow: `0 0 50px ${C.btc}55, inset 0 0 20px #000`,
-              animation: "float 6s ease-in-out infinite",
-            }}
-          />
+              <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.2rem,3vw,1.6rem)", color: C.bone, margin: "22px 0 0", lineHeight: 1.5, maxWidth: "24ch" }}>
+                {PROJECT.tagline}
+              </p>
+              <p style={{ fontFamily: serif, fontSize: "1.08rem", color: C.muted, lineHeight: 1.75, margin: "18px 0 0", maxWidth: "46ch" }}>
+                {PROJECT.supply.toLocaleString()} undead artifacts, inscribed on Bitcoin and resurrected to explore the
+                Catacombs of Consensus — a gaming economy powered by the {PROJECT.token} Rune.
+              </p>
 
-          <div style={{ marginBottom: 14 }}>
-            <Pill color={C.btc}>{PROJECT.supply.toLocaleString()} ON BITCOIN</Pill>
+              <div style={{ display: "flex", gap: 13, flexWrap: "wrap", margin: "30px 0 0" }}>
+                <Link href={p.to}><Btn>{p.cta}</Btn></Link>
+                <Link href="/collection"><Btn tone="bone">Meet the undead</Btn></Link>
+              </div>
+            </motion.div>
           </div>
 
-          <GlitchText size="clamp(1.9rem,8vw,4.6rem)" style={{ display: "block", marginBottom: 6 }}>UNDEAD</GlitchText>
-          <GlitchText size="clamp(1.9rem,8vw,4.6rem)" style={{ display: "block", marginBottom: 22 }}>ORDINALS</GlitchText>
-
-          <p style={{ fontFamily: mono, fontSize: "clamp(1.2rem,3.4vw,1.7rem)", color: C.btc, letterSpacing: "0.08em", margin: "0 0 10px" }}>
-            {PROJECT.tagline}
-          </p>
-          <p style={{ fontFamily: body, fontSize: "clamp(0.98rem,2.4vw,1.12rem)", color: C.muted, maxWidth: "58ch", margin: "0 auto 34px", lineHeight: 1.75 }}>
-            {PROJECT.supply.toLocaleString()} undead artifacts inscribed on Bitcoin — and the foundation of a
-            Bitcoin-native gaming ecosystem. Send your Undead into the Catacombs of Consensus,
-            evolve them, and join an economy powered by the {PROJECT.token} Rune.
-          </p>
-
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href={banner.to}><Btn color={C.btc}>{banner.cta}</Btn></Link>
-            <Link href="/collection"><Btn tone="ghost" color={C.bone}>Meet the Undead</Btn></Link>
-          </div>
-
-          {/* live phase chip */}
-          <div style={{ marginTop: 30, display: "inline-flex", alignItems: "center", gap: 12, border: `1px solid ${C.tombUp}`, clipPath: notch(7), padding: "9px 16px", background: "rgba(10,12,19,0.7)" }}>
-            <LiveDot label={banner.dot} color={banner.dot === "LIVE" ? C.ember : C.btc} />
-            <span style={{ fontFamily: body, fontSize: "0.92rem", color: C.muted }}>{banner.text}</span>
-          </div>
+          {/* right: mounted relic */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.1 }}>
+            <div style={{ position: "relative", maxWidth: 440, marginInline: "auto" }}>
+              <div style={{ position: "absolute", inset: "-14%", background: `radial-gradient(circle, ${C.ember}22, transparent 66%)`, pointerEvents: "none" }} />
+              <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.slab, padding: 14 }}>
+                <Corners color={C.ember} size={16} />
+                <div style={{ position: "relative", overflow: "hidden" }}>
+                  <img src={ASSET.logo} alt="Undead Ordinals specimen" style={{ width: "100%", display: "block", animation: "develop 1.8s ease-out 0.2s both, bob 7s ease-in-out 2s infinite" }} />
+                  <HeroScan />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 12, paddingTop: 10, borderTop: `1px solid ${C.lineLo}` }}>
+                  <span style={{ fontFamily: display, fontSize: "0.72rem", color: C.bone }}>Specimen UO-0001</span>
+                  <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.95rem", color: C.rune }}>Phase-Shift Phantom</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ───────────────── TICKER ───────────────── */}
-      <div style={{ background: C.btc, color: C.void, overflow: "hidden", whiteSpace: "nowrap", borderTop: `2px solid ${C.void}`, borderBottom: `2px solid ${C.void}`, position: "relative", zIndex: 1 }}>
-        <div style={{ display: "inline-flex", animation: "marquee 22s linear infinite" }}>
-          {[0, 1].map((rep) => (
-            <div key={rep} style={{ display: "inline-flex", flexShrink: 0 }}>
-              {TICKER.map((t, i) => (
-                <span key={i} style={{ fontFamily: display, fontSize: "0.7rem", padding: "13px 26px", letterSpacing: "0.04em" }}>
-                  {t} <span style={{ opacity: 0.4 }}>✦</span>
-                </span>
-              ))}
+      {/* ───────────── CATALOGUE BAR ───────────── */}
+      <div style={{ borderTop: `1px solid ${C.stoneUp}`, borderBottom: `1px solid ${C.stoneUp}`, background: C.slab }}>
+        <div className="uo-record" style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
+          {RECORD.map(([label, value], i) => (
+            <div key={label} style={{ padding: "22px clamp(18px,4vw,34px)", borderLeft: i % 2 ? `1px solid ${C.lineLo}` : "none", borderTop: i >= 2 ? `1px solid ${C.lineLo}` : "none" }}>
+              <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.92rem", color: C.faint, margin: "0 0 6px" }}>{label}</p>
+              <p style={{ fontFamily: display, fontSize: "clamp(1.1rem,3vw,1.7rem)", color: i === 0 ? C.ember : C.boneHi, margin: 0 }}>{value}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ───────────────── STATS ───────────────── */}
-      <Section tone="void">
-        <div style={{ display: "grid", gap: 14, gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))" }}>
-          {[
-            ["SUPPLY", PROJECT.supply.toLocaleString(), C.btc],
-            ["BLOCKCHAIN", "Bitcoin", C.bone],
-            ["TOKEN", PROJECT.token, C.gold],
-            ["FACTIONS", "4", C.volt],
-          ].map(([label, value, color], i) => (
-            <Reveal key={label} delay={i * 0.06}>
-              <Panel color={C.tomb} glow={color} style={{ textAlign: "center" }}>
-                <p style={{ fontFamily: display, fontSize: "clamp(1.1rem,3vw,1.7rem)", color: color as string, margin: "0 0 8px" }}>{value}</p>
-                <p style={{ fontFamily: mono, fontSize: "1rem", letterSpacing: "0.2em", color: C.muted, margin: 0 }}>{label}</p>
-              </Panel>
-            </Reveal>
-          ))}
-        </div>
-      </Section>
-
-      {/* ───────────────── LORE ───────────────── */}
-      <Section tone="crypt">
-        <div style={{ display: "grid", gap: "clamp(28px,5vw,56px)", gridTemplateColumns: "1fr", alignItems: "center" }} className="uo-split">
+      {/* ───────────── LORE ───────────── */}
+      <Section tone="ash">
+        <div className="uo-split" style={{ display: "grid", gap: "clamp(28px,5vw,60px)", gridTemplateColumns: "1fr", alignItems: "center" }}>
           <Reveal>
-            <Kicker>Rise of the Undead</Kicker>
-            <Heading size="lg">Deep beneath the chain, the forgotten began to move.</Heading>
-            <div style={{ fontFamily: body, fontSize: "1.04rem", color: C.muted, lineHeight: 1.85 }}>
+            <SectionHead designation="Origin" title="Deep beneath the chain, the forgotten began to move."
+              standfirst="The Catacombs of Consensus held abandoned transactions and lost satoshis in silence — until the Sat Mortis." />
+            <div style={{ fontFamily: serif, fontSize: "1.08rem", color: C.muted, lineHeight: 1.85 }}>
               <p style={{ marginTop: 0 }}>
-                The <strong style={{ color: C.bone }}>Catacombs of Consensus</strong> is where abandoned transactions,
-                forgotten satoshis and lost digital fragments have gathered since Bitcoin's earliest days.
-                For years, it remained silent.
+                From the depths rose {PROJECT.supply.toLocaleString()} Undead Ordinals, each carrying the scars of the
+                digital afterlife. Some flicker with unstable energy. Some burn with the heat of computation. Others were
+                rebuilt with strange machinery, or sealed in armour that refuses to break.
               </p>
-              <p>
-                Then came the <strong style={{ color: C.btc }}>Sat Mortis</strong> — a mysterious awakening that
-                stirred the fragments of Bitcoin's history. From the depths emerged {PROJECT.supply.toLocaleString()} Undead
-                Ordinals, each carrying the scars of the digital afterlife.
-              </p>
-              <p style={{ color: C.bone, fontFamily: mono, fontSize: "1.25rem", letterSpacing: "0.04em" }}>
+              <p style={{ color: C.bone, fontStyle: "italic", fontSize: "1.2rem" }}>
                 They were not created to disappear. They were resurrected to explore, evolve and conquer the chain.
               </p>
             </div>
-            <div style={{ marginTop: 26 }}>
-              <Link href="/catacombs"><Btn tone="ghost" color={C.btc}>Enter the lore</Btn></Link>
-            </div>
+            <div style={{ marginTop: 26 }}><Link href="/catacombs"><Btn tone="ghost" color={C.rune}>Read the lore</Btn></Link></div>
           </Reveal>
           <Reveal delay={0.1}>
-            <div style={{ position: "relative" }}>
-              <img src={ASSET.berserker} alt="A Coronal Berserker" style={{
-                width: "100%", maxWidth: 440, margin: "0 auto", display: "block",
-                border: `3px solid ${C.tombUp}`, boxShadow: `0 0 60px ${C.ember}33, inset 0 0 30px #000`,
-              }} />
-              <div style={{ position: "absolute", bottom: 12, left: 12 }}>
-                <Pill color={C.ember}>Coronal Berserker</Pill>
+            <div style={{ position: "relative", maxWidth: 420, marginInline: "auto" }}>
+              <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.slab, padding: 12 }}>
+                <Corners color={FACTIONS[1].color} size={15} />
+                <img src={ASSET.berserker} alt="A Coronal Berserker" style={{ width: "100%", display: "block" }} />
+                <p style={{ fontFamily: display, fontSize: "0.72rem", color: C.bone, margin: "12px 2px 0" }}>Specimen UO-0719</p>
               </div>
             </div>
           </Reveal>
         </div>
       </Section>
 
-      {/* ───────────────── FACTIONS PREVIEW ───────────────── */}
-      <Section tone="void">
-        <Reveal style={{ textAlign: "center", marginBottom: 44 }}>
-          <Kicker color={C.volt}><span style={{ marginInline: "auto" }}>The Four Factions</span></Kicker>
-          <Heading size="lg">Four ways to come back wrong.</Heading>
-        </Reveal>
-        <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))" }}>
+      {/* ───────────── FACTIONS ───────────── */}
+      <Section tone="slab">
+        <SectionHead designation="Taxonomy" title="Four ways to come back wrong." color={C.rune}
+          standfirst="Every Undead belongs to one of four factions — a lineage written into its look and its lot." />
+        <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))" }}>
           {FACTIONS.map((f, i) => (
-            <Reveal key={f.id} delay={i * 0.07}>
+            <Reveal key={f.id} delay={i * 0.06}>
               <Link href="/collection">
-                <div style={{ position: "relative", overflow: "hidden", border: `2px solid ${C.tomb}`, background: C.crypt, cursor: "pointer", transition: "border-color .2s, transform .2s" }}
+                <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.stone, cursor: "pointer", transition: "border-color .22s, transform .22s" }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = f.color; e.currentTarget.style.transform = "translateY(-4px)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.tomb; e.currentTarget.style.transform = "translateY(0)"; }}>
-                  <div style={{ aspectRatio: "1", overflow: "hidden", borderBottom: `2px solid ${C.tomb}` }}>
-                    <img src={f.image} alt={f.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(1.05)" }} />
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.stoneUp; e.currentTarget.style.transform = "translateY(0)"; }}>
+                  <Corners color={f.color} />
+                  <div style={{ aspectRatio: "1", overflow: "hidden", borderBottom: `1px solid ${C.stoneUp}` }}>
+                    <img src={f.image} alt={f.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
-                  <div style={{ padding: "14px 15px 17px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                      <span style={{ width: 9, height: 9, background: f.color, boxShadow: `0 0 10px ${f.color}` }} />
-                      <p style={{ fontFamily: display, fontSize: "0.56rem", color: C.bone, margin: 0, lineHeight: 1.5 }}>{f.name}</p>
-                    </div>
-                    <p style={{ fontFamily: mono, fontSize: "1.02rem", color: f.color, margin: 0, letterSpacing: "0.04em" }}>{f.identity}</p>
+                  <div style={{ padding: "15px 16px 18px" }}>
+                    <p style={{ fontFamily: display, fontSize: "0.76rem", color: C.boneHi, margin: "0 0 7px", lineHeight: 1.45 }}>{f.name}</p>
+                    <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "1rem", color: f.color, margin: 0 }}>{f.identity}</p>
                   </div>
                 </div>
               </Link>
@@ -188,82 +145,78 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ───────────────── TRUST MODEL ───────────────── */}
-      <Section tone="crypt">
-        <Reveal style={{ textAlign: "center", marginBottom: 40 }}>
-          <Kicker color={C.gold}><span style={{ marginInline: "auto" }}>No Smoke, No Mirrors</span></Kicker>
-          <Heading size="lg">We tell you exactly what lives where.</Heading>
-          <p style={{ fontFamily: body, color: C.muted, maxWidth: "62ch", margin: "0 auto", lineHeight: 1.75 }}>
-            Bitcoin secures ownership and token balances. It does not run game logic. Here's the honest boundary —
-            nothing is called audited, trustless or exploit-proof until a completed review supports it.
-          </p>
+      {/* ───────────── TRUST LEDGER ───────────── */}
+      <Section tone="ash">
+        <SectionHead designation="Disclosure" title="We say exactly what lives where."
+          standfirst="Bitcoin secures ownership and token balances. It does not run game logic. Nothing is called audited or trustless until a completed review supports it." />
+        <Reveal>
+          <div style={{ border: `1px solid ${C.stoneUp}`, position: "relative" }}>
+            <Corners color={C.rune} />
+            {TRUST.map((t, i) => (
+              <div key={t.component} className="uo-ledger-row" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 5, padding: "17px clamp(16px,3vw,24px)", borderTop: i ? `1px solid ${C.lineLo}` : "none" }}>
+                <span style={{ fontFamily: display, fontSize: "0.82rem", color: C.boneHi }}>{t.component}</span>
+                <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.98rem", color: C.ember }}>{t.where}</span>
+                <span style={{ fontFamily: serif, fontSize: "0.98rem", color: C.muted, lineHeight: 1.55 }}>{t.trust}</span>
+              </div>
+            ))}
+          </div>
         </Reveal>
-        <div style={{ display: "grid", gap: 10, gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))" }}>
-          {TRUST.map((t, i) => (
-            <Reveal key={t.component} delay={i * 0.05}>
-              <Panel color={C.tomb} pad={18} style={{ height: "100%" }}>
-                <p style={{ fontFamily: mono, fontSize: "1.15rem", color: C.btc, letterSpacing: "0.04em", margin: "0 0 4px" }}>{t.component}</p>
-                <p style={{ fontFamily: mono, fontSize: "0.98rem", color: C.gold, letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 10px" }}>{t.where}</p>
-                <p style={{ fontFamily: body, fontSize: "0.92rem", color: C.muted, margin: 0, lineHeight: 1.6 }}>{t.trust}</p>
-              </Panel>
-            </Reveal>
-          ))}
-        </div>
       </Section>
 
-      {/* ───────────────── ROADMAP ───────────────── */}
-      <Section tone="void">
-        <Reveal style={{ textAlign: "center", marginBottom: 44 }}>
-          <Kicker><span style={{ marginInline: "auto" }}>The Path Back</span></Kicker>
-          <Heading size="lg">Five phases. Core loop first.</Heading>
-        </Reveal>
-        <div style={{ position: "relative" }}>
-          {ROADMAP.map((p, i) => (
-            <Reveal key={p.numeral} delay={i * 0.05}>
-              <div style={{ display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 8 }}>
-                <div style={{ flexShrink: 0, width: 56, textAlign: "center" }}>
-                  <div style={{ fontFamily: display, fontSize: "0.9rem", color: C.btc, border: `2px solid ${C.tombUp}`, padding: "12px 0", background: C.crypt, boxShadow: `0 0 18px ${C.btc}22` }}>{p.numeral}</div>
-                  {i < ROADMAP.length - 1 && <div style={{ width: 2, height: 22, background: C.tombUp, margin: "0 auto" }} />}
+      {/* ───────────── ROADMAP (true sequence → numbered) ───────────── */}
+      <Section tone="slab">
+        <SectionHead designation="The path back" title="Five phases. Core loop first." color={C.rune}
+          standfirst="Milestone-based, not date-based. We ship and test the expedition loop before expanding the world around it." />
+        <div style={{ display: "grid", gap: 12 }}>
+          {ROADMAP.map((ph, i) => (
+            <Reveal key={ph.numeral} delay={i * 0.04}>
+              <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.stone, padding: "20px clamp(18px,3vw,26px)", display: "grid", gridTemplateColumns: "auto 1fr", gap: "clamp(16px,3vw,28px)", alignItems: "start" }}>
+                <Corners color={C.rune} />
+                <div style={{ textAlign: "center", minWidth: 42 }}>
+                  <Seq>{ph.numeral}</Seq>
+                  <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.82rem", color: C.faint, margin: "4px 0 0" }}>phase</p>
                 </div>
-                <Panel color={C.tomb} pad={18} style={{ flex: 1, marginBottom: 14 }}>
-                  <p style={{ fontFamily: display, fontSize: "0.72rem", color: C.bone, margin: "0 0 12px", letterSpacing: "0.03em" }}>
-                    Phase {p.numeral}: {p.title}
-                  </p>
-                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 7 }}>
-                    {p.points.map((pt) => (
-                      <li key={pt} style={{ fontFamily: body, fontSize: "0.94rem", color: C.muted, display: "flex", gap: 9, lineHeight: 1.5 }}>
-                        <span style={{ color: C.btc, flexShrink: 0 }}>▸</span>{pt}
+                <div>
+                  <p style={{ fontFamily: display, fontSize: "0.92rem", color: C.boneHi, margin: "0 0 12px" }}>{ph.title}</p>
+                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
+                    {ph.points.map((pt) => (
+                      <li key={pt} style={{ fontFamily: serif, fontSize: "1rem", color: C.muted, display: "flex", gap: 11, lineHeight: 1.5 }}>
+                        <span style={{ color: C.ember, flexShrink: 0, fontFamily: display, fontSize: "0.7rem", marginTop: 3 }}>+</span>{pt}
                       </li>
                     ))}
                   </ul>
-                </Panel>
+                </div>
               </div>
             </Reveal>
           ))}
         </div>
       </Section>
 
-      {/* ───────────────── CTA BAND ───────────────── */}
-      <section style={{ position: "relative", overflow: "hidden", background: C.crypt, borderTop: `2px solid ${C.tomb}`, borderBottom: `2px solid ${C.tomb}` }}>
-        <AshField density={20} />
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 820, margin: "0 auto", padding: "clamp(56px,9vw,100px) clamp(18px,5vw,40px)", textAlign: "center" }}>
+      {/* ───────────── CTA ───────────── */}
+      <section style={{ position: "relative", background: C.ash, borderTop: `1px solid ${C.stoneUp}`, padding: "clamp(60px,9vw,110px) clamp(18px,5vw,44px)", textAlign: "center" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto" }}>
           <Reveal>
-            <GlitchText size="clamp(1.4rem,5vw,2.6rem)">NO SECOND DEATH</GlitchText>
-            <p style={{ fontFamily: body, fontSize: "1.05rem", color: C.muted, margin: "20px auto 30px", maxWidth: "52ch", lineHeight: 1.75 }}>
-              The collection is the beginning. The world around it is what we build. Prove your holdings,
-              claim your place, and rise with the horde.
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><Sigil size={56} color={C.ember} /></div>
+            <Wordmark size="clamp(1.5rem,5vw,2.8rem)">NO SECOND DEATH</Wordmark>
+            <p style={{ fontFamily: serif, fontSize: "1.12rem", color: C.muted, margin: "22px auto 32px", maxWidth: "48ch", lineHeight: 1.75 }}>
+              The collection is the beginning; the world around it is what we build. Prove your holdings, claim your
+              place, and rise with the horde.
             </p>
-            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href={banner.to}><Btn color={C.ember}>{banner.cta}</Btn></Link>
-              <Link href="/whitepaper"><Btn tone="ghost" color={C.bone}>Read the whitepaper</Btn></Link>
+            <div style={{ display: "flex", gap: 13, justifyContent: "center", flexWrap: "wrap" }}>
+              <Link href={p.to}><Btn>{p.cta}</Btn></Link>
+              <Link href="/whitepaper"><Btn tone="bone">Read the whitepaper</Btn></Link>
             </div>
           </Reveal>
         </div>
       </section>
 
       <style>{`
-        @media (min-width: 820px) {
+        @media (min-width: 860px) {
+          .uo-hero { grid-template-columns: 1.05fr 0.95fr !important; }
           .uo-split { grid-template-columns: 1.1fr 0.9fr !important; }
+          .uo-record { grid-template-columns: repeat(4,1fr) !important; }
+          .uo-record > div:not(:first-child) { border-left: 1px solid ${C.lineLo} !important; border-top: none !important; }
+          .uo-ledger-row { grid-template-columns: 1.1fr 1fr 1.6fr !important; gap: 20px !important; align-items: center; }
         }
       `}</style>
     </>
