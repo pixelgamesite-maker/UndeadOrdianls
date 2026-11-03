@@ -1,5 +1,5 @@
 /* ──────────────────────────────────────────────────────────────
-   UNDEAD ORDINALS — content/lore data
+   UNDEAD ORDINALS, content/lore data
    Sourced from the whitepaper (README.md). Keeping it as data means
    the pages stay layout; copy edits happen here.
    ────────────────────────────────────────────────────────────── */
@@ -17,7 +17,7 @@ export type Faction = {
 export const FACTIONS: Faction[] = [
   {
     id: "phantom",
-    name: "Phase-Shift Phantoms",
+    name: "Phase Shift Phantoms",
     identity: "The unstable and elusive.",
     design:
       "Glitched skeletons with cyan laser eyes and visual artifacts drawn from unconfirmed transactions. They flicker between states, never fully here.",
@@ -29,7 +29,7 @@ export const FACTIONS: Faction[] = [
     name: "Coronal Berserkers",
     identity: "The burning and relentless.",
     design:
-      "Flame-covered warriors forged from mining heat and raw computation. They burn through the Catacombs and never cool down.",
+      "Flame covered warriors forged from mining heat and raw computation. They burn through the Catacombs and never cool down.",
     color: FACTION_COLOR.berserker,
     image: ASSET.berserker,
   },
@@ -38,7 +38,7 @@ export const FACTIONS: Faction[] = [
     name: "Synthesized Neomancers",
     identity: "The augmented and arcane.",
     design:
-      "Cybernetic undead with exposed brains and computational enhancements. Half necromancer, half machine — rebuilt to outthink the chain.",
+      "Cybernetic undead with exposed brains and computational enhancements. Half necromancer, half machine, rebuilt to outthink the chain.",
     color: FACTION_COLOR.neomancer,
     image: ASSET.neomancer,
   },
@@ -47,7 +47,7 @@ export const FACTIONS: Faction[] = [
     name: "Titanium Wardens",
     identity: "The resilient and defensive.",
     design:
-      "Armored guardians sealed in metal that refuses to break. They represent strength, security and resistance — the wall the dead hide behind.",
+      "Armored guardians sealed in metal that refuses to break. They represent strength, security and resistance, the wall the dead hide behind.",
     color: FACTION_COLOR.warden,
     image: ASSET.warden,
   },
@@ -73,7 +73,7 @@ export type Chamber = { numeral: string; name: string; effect: string; chance: s
 
 export const CHAMBERS: Chamber[] = [
   { numeral: "I",   name: "Wild Reanimation",     effect: "One extra roll on the reward table.",                 chance: "8%" },
-  { numeral: "II",  name: "Coronal Surge",        effect: "$GRAVE payout multiplied 2×–15× (capped at 20× fee).", chance: "3%" },
+  { numeral: "II",  name: "Coronal Surge",        effect: "$GRAVE payout multiplied 2× to 15× (capped at 20× fee).", chance: "3%" },
   { numeral: "III", name: "Consensus Conjunction", effect: "Up to two chambers trigger together.",                chance: "1%" },
   { numeral: "IV",  name: "Glitch Cleansing",     effect: "Removes the lowest reward tier; odds rescale.",        chance: "6%" },
   { numeral: "V",   name: "Mempool Dilation",     effect: "Adds an extra material type to the pool.",             chance: "6%" },
@@ -123,7 +123,7 @@ export const ROADMAP: RoadmapPhase[] = [
       "Publish simulation results and final parameters",
       "Deploy the $GRAVE Rune",
       "Convert Grave Points to $GRAVE",
-      "Enable token-based expeditions and evolution",
+      "Enable token based expeditions and evolution",
     ],
   },
   {
@@ -142,7 +142,7 @@ export type Faq = { q: string; a: string };
 export const FAQ: Faq[] = [
   {
     q: "Do I have to connect my wallet to verify?",
-    a: "No. We never ask you to connect a wallet, sign a transaction, or share a seed phrase. You paste your public address and we check it against the holder snapshot. That's the whole flow — nothing can touch your funds.",
+    a: "No. We never ask you to connect a wallet, sign a transaction, or share a seed phrase. You paste your public address and we check it against the holder snapshot. That's the whole flow, nothing can touch your funds.",
   },
   {
     q: "What am I actually buying?",
@@ -150,23 +150,23 @@ export const FAQ: Faq[] = [
   },
   {
     q: "What is the Catacombs of Consensus?",
-    a: "The core game. Holders send an Undead on an expedition, pay a $GRAVE entry fee, and receive an outcome from published odds and chamber modifiers. Only token deposits and withdrawals are Bitcoin transactions; the game logic runs off-chain and is reproducible from public records.",
+    a: "The core game. Holders send an Undead on an expedition, pay a $GRAVE entry fee, and receive an outcome from published odds and chamber modifiers. Only token deposits and withdrawals are Bitcoin transactions; the game logic runs off chain and is reproducible from public records.",
   },
   {
     q: "What is $GRAVE?",
-    a: "The ecosystem utility token, issued with Bitcoin's Runes protocol. Max supply 21,000,000. It fuels expeditions, staking rewards and evolution. It is not an investment — no price, return or appreciation is promised.",
+    a: "The ecosystem utility token, issued with Bitcoin's Runes protocol. Max supply 21,000,000. It fuels expeditions, staking rewards and evolution. It is not an investment, no price, return or appreciation is promised.",
   },
   {
     q: "Does evolution burn my NFT?",
-    a: "Never. Evolution consumes materials earned in expeditions and $GRAVE. Your inscription is never burned — the companion metadata layer changes, the original artwork on Bitcoin stays untouched.",
+    a: "Never. Evolution consumes materials earned in expeditions and $GRAVE. Your inscription is never burned, the companion metadata layer changes, the original artwork on Bitcoin stays untouched.",
   },
   {
     q: "Is any of this audited or trustless?",
-    a: "We don't call anything audited, trustless or exploit-proof until a completed review supports it. Bitcoin secures ownership and token balances; the game engine and verifier are operated by us, with public logs so you can check our work.",
+    a: "We don't call anything audited, trustless or exploit proof until a completed review supports it. Bitcoin secures ownership and token balances; the game engine and verifier are operated by us, with public logs so you can check our work.",
   },
 ];
 
-/* Trust model — what lives where. Honesty is a selling point in this
+/* Trust model, what lives where. Honesty is a selling point in this
    market, so it gets its own section. */
 export const TRUST = [
   { component: "Undead artwork",        where: "Bitcoin (Ordinals)",   trust: "Bitcoin consensus only. Immutable." },

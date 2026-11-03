@@ -105,6 +105,19 @@ body::after {
   50%      { transform: translateY(-9px); }
 }
 
+/* Spider on a thread — a gentle pendulum. */
+@keyframes sway {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(4deg); }
+}
+
+/* Low mist drifting sideways at the base of sections. */
+@keyframes fog {
+  0%   { transform: translateX(-4%); }
+  50%  { transform: translateX(4%); }
+  100% { transform: translateX(-4%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

@@ -73,11 +73,13 @@ export const DISCORD = ""; // leave "" to hide
 
 /* ── Assets in /public ── */
 export const ASSET = {
-  logo:      "/LOGO.jpg",
-  phantom:   "/SKELETON_ONE.png", // cyan laser-eye skeleton
-  berserker: "/skull_2.png",      // red-flame skeleton
-  neomancer: "/skull_4.png",      // exposed-brain cyber skeleton
-  warden:    "/LOGO.jpg",         // blue-flame skull (stand-in until Warden art lands)
+  logo:      "/LOGO.jpg",          // flat logo (favicon / social card)
+  hardLogo:  "/Undeadlogo.png",    // transparent skull — the header mark
+  video:     "/paddling_boat.mp4", // hero animation (skeleton crossing to the Bitcoin moon)
+  phantom:   "/SKELETON_ONE.png",  // cyan laser-eye skeleton
+  berserker: "/skull_2.png",       // red-flame skeleton
+  neomancer: "/skull_4.png",       // exposed-brain cyber skeleton
+  warden:    "/SKELETON_TWO.png",  // armoured stand-in until Warden art lands
 } as const;
 
 /* ════════════════════════════════════════════════════════════════
@@ -99,15 +101,27 @@ export const DB = {
 export const CLAIM_TOTAL = 6000;
 export const SHOW_REMAINING = false;
 
+/* Holder verification is gated until the snapshot is imported. While
+   false, /verify shows the whitelisted collections as "coming soon"
+   instead of a live claim form. Flip to true once the snapshot is in. */
+export const VERIFY_LIVE = false;
+
+/* OG Bitcoin Ordinals collections targeted for the verified-holder
+   raffle. These are a strong, credible starter set — the ones with the
+   most engaged, most-respected holder bases. Final list is confirmed
+   before the snapshot. ETH collections open in a later phase. */
 export type Community = { key: string; name: string; kind: "ordinals" | "eth" };
 export const COMMUNITIES: Community[] = [
   { key: "NodeMonkes",      name: "NodeMonkes",       kind: "ordinals" },
   { key: "Bitcoin Puppets", name: "Bitcoin Puppets",  kind: "ordinals" },
+  { key: "Taproot Wizards", name: "Taproot Wizards",  kind: "ordinals" },
   { key: "Quantum Cats",    name: "Quantum Cats",     kind: "ordinals" },
   { key: "Runestone",       name: "Runestone",        kind: "ordinals" },
   { key: "OMB",             name: "Ordinal Maxi Biz", kind: "ordinals" },
+  { key: "Ordinal Punks",   name: "Ordinal Punks",    kind: "ordinals" },
   { key: "Bitcoin Frogs",   name: "Bitcoin Frogs",    kind: "ordinals" },
   { key: "Pizza Ninjas",    name: "Pizza Ninjas",     kind: "ordinals" },
+  { key: "RSIC",            name: "RSIC Genesis",     kind: "ordinals" },
   { key: "Basedangels",     name: "Based Angels",     kind: "eth" },
   { key: "Miladys",         name: "Milady Maker",     kind: "eth" },
   { key: "Lilpudgys",       name: "Lil Pudgys",       kind: "eth" },

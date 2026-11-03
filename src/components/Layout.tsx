@@ -1,8 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { C, display, serif } from "@/lib/theme";
-import { ACTIVE_PHASE, PROJECT, X_URL, X_HANDLE, DISCORD } from "@/lib/theme";
-import { Btn, Sigil } from "@/components/ui";
+import { ACTIVE_PHASE, PROJECT, X_URL, X_HANDLE, DISCORD, ASSET } from "@/lib/theme";
+import { Btn, Sigil, Gravestones } from "@/components/ui";
 
 const NAV: [string, string][] = [
   ["Collection", "/collection"],
@@ -43,8 +43,9 @@ function Nav() {
       transition: "background .3s, border-color .3s",
     }}>
       <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 clamp(16px,5vw,44px)", height: 70, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Sigil size={34} color={C.ember} spin />
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 11 }}>
+          <img src={ASSET.hardLogo} alt="Undead Ordinals" width={38} height={38}
+            style={{ width: 38, height: 38, objectFit: "contain", filter: `drop-shadow(0 0 7px ${C.ember}55)`, animation: "flick 7s infinite" }} />
           <span style={{ fontFamily: display, fontSize: "0.92rem", color: C.boneHi, letterSpacing: "0.02em" }}>
             Undead&nbsp;Ordinals
           </span>
@@ -98,7 +99,8 @@ function Footer() {
   if (DISCORD) links.splice(1, 0, ["Discord", DISCORD]);
   return (
     <footer style={{ background: C.slab, borderTop: `1px solid ${C.stoneUp}`, position: "relative", zIndex: 1 }}>
-      <div style={{ maxWidth: 1120, margin: "0 auto", padding: "clamp(48px,7vw,72px) clamp(16px,5vw,44px)", display: "grid", gap: 28, textAlign: "center", justifyItems: "center" }}>
+      <div style={{ opacity: 0.8, marginBottom: -2 }}><Gravestones color={C.ash} height={54} /></div>
+      <div style={{ maxWidth: 1120, margin: "0 auto", padding: "clamp(30px,5vw,52px) clamp(16px,5vw,44px) clamp(48px,7vw,72px)", display: "grid", gap: 28, textAlign: "center", justifyItems: "center" }}>
         <Sigil size={52} color={C.ember} />
         <div>
           <p style={{ fontFamily: display, fontSize: "1.05rem", color: C.boneHi, margin: "0 0 10px", letterSpacing: "0.02em" }}>Undead Ordinals</p>
@@ -115,8 +117,8 @@ function Footer() {
           })}
         </div>
         <p style={{ fontFamily: serif, fontSize: "0.92rem", color: C.faint, margin: 0, lineHeight: 1.7, maxWidth: "62ch" }}>
-          {PROJECT.token} is a utility token, not an investment — no price, return or appreciation is promised, and nothing
-          here is financial advice. Milestones are not guarantees of delivery on any date. Born from forgotten blocks,
+          {PROJECT.token} is a utility token, not an investment, and no price, return or appreciation is promised. Nothing
+          here is financial advice, and milestones are not guarantees of delivery on any date. Born from forgotten blocks,
           resurrected on Bitcoin, built to outlive the cycle.
         </p>
       </div>

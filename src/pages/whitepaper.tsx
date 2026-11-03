@@ -9,7 +9,7 @@ import { PROJECT, X_URL } from "@/lib/theme";
 import { FAQ, TRUST } from "@/lib/lore";
 
 const PRINCIPLES: [string, string][] = [
-  ["Bitcoin-native assets", "The collection and $GRAVE are built on Bitcoin infrastructure."],
+  ["Bitcoin native assets", "The collection and $GRAVE are built on Bitcoin infrastructure."],
   ["You keep your Undead", "No deposits, no custody, no staking contract holding your inscription."],
   ["Published rules", "Fees, odds, modifiers, cooldowns and caps are public and versioned."],
   ["Progression without rewriting history", "Evolution changes the companion layer, never the inscription."],
@@ -22,7 +22,7 @@ function Accordion({ q, a, open, onToggle }: { q: string; a: string; open: boole
     <div style={{ position: "relative", border: `1px solid ${open ? C.ember : C.stoneUp}`, background: C.stone, transition: "border-color .2s" }}>
       <button onClick={onToggle} style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 14, background: "transparent", border: "none", cursor: "pointer", padding: "18px clamp(16px,3vw,22px)", textAlign: "left" }}>
         <span style={{ fontFamily: display, fontSize: "0.8rem", color: open ? C.ember : C.boneHi, lineHeight: 1.4 }}>{q}</span>
-        <span style={{ fontFamily: display, fontSize: "0.9rem", color: open ? C.ember : C.muted, flexShrink: 0 }}>{open ? "–" : "+"}</span>
+        <span style={{ fontFamily: display, fontSize: "0.9rem", color: open ? C.ember : C.muted, flexShrink: 0 }}>{open ? "▴" : "▾"}</span>
       </button>
       <AnimatePresence initial={false}>
         {open && (
@@ -46,8 +46,8 @@ export default function Whitepaper() {
             <div style={{ display: "inline-flex", marginBottom: 18 }}><Tag>Official whitepaper</Tag></div>
             <Wordmark size="clamp(1.8rem,6.5vw,3.4rem)" style={{ display: "block" }}>THE RECORD</Wordmark>
             <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.1rem,2.6vw,1.4rem)", color: C.muted, maxWidth: "58ch", margin: "22px 0 0", lineHeight: 1.6 }}>
-              Every rule that matters — fees, odds, emissions, vesting — written down, with a plain line between what runs
-              on Bitcoin and what runs on our servers.
+              Every rule that matters is written down: fees, odds, emissions and vesting, with a plain line between what
+              runs on Bitcoin and what runs on our servers.
             </p>
           </Reveal>
         </div>
@@ -62,9 +62,9 @@ export default function Whitepaper() {
             </p>
             <p style={{ fontFamily: serif, fontSize: "1.06rem", color: C.muted, lineHeight: 1.85, margin: 0 }}>
               Undead Ordinals is a collection of {PROJECT.supply.toLocaleString()} undead artifacts inscribed on Bitcoin,
-              and the foundation of a Bitcoin-native gaming ecosystem. Holders send their Undead into the Catacombs of
+              and the foundation of a Bitcoin native gaming ecosystem. Holders send their Undead into the Catacombs of
               Consensus, earn materials and rewards, evolve their characters, and take part in an economy powered by the
-              {" "}{PROJECT.token} Rune. Three ideas drive it: permanence, play, and clarity — the artwork lives on Bitcoin
+              {" "}{PROJECT.token} Rune. Three ideas drive it: permanence, play, and clarity, the artwork lives on Bitcoin
               and never changes, the game gives holders reasons to return after the mint, and every rule that matters is
               written down.
             </p>

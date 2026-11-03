@@ -10,7 +10,7 @@ const LOOP: [string, string][] = [
   ["Select", "Choose an eligible Undead from a verified wallet."],
   ["Commit", "Pick a tier, review its odds, and pay the entry fee in $GRAVE."],
   ["Resolve", "The outcome is generated from published odds, seeded by Bitcoin block data."],
-  ["Claim", "Take $GRAVE, materials or a relic — or the fee is consumed on a failed run."],
+  ["Claim", "Take $GRAVE, materials or a relic, or the fee is consumed on a failed run."],
   ["Reinvest", "Feed rewards back into new expeditions, or into evolution."],
 ];
 
@@ -32,15 +32,15 @@ export default function Catacombs() {
             <Wordmark size="clamp(1.5rem,5.6vw,3rem)" style={{ display: "block" }}>CATACOMBS OF</Wordmark>
             <Wordmark size="clamp(1.5rem,5.6vw,3rem)" style={{ display: "block", marginTop: 2 }}>CONSENSUS</Wordmark>
             <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.1rem,2.6vw,1.4rem)", color: C.muted, maxWidth: "58ch", margin: "22px 0 0", lineHeight: 1.6 }}>
-              A risk-and-reward expedition game. Send an Undead into the dark, pay a {PROJECT.token} fee, and take the
-              outcome the published odds give you. Only token deposits and withdrawals touch Bitcoin — the game logic runs
-              off-chain and stays reproducible from public records.
+              A risk and reward expedition game. Send an Undead into the dark, pay a {PROJECT.token} fee, and take the
+              outcome the published odds give you. Only token deposits and withdrawals touch Bitcoin, the game logic runs
+              off chain and stays reproducible from public records.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* expedition loop — true sequence */}
+      {/* expedition loop, true sequence */}
       <Section tone="slab" style={{ paddingTop: "clamp(36px,6vw,64px)" }}>
         <SectionHead designation="The expedition loop" title="Send them down. Bring back what the chain gives up." />
         <div style={{ display: "grid", gap: 12 }}>
@@ -88,8 +88,8 @@ export default function Catacombs() {
         <Reveal delay={0.1}>
           <Plate corners={C.rune} pad={20} style={{ marginTop: 16 }}>
             <p style={{ fontFamily: serif, fontSize: "1.02rem", color: C.muted, margin: 0, lineHeight: 1.8 }}>
-              The design target returns roughly 70–85% of fees paid to players as {PROJECT.token}, with the rest delivered
-              as materials and relics — so the game stays a net token sink. Outcomes use a commit-reveal scheme seeded with
+              The design target returns roughly 70 to 85% of fees paid to players as {PROJECT.token}, with the rest delivered
+              as materials and relics, so the game stays a net token sink. Outcomes use a commit reveal scheme seeded with
               a future Bitcoin block hash, which anyone can recompute from public data. A block hash alone is never
               described as a complete randomness solution.
             </p>
@@ -99,7 +99,7 @@ export default function Catacombs() {
 
       {/* chambers */}
       <Section tone="slab">
-        <SectionHead designation="The five crypt chambers" title="Modifiers that stir mid-expedition." color={C.rune} />
+        <SectionHead designation="The five crypt chambers" title="Modifiers that stir mid expedition." color={C.rune} />
         <div style={{ display: "grid", gap: 10 }}>
           {CHAMBERS.map((c, i) => (
             <Reveal key={c.numeral} delay={i * 0.04}>
@@ -121,7 +121,7 @@ export default function Catacombs() {
       <Section tone="ash">
         <div className="uo-two" style={{ display: "grid", gap: "clamp(24px,4vw,48px)", gridTemplateColumns: "1fr", alignItems: "start" }}>
           <Reveal>
-            <SectionHead designation={`${PROJECT.token} — the ecosystem Rune`} title="A capped, budgeted, Bitcoin-native token." color={C.ember} />
+            <SectionHead designation={`${PROJECT.token}, the ecosystem Rune`} title="A capped, budgeted, Bitcoin native token." color={C.ember} />
             <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.muted, lineHeight: 1.85 }}>
               Issued with Bitcoin's Runes protocol, maximum supply {PROJECT.tokenSupply}. It fuels expeditions, staking
               rewards and evolution. Runes handles balances and transfers; it does not execute game rules.
@@ -162,7 +162,7 @@ export default function Catacombs() {
             <Plate corners={C.oxblood} pad={24} style={{ height: "100%" }}>
               <div style={{ display: "inline-flex", marginBottom: 14 }}><Tag color={C.oxblood}>Burn to evolve</Tag></div>
               <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.muted, lineHeight: 1.8, margin: "0 0 14px" }}>
-                Evolution unlocks new looks and eligible upgrades — titanium armour, burning crowns, cybernetic
+                Evolution unlocks new looks and eligible upgrades, titanium armour, burning crowns, cybernetic
                 enhancements, rare transformations. It consumes materials and {PROJECT.token}, never your NFT.
               </p>
               <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "1.12rem", color: C.bone, margin: 0, lineHeight: 1.5 }}>
@@ -172,9 +172,9 @@ export default function Catacombs() {
           </Reveal>
           <Reveal delay={0.08}>
             <Plate corners={C.rune} pad={24} style={{ height: "100%" }}>
-              <div style={{ display: "inline-flex", marginBottom: 14 }}><Tag color={C.rune}>Wallet-verified soft staking</Tag></div>
+              <div style={{ display: "inline-flex", marginBottom: 14 }}><Tag color={C.rune}>Wallet verified soft staking</Tag></div>
               <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.muted, lineHeight: 1.8, margin: "0 0 14px" }}>
-                Your Undead stays in your wallet. Staking is tracked, not custodial — sign a one-time challenge and earn
+                Your Undead stays in your wallet. Staking is tracked, not custodial, sign a one time challenge and earn
                 Grave Points per hour while the condition holds. No deposits, no contract holds your inscription.
               </p>
               <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "1.12rem", color: C.bone, margin: 0, lineHeight: 1.5 }}>

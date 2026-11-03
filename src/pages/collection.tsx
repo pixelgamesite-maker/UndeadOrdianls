@@ -26,7 +26,7 @@ export default function Collection() {
             <div style={{ display: "inline-flex", marginBottom: 18 }}><Tag>The collection</Tag></div>
             <Wordmark size="clamp(1.8rem,6.5vw,3.4rem)" style={{ display: "block" }}>THE UNDEAD</Wordmark>
             <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.1rem,2.6vw,1.4rem)", color: C.muted, maxWidth: "56ch", margin: "22px 0 0", lineHeight: 1.6 }}>
-              {PROJECT.supply.toLocaleString()} unique inscriptions on Bitcoin Mainnet — undead, cyberpunk, dark fantasy,
+              {PROJECT.supply.toLocaleString()} unique inscriptions on Bitcoin Mainnet, undead, cyberpunk, dark fantasy,
               each carrying the scars of the digital afterlife. The original artwork lives on Bitcoin and never changes.
             </p>
           </Reveal>

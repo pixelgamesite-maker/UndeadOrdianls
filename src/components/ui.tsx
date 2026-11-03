@@ -189,4 +189,77 @@ export function Live({ label, color = C.ember }: { label: string; color?: string
   );
 }
 
+/* ════════════════════════════════════════════════════════════════
+   Seasonal (Halloween) — kept quiet and low-opacity so it reads as
+   atmosphere, not decoration. A corner cobweb, a hanging spider, a
+   graveyard silhouette, a low mist.
+   ════════════════════════════════════════════════════════════════ */
+
+/* Corner cobweb. `corner` places it; it mirrors via scale. */
+export function Cobweb({ corner = "tl", size = 150, color = C.bone, opacity = 0.12 }: { corner?: "tl" | "tr" | "bl" | "br"; size?: number; color?: string; opacity?: number }) {
+  const sx = corner === "tr" || corner === "br" ? -1 : 1;
+  const sy = corner === "bl" || corner === "br" ? -1 : 1;
+  const pos: CSSProperties =
+    corner === "tl" ? { top: 0, left: 0 } :
+    corner === "tr" ? { top: 0, right: 0 } :
+    corner === "bl" ? { bottom: 0, left: 0 } : { bottom: 0, right: 0 };
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden
+      style={{ position: "absolute", ...pos, transform: `scale(${sx},${sy})`, opacity, pointerEvents: "none" }}>
+      {/* radial strands */}
+      {[0, 18, 36, 54, 72, 90].map((a) => {
+        const rad = (a * Math.PI) / 180;
+        return <line key={a} x1="0" y1="0" x2={100 * Math.cos(rad)} y2={100 * Math.sin(rad)} stroke={color} strokeWidth="0.6" />;
+      })}
+      {/* connecting arcs */}
+      {[20, 38, 56, 74, 92].map((r) => (
+        <path key={r} d={`M ${r} 0 Q ${r * 0.62} ${r * 0.62} 0 ${r}`} stroke={color} strokeWidth="0.5" fill="none" />
+      ))}
+    </svg>
+  );
+}
+
+/* A small pixel spider hanging on a thread. */
+export function Spider({ drop = 90, size = 16, color = C.bone }: { drop?: number; size?: number; color?: string }) {
+  return (
+    <div aria-hidden style={{ position: "absolute", top: 0, display: "flex", flexDirection: "column", alignItems: "center", transformOrigin: "top center", animation: "sway 5s ease-in-out infinite", pointerEvents: "none" }}>
+      <div style={{ width: 1, height: drop, background: `linear-gradient(${C.bone}44, ${C.bone}22)` }} />
+      <svg width={size} height={size} viewBox="0 0 16 16" style={{ marginTop: -1 }}>
+        <circle cx="8" cy="8" r="3.4" fill={color} />
+        <circle cx="8" cy="4.6" r="2" fill={color} />
+        {[-1, 1].map((s) => [0, 1, 2].map((i) => (
+          <line key={`${s}-${i}`} x1="8" y1="8" x2={8 + s * 7} y2={3 + i * 4} stroke={color} strokeWidth="0.9" />
+        )))}
+      </svg>
+    </div>
+  );
+}
+
+/* Graveyard horizon — a silhouette strip of headstones + a cross. */
+export function Gravestones({ color = C.slab, height = 56 }: { color?: string; height?: number }) {
+  return (
+    <svg width="100%" height={height} viewBox="0 0 400 56" preserveAspectRatio="none" aria-hidden style={{ display: "block", pointerEvents: "none" }}>
+      <g fill={color}>
+        <path d="M14 56 L14 26 Q14 18 24 18 Q34 18 34 26 L34 56 Z" />
+        <rect x="70" y="30" width="16" height="26" />
+        <path d="M120 56 L120 22 Q120 14 131 14 Q142 14 142 22 L142 56 Z" />
+        <g>
+          <rect x="188" y="14" width="6" height="42" />
+          <rect x="178" y="22" width="26" height="6" />
+        </g>
+        <rect x="236" y="28" width="18" height="28" />
+        <path d="M286 56 L286 24 Q286 16 297 16 Q308 16 308 24 L308 56 Z" />
+        <rect x="344" y="32" width="15" height="24" />
+      </g>
+    </svg>
+  );
+}
+
+/* Low drifting mist for the base of a section. */
+export function Fog({ color = C.rune }: { color?: string }) {
+  return (
+    <div aria-hidden style={{ position: "absolute", left: "-6%", right: "-6%", bottom: 0, height: 120, pointerEvents: "none", background: `linear-gradient(to top, ${color}18, transparent)`, filter: "blur(10px)", animation: "fog 13s ease-in-out infinite" }} />
+  );
+}
+
 export { C, display, serif };

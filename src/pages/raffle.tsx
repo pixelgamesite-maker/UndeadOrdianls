@@ -68,7 +68,7 @@ function LinkStep({ value, onChange, onSave, saved, placeholder, launch }: { val
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && isXLink(value) && onSave()}
         onFocus={(e) => (e.target.style.borderColor = C.ember)} onBlur={(e) => (e.target.style.borderColor = C.stoneUp)} />
-      {value && !isXLink(value) && <p style={{ fontFamily: serif, fontSize: "0.94rem", color: C.oxblood, margin: "7px 0 0" }}>That needs to be a real x.com link — paste the full URL.</p>}
+      {value && !isXLink(value) && <p style={{ fontFamily: serif, fontSize: "0.94rem", color: C.oxblood, margin: "7px 0 0" }}>That needs to be a real x.com link, paste the full URL.</p>}
       {isXLink(value) && !saved && <Act onClick={onSave}>Save link</Act>}
     </>
   );
@@ -133,7 +133,7 @@ export default function Raffle() {
     <>
       <section style={{ padding: "clamp(50px,8vw,90px) clamp(18px,5vw,44px) clamp(22px,4vw,36px)", textAlign: "center" }}>
         <div style={{ maxWidth: 640, margin: "0 auto" }}>
-          <div style={{ display: "inline-flex", marginBottom: 16 }}><Tag color={C.ember}>{isWaitlist ? "Public phase — open to all" : "Raffle phase — live"}</Tag></div>
+          <div style={{ display: "inline-flex", marginBottom: 16 }}><Tag color={C.ember}>{isWaitlist ? "Public phase, open to all" : "Raffle phase, live"}</Tag></div>
           <Wordmark size="clamp(1.5rem,6vw,2.8rem)">{title}</Wordmark>
           <p className="standfirst" style={{ fontFamily: serif, fontSize: "1.1rem", color: C.muted, margin: "18px auto 0", maxWidth: "48ch", lineHeight: 1.6 }}>{lead}</p>
         </div>
@@ -148,7 +148,7 @@ export default function Raffle() {
                 <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}><Sigil size={58} color={C.ember} /></div>
                 <h2 style={{ fontFamily: display, fontSize: "0.95rem", margin: "0 0 12px", color: C.boneHi }}>{sent ? "You're in" : "Already entered"}</h2>
                 <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.muted, margin: 0, lineHeight: 1.75 }}>
-                  Your entry is recorded. Selected addresses are announced on X before mint — watch {X_HANDLE}. The louder
+                  Your entry is recorded. Selected addresses are announced on X before mint, watch {X_HANDLE}. The louder
                   the horde, the better the draw.
                 </p>
                 <div style={{ marginTop: 22, display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
@@ -202,7 +202,7 @@ export default function Raffle() {
           </div>
 
           <p style={{ fontFamily: serif, fontSize: "0.96rem", color: C.faint, textAlign: "center", margin: "18px auto 0", maxWidth: "48ch", lineHeight: 1.6 }}>
-            Hold an OG Ordinals or ETH NFT? <Link href="/verify" style={{ color: C.rune }}>Verify your holdings</Link> for a priority spot — no wallet connect required.
+            Hold an OG Ordinals or ETH NFT? <Link href="/verify" style={{ color: C.rune }}>Verify your holdings</Link> for a priority spot, no wallet connect required.
           </p>
         </div>
       </Section>
