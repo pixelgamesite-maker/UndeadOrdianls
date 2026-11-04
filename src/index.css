@@ -15,7 +15,7 @@ body {
   margin: 0;
   background: #100D16;
   color: #E8DDC6;
-  font-family: 'Spectral', 'Iowan Old Style', Georgia, serif;
+  font-family: 'Pixelify Sans', 'Trebuchet MS', sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -125,6 +125,19 @@ body::after {
   40% { transform: translateX(7px); }
   60% { transform: translateX(-5px); }
   80% { transform: translateX(4px); }
+}
+
+/* Blinking "press start" style prompt. */
+@keyframes blink {
+  0%, 48% { opacity: 1; }
+  50%, 98% { opacity: 0.12; }
+  100% { opacity: 1; }
+}
+
+/* Torchlight pulse for scene glows. */
+@keyframes torch {
+  0%, 100% { opacity: 0.85; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.18); }
 }
 
 @media (prefers-reduced-motion: reduce) {

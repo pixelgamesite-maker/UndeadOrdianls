@@ -7,10 +7,9 @@ import { playClick, startMusic } from "@/lib/audio";
 
 import Home from "@/pages/home";
 import Collection from "@/pages/collection";
-import Catacombs from "@/pages/catacombs";
+import Whitelist from "@/pages/whitelist";
+import Crypts from "@/pages/crypts";
 import Whitepaper from "@/pages/whitepaper";
-import Raffle from "@/pages/raffle";
-import Verify from "@/pages/verify";
 
 function ScrollTop() {
   const [loc] = useLocation();
@@ -59,10 +58,13 @@ export default function App() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/collection" component={Collection} />
-          <Route path="/catacombs" component={Catacombs} />
+          <Route path="/crypts" component={Crypts} />
+          <Route path="/whitelist" component={Whitelist} />
           <Route path="/whitepaper" component={Whitepaper} />
-          <Route path="/raffle" component={Raffle} />
-          <Route path="/verify" component={Verify} />
+          {/* legacy redirects */}
+          <Route path="/verify" component={Whitelist} />
+          <Route path="/raffle" component={Whitelist} />
+          <Route path="/catacombs" component={Crypts} />
           <Route component={NotFound} />
         </Switch>
       </Layout>

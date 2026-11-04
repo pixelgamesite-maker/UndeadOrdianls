@@ -37,16 +37,16 @@ export const FACTION_COLOR = {
 } as const;
 
 /* ── Typography ───────────────────────────────────────────────
-   Two families only:
-   - display : "DotGothic16"  — pixel-gothic; wordmark, headers, data
-   - serif   : "Spectral"     — literary serif; all body prose
-   The pixel identity lives in the display face + the art; prose is a
-   grimoire serif so long text stays legible and the page reads crafted,
-   not arcade. (Loaded in index.html — no FOUC.)                      */
-export const display = "'DotGothic16', 'Courier New', monospace";
-export const serif = "'Spectral', 'Iowan Old Style', Georgia, serif";
-/* kept so existing imports resolve; data/addresses use the pixel face */
-export const body = serif;
+   A dungeon-game stack:
+   - black   : "Jacquard 24"   — pixel blackletter; the wordmark + big titles
+   - display : "Pixelify Sans" — pixel UI; menu, labels, buttons, data
+   - body    : "Pixelify Sans" — readable pixel body for prose
+   (Loaded in index.html — no FOUC.)                                   */
+export const black = "'Jacquard 24', 'DotGothic16', monospace";
+export const display = "'Pixelify Sans', 'Courier New', monospace";
+export const body = "'Pixelify Sans', 'Trebuchet MS', sans-serif";
+/* kept so existing imports resolve */
+export const serif = body;
 export const mono = display;
 
 /* ════════════════════════════════════════════════════════════════
@@ -82,6 +82,8 @@ export const ASSET = {
   warden:    "/SKELETON_TWO.png",  // armoured stand-in until Warden art lands
   // dungeon atmosphere + audio (public/assets)
   wall:      "/assets/undeadbackground.jpg", // mossy dungeon-brick page background
+  doorShut:  "/assets/closed.PNG",           // whitelist: locked door
+  doorOpen:  "/assets/open.PNG",             // whitelist: open door (registered)
   music:     "/assets/backgroundmusic.mp3",  // looping ambient score
   sfx:       "/assets/select.mp3",           // UI click / select sound
 } as const;

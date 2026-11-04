@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { CSSProperties, ReactNode } from "react";
-import { C, display, serif } from "@/lib/theme";
+import { C, display, serif, black } from "@/lib/theme";
 
 /* ════════════════════════════════════════════════════════════════
    The reliquary kit. Specimen plates with corner brackets, sharp
@@ -81,7 +81,7 @@ export function SectionHead({
           <span style={{ fontFamily: display, fontSize: "0.7rem", color, letterSpacing: "0.04em" }}>{designation}</span>
         </div>
       )}
-      <h2 style={{ fontFamily: display, fontWeight: 400, color: C.boneHi, fontSize: "clamp(1.5rem,4.2vw,2.5rem)", lineHeight: 1.25, margin: 0, letterSpacing: "0.005em" }}>{title}</h2>
+      <h2 style={{ fontFamily: black, fontWeight: 400, color: C.boneHi, fontSize: "clamp(2rem,5.5vw,3.4rem)", lineHeight: 1.1, margin: 0, letterSpacing: "0.01em" }}>{title}</h2>
       {standfirst && (
         <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.05rem,2.3vw,1.3rem)", color: C.muted, lineHeight: 1.6, margin: "18px 0 0", maxWidth: "60ch", marginInline: align === "center" ? "auto" : undefined }}>
           {standfirst}
@@ -128,8 +128,8 @@ export function Btn({
 /* ── Wordmark: pixel face with a static two-colour misregistration
    (ember + verdigris ghosts), like a misprinted relic label. Not an
    animated RGB glitch. ── */
-export function Wordmark({ children, size = "clamp(2rem,8vw,4.6rem)", style }: { children: string; size?: string; style?: CSSProperties }) {
-  const base: CSSProperties = { fontFamily: display, color: C.boneHi, fontSize: size, lineHeight: 1.08, position: "relative", display: "inline-block", letterSpacing: "0.01em", ...style };
+export function Wordmark({ children, size = "clamp(2.4rem,9vw,5.4rem)", style }: { children: string; size?: string; style?: CSSProperties }) {
+  const base: CSSProperties = { fontFamily: black, color: C.boneHi, fontSize: size, lineHeight: 1.05, position: "relative", display: "inline-block", letterSpacing: "0.01em", ...style };
   const ghost = (color: string, dx: number, dy: number): CSSProperties => ({ position: "absolute", inset: 0, color, transform: `translate(${dx}px,${dy}px)`, opacity: 0.6, pointerEvents: "none" });
   return (
     <span style={base} aria-label={children}>
@@ -262,4 +262,4 @@ export function Fog({ color = C.rune }: { color?: string }) {
   );
 }
 
-export { C, display, serif };
+export { C, display, serif, black };
