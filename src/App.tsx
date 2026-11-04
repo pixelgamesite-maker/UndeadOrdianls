@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Router, Route, Switch, useLocation, Link } from "wouter";
 import Layout from "@/components/Layout";
-import { Btn, Wordmark, Sigil, C, display, serif } from "@/components/ui";
+import Intro from "@/components/Intro";
+import { Btn, Wordmark, Sigil, C, serif } from "@/components/ui";
+import { playClick, startMusic } from "@/lib/audio";
 
 import Home from "@/pages/home";
 import Collection from "@/pages/collection";
@@ -10,7 +12,6 @@ import Whitepaper from "@/pages/whitepaper";
 import Raffle from "@/pages/raffle";
 import Verify from "@/pages/verify";
 
-/* Scroll to top on every route change. */
 function ScrollTop() {
   const [loc] = useLocation();
   useEffect(() => { window.scrollTo(0, 0); }, [loc]);
@@ -31,6 +32,26 @@ function NotFound() {
 }
 
 export default function App() {
+  const [entered, setEntered] = useState(() => {
+    try { return sessionStorage.getItem("uo_entered") === "1"; } catch { return false; }
+  });
+
+  /* UI click sound + first-gesture music start, for every button/link. */
+  useEffect(() => {
+    const h = (e: PointerEvent) => {
+      const t = e.target as HTMLElement | null;
+      startMusic();
+      if (t && t.closest && t.closest("button, a")) playClick();
+    };
+    window.addEventListener("pointerdown", h);
+    return () => window.removeEventListener("pointerdown", h);
+  }, []);
+
+  function enter() {
+    try { sessionStorage.setItem("uo_entered", "1"); } catch { /* ignore */ }
+    setEntered(true);
+  }
+
   return (
     <Router>
       <ScrollTop />
@@ -45,6 +66,7 @@ export default function App() {
           <Route component={NotFound} />
         </Switch>
       </Layout>
+      {!entered && <Intro onEnter={enter} />}
     </Router>
   );
 }

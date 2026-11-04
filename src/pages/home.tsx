@@ -1,20 +1,19 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
-  Section, SectionHead, Btn, Wordmark, Sigil, Reveal, Tag, Seq, Corners, Cobweb, Spider, Fog,
+  Section, SectionHead, Btn, Wordmark, Sigil, Reveal, Tag, Seq, Corners, Cobweb, Spider,
   C, display, serif,
 } from "@/components/ui";
-import { HeroScan } from "@/components/Effects";
 import { PROJECT, ACTIVE_PHASE, ASSET } from "@/lib/theme";
-import { FACTIONS, ROADMAP, TRUST } from "@/lib/lore";
+import { FACTIONS, ROADMAP } from "@/lib/lore";
 
 function phaseLine() {
   switch (ACTIVE_PHASE) {
-    case "teaser":   return { status: "Gathering", live: false, text: "", cta: "Join the horde", to: "/raffle" };
-    case "raffle":   return { status: "Raffle open", live: true, text: "", cta: "Verify holdings", to: "/verify" };
-    case "waitlist": return { status: "Waitlist open", live: true, text: "", cta: "Join waitlist", to: "/raffle" };
-    case "minting":  return { status: "Minting", live: true, text: "", cta: "Mint", to: "/verify" };
-    case "minted":   return { status: "Minted out", live: false, text: "", cta: "View collection", to: "/collection" };
+    case "teaser":   return { status: "Gathering", live: false, cta: "Join the horde", to: "/raffle" };
+    case "raffle":   return { status: "Raffle open", live: true, cta: "Verify holdings", to: "/verify" };
+    case "waitlist": return { status: "Waitlist open", live: true, cta: "Join waitlist", to: "/raffle" };
+    case "minting":  return { status: "Minting", live: true, cta: "Mint", to: "/verify" };
+    case "minted":   return { status: "Minted out", live: false, cta: "View collection", to: "/collection" };
   }
 }
 
@@ -30,58 +29,37 @@ export default function Home() {
 
   return (
     <>
-      {/* ───────────── HERO ───────────── */}
-      <section style={{ position: "relative", padding: "clamp(40px,7vw,86px) clamp(18px,5vw,44px) clamp(48px,7vw,80px)", overflow: "hidden" }}>
-        <Cobweb corner="tl" size={160} opacity={0.11} />
-        <div style={{ position: "absolute", top: 0, right: "6%" }}><Spider drop={104} /></div>
-        <Cobweb corner="tr" size={130} opacity={0.08} />
-        <Fog />
+      {/* ───────── HERO — title screen over the fixed video ───────── */}
+      <section style={{ position: "relative", minHeight: "86vh", display: "flex", alignItems: "center", overflow: "hidden", padding: "clamp(40px,7vw,80px) clamp(18px,5vw,44px)" }}>
+        <Cobweb corner="tl" size={170} opacity={0.13} />
+        <Cobweb corner="tr" size={140} opacity={0.1} />
+        <div style={{ position: "absolute", top: 0, right: "7%" }}><Spider drop={120} /></div>
 
-        <div style={{ position: "relative", zIndex: 1, maxWidth: 1120, margin: "0 auto", display: "grid", gap: "clamp(32px,5vw,60px)", gridTemplateColumns: "1fr", alignItems: "center" }} className="uo-hero">
-          <div>
-            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
-              <div style={{ display: "inline-flex", marginBottom: 20 }}><Tag color={p.live ? C.ember : C.rune}>{p.status}</Tag></div>
-              <Wordmark size="clamp(2.3rem,8.5vw,5rem)" style={{ display: "block" }}>UNDEAD</Wordmark>
-              <Wordmark size="clamp(2.3rem,8.5vw,5rem)" style={{ display: "block", marginTop: 2 }}>ORDINALS</Wordmark>
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1120, margin: "0 auto", width: "100%" }}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            style={{ maxWidth: 640, background: "radial-gradient(ellipse at 20% 40%, rgba(8,6,12,0.72), transparent 75%)", padding: "4px 0" }}>
+            <div style={{ display: "inline-flex", marginBottom: 20 }}><Tag color={p.live ? C.ember : C.rune}>{p.status}</Tag></div>
+            <Wordmark size="clamp(2.4rem,9vw,5.4rem)" style={{ display: "block" }}>UNDEAD</Wordmark>
+            <Wordmark size="clamp(2.4rem,9vw,5.4rem)" style={{ display: "block", marginTop: 2 }}>ORDINALS</Wordmark>
 
-              <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.2rem,3vw,1.6rem)", color: C.bone, margin: "22px 0 0", lineHeight: 1.5, maxWidth: "24ch" }}>
-                {PROJECT.tagline}
-              </p>
-              <p style={{ fontFamily: serif, fontSize: "1.08rem", color: C.muted, lineHeight: 1.75, margin: "18px 0 0", maxWidth: "46ch" }}>
-                {PROJECT.supply.toLocaleString()} undead artifacts, inscribed on Bitcoin and resurrected to explore the
-                Catacombs of Consensus, a gaming economy powered by the {PROJECT.token} Rune.
-              </p>
+            <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.25rem,3vw,1.7rem)", color: C.bone, margin: "24px 0 0", lineHeight: 1.5, maxWidth: "24ch", textShadow: "0 2px 18px rgba(0,0,0,0.8)" }}>
+              {PROJECT.tagline}
+            </p>
+            <p style={{ fontFamily: serif, fontSize: "1.1rem", color: C.bone, lineHeight: 1.75, margin: "18px 0 0", maxWidth: "44ch", textShadow: "0 2px 14px rgba(0,0,0,0.9)" }}>
+              {PROJECT.supply.toLocaleString()} undead artifacts, inscribed on Bitcoin and resurrected to raid the
+              Catacombs of Consensus. Send them down, evolve them, and rise with the {PROJECT.token} Rune.
+            </p>
 
-              <div style={{ display: "flex", gap: 13, flexWrap: "wrap", margin: "30px 0 0" }}>
-                <Link href={p.to}><Btn>{p.cta}</Btn></Link>
-                <Link href="/collection"><Btn tone="bone">Meet the undead</Btn></Link>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* mounted film reel */}
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.1 }}>
-            <div style={{ position: "relative", maxWidth: 520, marginInline: "auto" }}>
-              <div style={{ position: "absolute", inset: "-12%", background: `radial-gradient(circle, ${C.ember}24, transparent 66%)`, pointerEvents: "none" }} />
-              <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.slab, padding: 13 }}>
-                <Corners color={C.ember} size={16} />
-                <div style={{ position: "relative", overflow: "hidden" }}>
-                  <video src={ASSET.video} autoPlay muted loop playsInline poster={ASSET.logo} aria-label="An Undead crossing the Catacombs toward the Bitcoin moon"
-                    style={{ width: "100%", display: "block", animation: "develop 1.8s ease-out 0.2s both" }} />
-                  <HeroScan />
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 12, paddingTop: 10, borderTop: `1px solid ${C.lineLo}` }}>
-                  <span style={{ fontFamily: display, fontSize: "0.72rem", color: C.bone }}>Catacombs reel 01</span>
-                  <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.95rem", color: C.rune }}>Crossing the Styx of Consensus</span>
-                </div>
-              </div>
+            <div style={{ display: "flex", gap: 13, flexWrap: "wrap", margin: "32px 0 0" }}>
+              <Link href={p.to}><Btn>{p.cta}</Btn></Link>
+              <Link href="/collection"><Btn tone="bone">Enter the game</Btn></Link>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ───────────── CATALOGUE BAR ───────────── */}
-      <div style={{ borderTop: `1px solid ${C.stoneUp}`, borderBottom: `1px solid ${C.stoneUp}`, background: C.slab }}>
+      {/* ───────── CATALOGUE BAR ───────── */}
+      <div style={{ borderTop: `1px solid ${C.stoneUp}`, borderBottom: `1px solid ${C.stoneUp}`, background: "rgba(11,9,16,0.82)" }}>
         <div className="uo-record" style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
           {RECORD.map(([label, value], i) => (
             <div key={label} style={{ padding: "22px clamp(18px,4vw,34px)", borderLeft: i % 2 ? `1px solid ${C.lineLo}` : "none", borderTop: i >= 2 ? `1px solid ${C.lineLo}` : "none" }}>
@@ -92,17 +70,17 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ───────────── LORE ───────────── */}
+      {/* ───────── LORE ───────── */}
       <Section tone="ash">
         <div className="uo-split" style={{ display: "grid", gap: "clamp(28px,5vw,60px)", gridTemplateColumns: "1fr", alignItems: "center" }}>
           <Reveal>
             <SectionHead designation="Origin" title="Deep beneath the chain, the forgotten began to move."
-              standfirst="The Catacombs of Consensus held abandoned transactions and lost satoshis in silence, until the Sat Mortis." />
+              standfirst="The Catacombs held abandoned transactions and lost satoshis in silence, until the Sat Mortis." />
             <div style={{ fontFamily: serif, fontSize: "1.08rem", color: C.muted, lineHeight: 1.85 }}>
               <p style={{ marginTop: 0 }}>
                 From the depths rose {PROJECT.supply.toLocaleString()} Undead Ordinals, each carrying the scars of the
-                digital afterlife. Some flicker with unstable energy. Some burn with the heat of computation. Others were
-                rebuilt with strange machinery, or sealed in armour that refuses to break.
+                digital afterlife. Some flicker with unstable energy, some burn with the heat of computation, others were
+                rebuilt with strange machinery or sealed in armour that refuses to break.
               </p>
               <p style={{ color: C.bone, fontStyle: "italic", fontSize: "1.2rem" }}>
                 They were not created to disappear. They were resurrected to explore, evolve and conquer the chain.
@@ -122,7 +100,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ───────────── FACTIONS ───────────── */}
+      {/* ───────── FACTIONS ───────── */}
       <Section tone="slab">
         <SectionHead designation="Taxonomy" title="Four ways to come back wrong." color={C.rune}
           standfirst="Every Undead belongs to one of four factions, a lineage written into its look and its lot." />
@@ -148,26 +126,8 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ───────────── TRUST LEDGER ───────────── */}
+      {/* ───────── ROADMAP ───────── */}
       <Section tone="ash">
-        <SectionHead designation="Disclosure" title="We say exactly what lives where."
-          standfirst="Bitcoin secures ownership and token balances. It does not run game logic. Nothing is called audited or trustless until a completed review supports it." />
-        <Reveal>
-          <div style={{ border: `1px solid ${C.stoneUp}`, position: "relative" }}>
-            <Corners color={C.rune} />
-            {TRUST.map((t, i) => (
-              <div key={t.component} className="uo-ledger-row" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 5, padding: "17px clamp(16px,3vw,24px)", borderTop: i ? `1px solid ${C.lineLo}` : "none" }}>
-                <span style={{ fontFamily: display, fontSize: "0.82rem", color: C.boneHi }}>{t.component}</span>
-                <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.98rem", color: C.ember }}>{t.where}</span>
-                <span style={{ fontFamily: serif, fontSize: "0.98rem", color: C.muted, lineHeight: 1.55 }}>{t.trust}</span>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-      </Section>
-
-      {/* ───────────── ROADMAP ───────────── */}
-      <Section tone="slab">
         <SectionHead designation="The path back" title="Five phases. Core loop first." color={C.rune}
           standfirst="Milestone based, not date based. We ship and test the expedition loop before expanding the world around it." />
         <div style={{ display: "grid", gap: 12 }}>
@@ -195,10 +155,9 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ───────────── CTA ───────────── */}
-      <section style={{ position: "relative", background: C.ash, borderTop: `1px solid ${C.stoneUp}`, padding: "clamp(60px,9vw,110px) clamp(18px,5vw,44px)", textAlign: "center", overflow: "hidden" }}>
-        <Cobweb corner="tr" size={150} opacity={0.08} />
-        <Fog />
+      {/* ───────── CTA ───────── */}
+      <section style={{ position: "relative", background: "rgba(11,9,16,0.85)", borderTop: `1px solid ${C.stoneUp}`, padding: "clamp(60px,9vw,110px) clamp(18px,5vw,44px)", textAlign: "center", overflow: "hidden" }}>
+        <Cobweb corner="tr" size={150} opacity={0.09} />
         <div style={{ position: "relative", zIndex: 1, maxWidth: 680, margin: "0 auto" }}>
           <Reveal>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><Sigil size={56} color={C.ember} /></div>
@@ -209,7 +168,7 @@ export default function Home() {
             </p>
             <div style={{ display: "flex", gap: 13, justifyContent: "center", flexWrap: "wrap" }}>
               <Link href={p.to}><Btn>{p.cta}</Btn></Link>
-              <Link href="/whitepaper"><Btn tone="bone">Read the whitepaper</Btn></Link>
+              <Link href="/whitepaper"><Btn tone="bone">Read the codex</Btn></Link>
             </div>
           </Reveal>
         </div>
@@ -217,11 +176,9 @@ export default function Home() {
 
       <style>{`
         @media (min-width: 860px) {
-          .uo-hero { grid-template-columns: 1.05fr 0.95fr !important; }
           .uo-split { grid-template-columns: 1.1fr 0.9fr !important; }
           .uo-record { grid-template-columns: repeat(4,1fr) !important; }
           .uo-record > div:not(:first-child) { border-left: 1px solid ${C.lineLo} !important; border-top: none !important; }
-          .uo-ledger-row { grid-template-columns: 1.1fr 1fr 1.6fr !important; gap: 20px !important; align-items: center; }
         }
       `}</style>
     </>

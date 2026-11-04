@@ -3,7 +3,7 @@ import {
   Section, SectionHead, Plate, Btn, Wordmark, Reveal, Tag, Seq, Corners,
   C, display, serif,
 } from "@/components/ui";
-import { PROJECT } from "@/lib/theme";
+import { PROJECT, TIER_IMG } from "@/lib/theme";
 import { TIERS, CHAMBERS } from "@/lib/lore";
 
 const LOOP: [string, string][] = [
@@ -63,27 +63,43 @@ export default function Catacombs() {
       <Section tone="ash">
         <SectionHead designation="Expedition tiers" title="Four depths. More risk buys more relic." color={C.oxblood}
           standfirst="Proposed v0 parameters, finalised by simulation before launch." />
-        <div style={{ display: "grid", gap: 14, gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))" }}>
-          {TIERS.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.05}>
-              <div style={{ position: "relative", border: `1px solid ${i === 3 ? C.oxblood : C.stoneUp}`, background: C.stone, padding: 22, height: "100%" }}>
-                <Corners color={i === 3 ? C.oxblood : C.rune} />
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-                  <Tag color={i === 3 ? C.oxblood : C.rune}>{t.risk}</Tag>
-                  <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "1rem", color: C.ember }}>relic {t.relic}</span>
-                </div>
-                <p style={{ fontFamily: display, fontSize: "0.88rem", color: C.boneHi, margin: "0 0 16px", lineHeight: 1.35 }}>{t.name}</p>
-                <div style={{ display: "grid", gap: 9 }}>
-                  {[["Entry", t.fee], ["Duration", t.duration], ["Cooldown", t.cooldown]].map(([k, v]) => (
-                    <div key={k} style={{ display: "flex", justifyContent: "space-between", borderTop: `1px solid ${C.lineLo}`, paddingTop: 8 }}>
-                      <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.95rem", color: C.faint }}>{k}</span>
-                      <span style={{ fontFamily: display, fontSize: "0.76rem", color: C.bone }}>{v}</span>
+        <div className="uo-levels" style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))" }}>
+          {TIERS.map((t, i) => {
+            const accent = i === 3 ? C.oxblood : C.rune;
+            return (
+              <Reveal key={t.name} delay={i * 0.05}>
+                <div style={{ position: "relative", border: `1px solid ${i === 3 ? C.oxblood : C.stoneUp}`, background: C.stone, height: "100%", overflow: "hidden", transition: "border-color .2s, transform .2s" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.ember; e.currentTarget.style.transform = "translateY(-4px)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = i === 3 ? C.oxblood : C.stoneUp; e.currentTarget.style.transform = "translateY(0)"; }}>
+                  <Corners color={accent} />
+                  {/* scene — level art */}
+                  <div style={{ position: "relative", height: 158, backgroundImage: `url(${TIER_IMG[i]})`, backgroundSize: "cover", backgroundPosition: "center", borderBottom: `1px solid ${C.stoneUp}` }}>
+                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(11,9,16,0.95), rgba(11,9,16,0.15) 60%, transparent)" }} />
+                    <div style={{ position: "absolute", top: 12, left: 12, right: 12, display: "flex", justifyContent: "space-between" }}>
+                      <Tag color={i === 3 ? C.oxblood : C.rune}>{t.risk}</Tag>
+                      <span style={{ fontFamily: display, fontSize: "0.66rem", color: C.faint }}>{String(i + 1).padStart(2, "0")}</span>
                     </div>
-                  ))}
+                    <p style={{ position: "absolute", bottom: 11, left: 14, right: 14, fontFamily: display, fontSize: "0.86rem", color: C.boneHi, margin: 0, lineHeight: 1.3, textShadow: "0 2px 10px #000" }}>{t.name}</p>
+                  </div>
+                  {/* stats */}
+                  <div style={{ padding: "16px 18px 18px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+                      <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.95rem", color: C.faint }}>relic chance</span>
+                      <span style={{ fontFamily: display, fontSize: "0.82rem", color: C.ember }}>{t.relic}</span>
+                    </div>
+                    <div style={{ display: "grid", gap: 9 }}>
+                      {[["Entry", t.fee], ["Duration", t.duration], ["Cooldown", t.cooldown]].map(([k, v]) => (
+                        <div key={k} style={{ display: "flex", justifyContent: "space-between", borderTop: `1px solid ${C.lineLo}`, paddingTop: 8 }}>
+                          <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.95rem", color: C.faint }}>{k}</span>
+                          <span style={{ fontFamily: display, fontSize: "0.74rem", color: C.bone }}>{v}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
         <Reveal delay={0.1}>
           <Plate corners={C.rune} pad={20} style={{ marginTop: 16 }}>

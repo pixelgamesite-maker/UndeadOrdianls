@@ -62,7 +62,7 @@ export function Reveal({ children, delay = 0, y = 16, style }: { children: React
 /* ── Section wrapper. ── */
 export function Section({ children, tone = "ash", id, style }: { children: ReactNode; tone?: "ash" | "slab"; id?: string; style?: CSSProperties }) {
   return (
-    <section id={id} style={{ background: tone === "ash" ? C.ash : C.slab, padding: "clamp(64px,10vw,130px) 0", position: "relative", ...style }}>
+    <section id={id} style={{ background: tone === "ash" ? "rgba(16,13,22,0.72)" : "rgba(11,9,16,0.82)", padding: "clamp(64px,10vw,130px) 0", position: "relative", ...style }}>
       <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 clamp(20px,5vw,44px)" }}>{children}</div>
     </section>
   );

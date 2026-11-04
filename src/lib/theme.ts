@@ -75,12 +75,25 @@ export const DISCORD = ""; // leave "" to hide
 export const ASSET = {
   logo:      "/LOGO.jpg",          // flat logo (favicon / social card)
   hardLogo:  "/Undeadlogo.png",    // transparent skull — the header mark
-  video:     "/paddling_boat.mp4", // hero animation (skeleton crossing to the Bitcoin moon)
+  video:     "/paddling_boat.mp4", // hero / title animation (crossing to the Bitcoin moon)
   phantom:   "/SKELETON_ONE.png",  // cyan laser-eye skeleton
   berserker: "/skull_2.png",       // red-flame skeleton
   neomancer: "/skull_4.png",       // exposed-brain cyber skeleton
   warden:    "/SKELETON_TWO.png",  // armoured stand-in until Warden art lands
+  // dungeon atmosphere + audio (public/assets)
+  wall:      "/assets/undeadbackground.jpg", // mossy dungeon-brick page background
+  music:     "/assets/backgroundmusic.mp3",  // looping ambient score
+  sfx:       "/assets/select.mp3",           // UI click / select sound
 } as const;
+
+/* Expedition-tier scene art (Catacombs level select). Order matches
+   TIERS in lore.ts: Forgotten, Haunted, Cursed, Abyss. */
+export const TIER_IMG = [
+  "/assets/forgotten.jpg",
+  "/assets/haunted.jpg",
+  "/assets/cursed.jpg",
+  "/assets/abyss.jpg",
+] as const;
 
 /* ════════════════════════════════════════════════════════════════
    CAMPAIGN PHASE CONTROL — flip one string to re-point the whole site.
