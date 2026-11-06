@@ -1,11 +1,10 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Btn, Wordmark, Sigil, Cobweb, Spider, Corners, Seq, C, display, serif, black } from "@/components/ui";
-import { PROJECT, WHITELIST_LIVE, X_URL, X_HANDLE, ASSET } from "@/lib/theme";
-import { hasSupabase } from "@/lib/supabase";
+import { PROJECT, WHITELIST_LIVE, X_URL, X_HANDLE } from "@/lib/theme";
 import { FACTIONS } from "@/lib/lore";
 
-const liveReg = WHITELIST_LIVE && hasSupabase();
+const liveReg = WHITELIST_LIVE;
 
 const LOOP: [string, string, string][] = [
   ["Register", "Join the whitelist and carve your name into the gate.", "/whitelist"],
@@ -33,7 +32,7 @@ export default function Home() {
   // ONE primary CTA. When registration is live it points at the whitelist;
   // otherwise the primary action is to follow X so nobody misses the open.
   const primary = liveReg
-    ? { label: "Join the whitelist", to: "/whitelist", ext: false }
+    ? { label: "Register your Undead", to: "/whitelist", ext: false }
     : { label: `Follow ${X_HANDLE}`, to: X_URL, ext: true };
 
   return (

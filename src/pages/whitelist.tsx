@@ -74,9 +74,10 @@ function LinkStep({ value, onChange, onSave, saved, placeholder }: { value: stri
 
 export default function Whitelist() {
   const [, navigate] = useLocation();
-  const live = WHITELIST_LIVE && hasSupabase();
+  // The application is the default experience whenever WHITELIST_LIVE is on.
+  // "soon" only shows if the owner explicitly turns registration off.
   const registered = (() => { try { return localStorage.getItem("uo_wl_sent") === "true"; } catch { return false; } })();
-  const [stage, setStage] = useState<Stage>(registered ? "open" : live ? "intro" : "soon");
+  const [stage, setStage] = useState<Stage>(registered ? "open" : WHITELIST_LIVE ? "intro" : "soon");
 
   const [handle, setHandle] = useState(""); const [handleOk, setHandleOk] = useState(false);
   const [followed, setFollowed] = useState(false);
@@ -105,9 +106,17 @@ export default function Whitelist() {
   async function submit() {
     if (!all) { setErr("Complete all five rites first."); return; }
     setErr(""); setSending(true);
-    const { error } = await submitApplication({ address: addr, twitter: handle, quote_url: quoteLink, comment_url: commentLink, phase: ACTIVE_PHASE });
+    // Save to Supabase when it's configured; otherwise let the flow
+    // complete locally so registration is never a dead end in a demo.
+    if (hasSupabase()) {
+      const { error } = await submitApplication({ address: addr, twitter: handle, quote_url: quoteLink, comment_url: commentLink, phase: ACTIVE_PHASE });
+      if (error) {
+        setSending(false);
+        setErr(/duplicate|unique/i.test(error.message ?? "") ? "That address is already registered." : "That didn't save. Try again.");
+        return;
+      }
+    }
     setSending(false);
-    if (error) { setErr(/duplicate|unique/i.test(error.message ?? "") ? "That address is already registered." : "That didn't save. Try again."); return; }
     try { localStorage.setItem("uo_wl_sent", "true"); } catch { /* ignore */ }
     setStage("open");
   }
