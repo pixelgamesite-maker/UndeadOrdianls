@@ -73,13 +73,13 @@ export const DISCORD = ""; // leave "" to hide
 
 /* ── Assets in /public ── */
 export const ASSET = {
-  logo:      "/LOGO.jpg",          // flat logo (favicon / social card)
+  logo:      "/SKELETON_TWO.png",  // social / OG image
   hardLogo:  "/Undeadlogo.png",    // transparent skull — the header mark
   video:     "/paddling_boat.mp4", // hero / title animation (crossing to the Bitcoin moon)
   phantom:   "/SKELETON_ONE.png",  // cyan laser-eye skeleton
   berserker: "/skull_2.png",       // red-flame skeleton
   neomancer: "/skull_4.png",       // exposed-brain cyber skeleton
-  warden:    "/LOGO.jpg",          // blue-flame skull stand-in until Warden art lands (keeps 4 specimens distinct)
+  warden:    "/SKELETON_TWO.png",  // stand-in until Warden art lands (same art as Phantom for now)
   // dungeon atmosphere + audio (public/assets)
   wall:      "/assets/undeadbackground.jpg", // mossy dungeon-brick page background
   doorShut:  "/assets/closed.PNG",           // whitelist: locked door
