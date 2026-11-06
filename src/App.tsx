@@ -31,8 +31,9 @@ function NotFound() {
 }
 
 export default function App() {
+  // Gate shows once per browser (localStorage), not every session.
   const [entered, setEntered] = useState(() => {
-    try { return sessionStorage.getItem("uo_entered") === "1"; } catch { return false; }
+    try { return localStorage.getItem("uo_entered") === "1"; } catch { return false; }
   });
 
   /* UI click sound + first-gesture music start, for every button/link. */
@@ -47,7 +48,7 @@ export default function App() {
   }, []);
 
   function enter() {
-    try { sessionStorage.setItem("uo_entered", "1"); } catch { /* ignore */ }
+    try { localStorage.setItem("uo_entered", "1"); } catch { /* ignore */ }
     setEntered(true);
   }
 

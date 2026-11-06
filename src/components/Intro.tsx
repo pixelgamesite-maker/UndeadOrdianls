@@ -95,6 +95,10 @@ export default function Intro({ onEnter }: { onEnter: () => void }) {
         <p style={{ fontFamily: display, fontSize: "0.6rem", color: C.faint, letterSpacing: "0.1em", margin: "22px 0 0", animation: "flick 2.4s infinite" }}>
           ◄ ► MOVE &nbsp;·&nbsp; ↵ SELECT
         </p>
+        <button onClick={() => { setLeaving(true); setTimeout(onEnter, 300); }}
+          style={{ marginTop: 14, background: "transparent", border: "none", color: C.muted, fontFamily: display, fontSize: "0.64rem", letterSpacing: "0.08em", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3 }}>
+          skip
+        </button>
       </div>
     </div>
   );

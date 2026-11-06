@@ -79,7 +79,7 @@ export const ASSET = {
   phantom:   "/SKELETON_ONE.png",  // cyan laser-eye skeleton
   berserker: "/skull_2.png",       // red-flame skeleton
   neomancer: "/skull_4.png",       // exposed-brain cyber skeleton
-  warden:    "/SKELETON_TWO.png",  // armoured stand-in until Warden art lands
+  warden:    "/LOGO.jpg",          // blue-flame skull stand-in until Warden art lands (keeps 4 specimens distinct)
   // dungeon atmosphere + audio (public/assets)
   wall:      "/assets/undeadbackground.jpg", // mossy dungeon-brick page background
   doorShut:  "/assets/closed.PNG",           // whitelist: locked door
@@ -116,9 +116,13 @@ export const DB = {
 export const CLAIM_TOTAL = 6000;
 export const SHOW_REMAINING = false;
 
-/* Holder verification is gated until the snapshot is imported. While
-   false, /verify shows the whitelisted collections as "coming soon"
-   instead of a live claim form. Flip to true once the snapshot is in. */
+/* Whitelist registration. When this is true AND Supabase is configured,
+   the /whitelist page runs the live registration flow. If either is
+   false it shows a clear "opens soon" status with a Follow-on-X action
+   instead of a dead end — never a sealed door with nowhere to go. */
+export const WHITELIST_LIVE = true;
+
+/* (legacy) holder-verification gate, kept for the old /verify redirect. */
 export const VERIFY_LIVE = false;
 
 /* OG Bitcoin Ordinals collections targeted for the verified-holder
