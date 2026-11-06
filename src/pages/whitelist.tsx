@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import { Link, useLocation } from "wouter";
-import { Btn, Wordmark, Sigil, Corners, Seq, C, display, serif, black } from "@/components/ui";
+import { useLocation } from "wouter";
+import { Btn, Corners, Seq, C, display, serif, black } from "@/components/ui";
 import { ASSET, X_URL, X_HANDLE, PINNED_URL, ACTIVE_PHASE, WHITELIST_LIVE } from "@/lib/theme";
 import { submitApplication, hasSupabase } from "@/lib/supabase";
 import { isValidAddress, isXLink } from "@/lib/utils";
@@ -12,24 +12,26 @@ const field: CSSProperties = {
   padding: "13px 14px", fontSize: "1rem", fontFamily: display, outline: "none", boxSizing: "border-box",
 };
 
-const REQS = ["Follow on X", "Like and quote the pin", "Comment, tag three friends", "Drop your mint address"];
-
+/* full-bleed door scene. Light overlay so the door reads clearly. */
 function Scene({ img, children }: { img: string; children: React.ReactNode }) {
   return (
     <section style={{ position: "relative", minHeight: "calc(100vh - 68px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px clamp(18px,5vw,40px)", overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: `url(${img})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-      <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 55%, rgba(8,6,12,0.4), rgba(8,6,12,0.82))" }} />
+      <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 50%, rgba(8,6,12,0.1), rgba(8,6,12,0.6))" }} />
       <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 560, textAlign: "center" }}>{children}</div>
     </section>
   );
 }
 
-function StatusDot({ color, label }: { color: string; label: string }) {
+/* The one element on a clean door: a blinking word. */
+function GateWord({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontFamily: display, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.12em", textTransform: "uppercase", color }}>
-      <span style={{ width: 8, height: 8, borderRadius: 999, background: color, boxShadow: `0 0 10px ${color}`, animation: "flick 2.2s infinite" }} />
-      {label}
-    </span>
+    <button onClick={onClick} style={{
+      fontFamily: black, fontSize: "clamp(2.6rem,9vw,4.6rem)", color: C.ember,
+      background: "transparent", border: "none", cursor: "pointer", padding: 0, lineHeight: 1,
+      letterSpacing: "0.02em", textShadow: `0 0 36px ${C.ember}, 0 3px 16px rgba(0,0,0,0.9)`,
+      animation: "blink 1.5s infinite",
+    }}>{label}</button>
   );
 }
 
@@ -74,8 +76,6 @@ function LinkStep({ value, onChange, onSave, saved, placeholder }: { value: stri
 
 export default function Whitelist() {
   const [, navigate] = useLocation();
-  // The application is the default experience whenever WHITELIST_LIVE is on.
-  // "soon" only shows if the owner explicitly turns registration off.
   const registered = (() => { try { return localStorage.getItem("uo_wl_sent") === "true"; } catch { return false; } })();
   const [stage, setStage] = useState<Stage>(registered ? "open" : WHITELIST_LIVE ? "intro" : "soon");
 
@@ -106,8 +106,6 @@ export default function Whitelist() {
   async function submit() {
     if (!all) { setErr("Complete all five rites first."); return; }
     setErr(""); setSending(true);
-    // Save to Supabase when it's configured; otherwise let the flow
-    // complete locally so registration is never a dead end in a demo.
     if (hasSupabase()) {
       const { error } = await submitApplication({ address: addr, twitter: handle, quote_url: quoteLink, comment_url: commentLink, phase: ACTIVE_PHASE });
       if (error) {
@@ -121,80 +119,33 @@ export default function Whitelist() {
     setStage("open");
   }
 
-  /* ── OPEN: registered ── */
+  /* ── OPEN: registered — open door, one blinking word ── */
   if (stage === "open") {
-    return (
-      <Scene img={ASSET.doorOpen}>
-        <div style={{ marginBottom: 18 }}><Sigil size={54} color={C.ember} /></div>
-        <StatusDot color={C.ember} label="You're on the whitelist" />
-        <div style={{ margin: "14px 0 0" }}><Wordmark size="clamp(1.6rem,6vw,2.8rem)">THE DOOR IS OPEN</Wordmark></div>
-        <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.bone, margin: "16px auto 26px", maxWidth: "40ch", lineHeight: 1.65, textShadow: "0 2px 12px #000" }}>
-          Your name is carved. The light beyond the door is lit. Descend into the Catacombs when you are ready.
-        </p>
-        <button onClick={() => navigate("/crypts")}
-          style={{ fontFamily: display, fontWeight: 700, fontSize: "1.05rem", textTransform: "uppercase", letterSpacing: "0.14em", color: C.ash, background: C.ember, border: `2px solid ${C.ember}`, padding: "16px 54px", cursor: "pointer", boxShadow: `4px 4px 0 ${C.emberLo}, 0 0 34px ${C.ember}55`, animation: "torch 2.4s infinite" }}>
-          Enter the Catacombs
-        </button>
-      </Scene>
-    );
+    return <Scene img={ASSET.doorOpen}><GateWord label="Enter" onClick={() => navigate("/crypts")} /></Scene>;
   }
 
-  /* ── SOON: registration not open yet → point at X, clear status ── */
+  /* ── SOON: registration off — shut door, one blinking word ── */
   if (stage === "soon") {
     return (
       <Scene img={ASSET.doorShut}>
-        <div style={{ marginBottom: 18 }}><Sigil size={54} color={C.rune} /></div>
-        <StatusDot color={C.rune} label="Whitelist opens soon" />
-        <div style={{ margin: "14px 0 0" }}><Wordmark size="clamp(1.5rem,5.5vw,2.6rem)">THE GATE OPENS SOON</Wordmark></div>
-        <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.bone, margin: "16px auto 22px", maxWidth: "42ch", lineHeight: 1.65, textShadow: "0 2px 12px #000" }}>
-          Registration opens shortly. Follow {X_HANDLE} so you catch the exact moment the door unseals. Here's what you'll need.
-        </p>
-        <div style={{ display: "grid", gap: 7, maxWidth: 360, margin: "0 auto 26px", textAlign: "left" }}>
-          {REQS.map((r, i) => (
-            <div key={r} style={{ display: "flex", gap: 10, alignItems: "center", fontFamily: serif, fontSize: "1rem", color: C.bone }}>
-              <span style={{ fontFamily: display, fontWeight: 700, fontSize: "0.78rem", color: C.ember }}>{String(i + 1).padStart(2, "0")}</span>{r}
-            </div>
-          ))}
-        </div>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <Btn href={X_URL}>{`Follow ${X_HANDLE}`}</Btn>
-          <Link href="/collection"><Btn tone="bone">View the collection</Btn></Link>
-        </div>
-      </Scene>
-    );
-  }
-
-  /* ── INTRO: registration live, not yet registered ── */
-  if (stage === "intro") {
-    return (
-      <Scene img={ASSET.doorShut}>
-        <div style={{ marginBottom: 18 }}><Sigil size={54} color={C.ember} /></div>
-        <StatusDot color={C.ember} label="Whitelist registration is open" />
-        <div style={{ margin: "14px 0 0" }}><Wordmark size="clamp(1.7rem,6vw,3rem)">REGISTER YOUR UNDEAD</Wordmark></div>
-        <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.bone, margin: "16px auto 26px", maxWidth: "42ch", lineHeight: 1.65, textShadow: "0 2px 12px #000" }}>
-          Five quick rites carve your name into the gate. Only the registered pass the door before the mint.
-        </p>
-        <button onClick={() => setStage("form")}
-          style={{ fontFamily: display, fontWeight: 700, fontSize: "1.05rem", textTransform: "uppercase", letterSpacing: "0.12em", color: C.ash, background: C.ember, border: `2px solid ${C.ember}`, padding: "16px 48px", cursor: "pointer", boxShadow: `4px 4px 0 ${C.emberLo}, 0 0 34px ${C.ember}55`, animation: "torch 2.6s infinite" }}>
-          Begin registration
+        <button onClick={() => window.open(X_URL, "_blank", "noopener")} style={{ fontFamily: black, fontSize: "clamp(2rem,7vw,3.4rem)", color: C.rune, background: "transparent", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, textShadow: `0 0 30px ${C.rune}, 0 3px 16px rgba(0,0,0,0.9)`, animation: "blink 1.6s infinite" }}>
+          Opens soon
         </button>
-        <div style={{ marginTop: 16 }}>
-          <Btn href={X_URL} tone="ghost" color={C.rune} small>{`Or just follow ${X_HANDLE}`}</Btn>
-        </div>
       </Scene>
     );
   }
 
-  /* ── FORM ── */
+  /* ── INTRO: shut door, one blinking word ── */
+  if (stage === "intro") {
+    return <Scene img={ASSET.doorShut}><GateWord label="Enter" onClick={() => setStage("form")} /></Scene>;
+  }
+
+  /* ── FORM — the five rites ── */
   return (
     <Scene img={ASSET.doorShut}>
       <div style={{ position: "relative", border: `1px solid ${C.ember}`, background: "rgba(11,9,16,0.95)", padding: "24px clamp(16px,4vw,26px)", textAlign: "left" }}>
         <Corners color={C.ember} size={15} />
-        <div style={{ textAlign: "center", marginBottom: 18 }}>
-          <StatusDot color={C.ember} label="Registration open" />
-          <h2 style={{ fontFamily: black, fontSize: "clamp(1.5rem,5vw,2rem)", color: C.boneHi, margin: "10px 0 4px", lineHeight: 1.1 }}>Register your Undead</h2>
-          <p style={{ fontFamily: serif, fontSize: "0.98rem", color: C.muted, margin: 0 }}>Finish the five rites and drop your address in.</p>
-        </div>
+        <p style={{ fontFamily: display, fontWeight: 600, fontSize: "0.82rem", textTransform: "uppercase", letterSpacing: "0.1em", color: C.boneHi, textAlign: "center", margin: "0 0 18px" }}>The five rites</p>
 
         <div style={{ display: "flex", gap: 5, height: 9, marginBottom: 20 }}>
           {[s1, s2, s3, s4, s5].map((d, i) => <div key={i} style={{ flex: 1, background: d ? C.ember : C.stoneUp, transition: "background .3s" }} />)}
