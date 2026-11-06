@@ -1,12 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { DB } from "./theme";
 
-/* The browser only ever gets the ANON key. It can INSERT raffle/waitlist
-   applications (public interest), but it CANNOT read the holder snapshot
-   or write a confirmed spot — those go through the claim-spot Edge
-   Function, which uses the service_role key server-side. See
-   supabase/schema.sql for the row-level-security policies that enforce
-   this. */
+/* The browser only ever gets the ANON key. It can INSERT whitelist
+   applications and nothing else — it can't read, edit or delete rows,
+   so the list can't be scraped. See supabase/schema.sql for the
+   row-level-security policy that enforces this. */
 const URL = import.meta.env.VITE_SUPABASE_URL ?? "";
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY ?? "";
 
@@ -29,7 +27,7 @@ export type Application = {
   phase: string;
 };
 
-/** Public raffle / waitlist entry. */
+/** Whitelist registration. Inserts one row into wl_applications. */
 export async function submitApplication(row: Application) {
   return supabase.from(DB.applications).insert([
     {
@@ -40,39 +38,4 @@ export async function submitApplication(row: Application) {
       phase: row.phase,
     },
   ]);
-}
-
-/** Live count for the FOMO counter on /verify. */
-export async function countClaims(): Promise<number | null> {
-  const { count, error } = await supabase
-    .from(DB.claims)
-    .select("*", { count: "exact", head: true });
-  if (error) return null;
-  return count ?? 0;
-}
-
-export type ClaimResult =
-  | { ok: true; spot: number }
-  | { ok: false; error: string };
-
-/** Verified-holder spot claim — gated entirely server-side. */
-export async function claimSpot(address: string, community: string): Promise<ClaimResult> {
-  try {
-    const { data, error } = await supabase.functions.invoke(DB.claimFunction, {
-      body: { address: address.trim(), community: community.trim() },
-    });
-    if (error) {
-      // Supabase wraps non-2xx as an error; try to surface the real message.
-      let msg = "That didn't go through. Try again.";
-      try {
-        const ctx = (error as { context?: { body?: string } }).context;
-        if (ctx?.body) msg = JSON.parse(ctx.body).error ?? msg;
-      } catch { /* keep default */ }
-      return { ok: false, error: msg };
-    }
-    if (data?.error) return { ok: false, error: data.error };
-    return { ok: true, spot: data.spot_number };
-  } catch {
-    return { ok: false, error: "Network error. Check your connection and try again." };
-  }
 }

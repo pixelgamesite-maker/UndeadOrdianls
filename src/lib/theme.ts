@@ -104,44 +104,12 @@ export const TIER_IMG = [
 export type Phase = "teaser" | "raffle" | "waitlist" | "minting" | "minted";
 export const ACTIVE_PHASE: Phase = "raffle";
 
-/* ── Supabase table / function names (see supabase/schema.sql) ── */
+/* ── Supabase table name (see supabase/schema.sql) ── */
 export const DB = {
   applications: "wl_applications",
-  eligibility: "holder_eligibility",
-  claims: "spot_claims",
-  claimFunction: "claim-spot",
 } as const;
 
-/* ── Verified-holder spot pool (/verify) ── */
-export const CLAIM_TOTAL = 6000;
-export const SHOW_REMAINING = false;
-
-/* Whitelist registration. When this is true AND Supabase is configured,
-   the /whitelist page runs the live registration flow. If either is
-   false it shows a clear "opens soon" status with a Follow-on-X action
-   instead of a dead end — never a sealed door with nowhere to go. */
+/* Whitelist registration. When true, /whitelist runs the registration
+   flow (and saves to Supabase when it's configured). Set false to show a
+   clear "opens soon" status with a Follow-on-X action instead. */
 export const WHITELIST_LIVE = true;
-
-/* (legacy) holder-verification gate, kept for the old /verify redirect. */
-export const VERIFY_LIVE = false;
-
-/* OG Bitcoin Ordinals collections targeted for the verified-holder
-   raffle. These are a strong, credible starter set — the ones with the
-   most engaged, most-respected holder bases. Final list is confirmed
-   before the snapshot. ETH collections open in a later phase. */
-export type Community = { key: string; name: string; kind: "ordinals" | "eth" };
-export const COMMUNITIES: Community[] = [
-  { key: "NodeMonkes",      name: "NodeMonkes",       kind: "ordinals" },
-  { key: "Bitcoin Puppets", name: "Bitcoin Puppets",  kind: "ordinals" },
-  { key: "Taproot Wizards", name: "Taproot Wizards",  kind: "ordinals" },
-  { key: "Quantum Cats",    name: "Quantum Cats",     kind: "ordinals" },
-  { key: "Runestone",       name: "Runestone",        kind: "ordinals" },
-  { key: "OMB",             name: "Ordinal Maxi Biz", kind: "ordinals" },
-  { key: "Ordinal Punks",   name: "Ordinal Punks",    kind: "ordinals" },
-  { key: "Bitcoin Frogs",   name: "Bitcoin Frogs",    kind: "ordinals" },
-  { key: "Pizza Ninjas",    name: "Pizza Ninjas",     kind: "ordinals" },
-  { key: "RSIC",            name: "RSIC Genesis",     kind: "ordinals" },
-  { key: "Basedangels",     name: "Based Angels",     kind: "eth" },
-  { key: "Miladys",         name: "Milady Maker",     kind: "eth" },
-  { key: "Lilpudgys",       name: "Lil Pudgys",       kind: "eth" },
-];
