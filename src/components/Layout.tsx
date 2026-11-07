@@ -83,7 +83,8 @@ function Nav() {
   useEffect(() => { setOpen(false); }, [loc]);
 
   return (
-    <header style={{ position: "sticky", top: 0, zIndex: 120, background: scrolled ? "rgba(11,9,16,0.9)" : "transparent", backdropFilter: scrolled ? "blur(8px)" : "none", borderBottom: `1px solid ${scrolled ? C.stoneUp : "transparent"}`, transition: "background .3s, border-color .3s" }}>
+    <>
+    <header style={{ position: "sticky", top: 0, zIndex: 120, background: (scrolled || open) ? "rgba(7,17,11,0.96)" : "transparent", backdropFilter: (scrolled || open) ? "blur(10px)" : "none", WebkitBackdropFilter: (scrolled || open) ? "blur(10px)" : "none", borderBottom: `1px solid ${(scrolled || open) ? C.stoneUp : "transparent"}`, transition: "background .3s, border-color .3s" }}>
       <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 clamp(14px,4vw,40px)", height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14 }}>
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 11 }}>
           <img src={ASSET.hardLogo} alt="Undead Ordinals" width={38} height={38}
@@ -106,23 +107,6 @@ function Nav() {
         </div>
       </div>
 
-      {open && (
-        <div className="uo-mobile-sheet" style={{ position: "fixed", inset: 0, top: 68, zIndex: 119, background: "rgba(8,6,12,0.97)" }}>
-          <div style={{ maxWidth: 420, margin: "0 auto", padding: "40px clamp(20px,6vw,40px)" }}>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 26 }}><Sigil size={56} color={C.ember} /></div>
-            <p style={{ fontFamily: display, fontWeight: 600, fontSize: "0.8rem", color: C.rune, textAlign: "center", letterSpacing: "0.1em", margin: "0 0 18px" }}>[ PAUSE MENU ]</p>
-            <div style={{ display: "grid", borderTop: `1px solid ${C.stoneUp}` }}>
-              {NAV.map(([label, to]) => (
-                <div key={to} style={{ borderBottom: `1px solid ${C.stoneUp}`, paddingLeft: 6 }}>
-                  <MenuItem label={label} to={to} active={loc === to} big onNav={() => setOpen(false)} />
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: 22 }}><Link href={CTA.to} onClick={() => setOpen(false)}><Btn full>{CTA.label}</Btn></Link></div>
-          </div>
-        </div>
-      )}
-
       <style>{`
         @media (min-width: 920px) {
           .uo-desktop-nav { display: flex !important; }
@@ -130,6 +114,26 @@ function Nav() {
         }
       `}</style>
     </header>
+
+    {/* mobile sheet lives OUTSIDE the header so the header's backdrop-filter
+        can't become its containing block and collapse the fixed overlay */}
+    {open && (
+      <div className="uo-mobile-sheet" style={{ position: "fixed", inset: 0, top: 68, zIndex: 118, overflowY: "auto", background: "linear-gradient(180deg, #0b1711 0%, #060d09 60%, #040b07 100%)" }}>
+        <div style={{ maxWidth: 420, margin: "0 auto", padding: "40px clamp(20px,6vw,40px)" }}>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 26 }}><Sigil size={56} color={C.ember} /></div>
+          <p style={{ fontFamily: display, fontWeight: 600, fontSize: "0.8rem", color: C.rune, textAlign: "center", letterSpacing: "0.1em", margin: "0 0 18px" }}>[ PAUSE MENU ]</p>
+          <div style={{ display: "grid", borderTop: `1px solid ${C.stoneUp}` }}>
+            {NAV.map(([label, to]) => (
+              <div key={to} style={{ borderBottom: `1px solid ${C.stoneUp}`, paddingLeft: 6 }}>
+                <MenuItem label={label} to={to} active={loc === to} big onNav={() => setOpen(false)} />
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 22 }}><Link href={CTA.to} onClick={() => setOpen(false)}><Btn full>{CTA.label}</Btn></Link></div>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 
