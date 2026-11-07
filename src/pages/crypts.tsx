@@ -23,10 +23,10 @@ export default function Crypts() {
       <section style={{ padding: "clamp(52px,8vw,90px) clamp(18px,5vw,40px) clamp(20px,4vw,34px)", textAlign: "center" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}><Sigil size={54} color={C.ember} /></div>
-          <h1 style={{ fontFamily: black, fontSize: "clamp(2.2rem,7vw,3.8rem)", color: C.boneHi, margin: 0, lineHeight: 1.05 }}>The Catacombs</h1>
-          <p style={{ fontFamily: serif, fontSize: "clamp(1.05rem,2.4vw,1.3rem)", color: C.muted, margin: "18px auto 0", maxWidth: "48ch", lineHeight: 1.6 }}>
-            Four crypts wait below. Send an Undead in, survive the depth, and bring back what the chain gives up. One door
-            is unsealing. The rest hold until their season.
+          <h1 style={{ fontFamily: black, fontSize: "clamp(2.2rem,7vw,3.8rem)", color: C.boneHi, margin: 0, lineHeight: 1.05 }}>The Catacombs of Consensus</h1>
+          <p style={{ fontFamily: serif, fontSize: "clamp(1.05rem,2.4vw,1.3rem)", color: C.muted, margin: "18px auto 0", maxWidth: "50ch", lineHeight: 1.6 }}>
+            Four ways to disappoint yourself. Send an Undead in, pay the $GRAVE fee, and let the published rules and future
+            Bitcoin blocks decide. One door is unsealing. The rest hold until their season.
           </p>
         </div>
       </section>
@@ -56,9 +56,10 @@ export default function Crypts() {
                   <p style={{ position: "absolute", bottom: 11, left: 14, right: 14, fontFamily: black, fontSize: "1.3rem", color: unlocked ? C.boneHi : C.muted, margin: 0, lineHeight: 1.1, textShadow: "0 2px 10px #000" }}>{t.name}</p>
                 </div>
                 <div style={{ padding: "15px 16px 17px" }}>
+                  <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.92rem", color: C.muted, margin: "0 0 12px", lineHeight: 1.45, minHeight: "2.6em" }}>{t.blurb}</p>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-                    <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.95rem", color: C.faint }}>risk {t.risk.toLowerCase()}</span>
-                    <span style={{ fontFamily: display, fontWeight: 600, fontSize: "0.78rem", color: unlocked ? C.ember : C.faint }}>relic {t.relic}</span>
+                    <span style={{ fontFamily: display, fontSize: "0.76rem", color: unlocked ? C.ember : C.faint }}>{t.fee}</span>
+                    <span style={{ fontFamily: display, fontWeight: 600, fontSize: "0.78rem", color: unlocked ? C.rune : C.faint }}>relic {t.relic}</span>
                   </div>
                   {unlocked ? (
                     <button onClick={() => setLocked(true)}

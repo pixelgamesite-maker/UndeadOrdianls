@@ -3,10 +3,10 @@ import { Link } from "wouter";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Section, SectionHead, Plate, Btn, Wordmark, Reveal, Tag, Sigil, Corners,
-  C, display, serif,
+  C, display, serif, black,
 } from "@/components/ui";
 import { PROJECT, X_URL } from "@/lib/theme";
-import { FAQ, TRUST } from "@/lib/lore";
+import { FAQ, TRUST, DISTRIBUTION, FEE_SPLIT, RUNE_SPECS, LIVES_WHERE, EVOLUTION } from "@/lib/lore";
 
 const PRINCIPLES: [string, string][] = [
   ["Bitcoin native assets", "The collection and $GRAVE are built on Bitcoin infrastructure."],
@@ -16,6 +16,25 @@ const PRINCIPLES: [string, string][] = [
   ["Budgeted economics", "Rewards are capped and modelled. Nothing is a guaranteed return."],
   ["Core loop first", "We ship and test expeditions before expanding."],
 ];
+
+/* horizontal share bars for a distribution */
+function Bars({ rows, color }: { rows: { label: string; pct: number }[]; color: string }) {
+  return (
+    <div style={{ display: "grid", gap: 11 }}>
+      {rows.map((r) => (
+        <div key={r.label}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+            <span style={{ fontFamily: display, fontSize: "0.82rem", color: C.bone }}>{r.label}</span>
+            <span style={{ fontFamily: display, fontWeight: 700, fontSize: "0.82rem", color }}>{r.pct}%</span>
+          </div>
+          <div style={{ height: 8, background: C.slab, border: `1px solid ${C.stoneUp}` }}>
+            <div style={{ height: "100%", width: `${r.pct}%`, background: color, boxShadow: `0 0 10px ${color}66` }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function Accordion({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
   return (
@@ -87,7 +106,67 @@ export default function Whitepaper() {
         </div>
       </Section>
 
+      {/* $GRAVE economy */}
       <Section tone="slab">
+        <SectionHead designation="The $GRAVE Rune" title="The economy runs on grave matter." color={C.ember}
+          standfirst="No magical promises. No imaginary utilities. A defined role in the world we're building — and a budget, not an infinite money glitch." />
+        <div className="uo-econ" style={{ display: "grid", gap: 16, gridTemplateColumns: "1fr" }}>
+          <Plate corners={C.ember} pad={24}>
+            <p style={{ fontFamily: display, fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.06em", color: C.ember, margin: "0 0 16px" }}>Supply distribution</p>
+            <Bars rows={DISTRIBUTION} color={C.ember} />
+          </Plate>
+          <Plate corners={C.rune} pad={24}>
+            <p style={{ fontFamily: display, fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.06em", color: C.rune, margin: "0 0 16px" }}>Every grave has a purpose · fee split</p>
+            <Bars rows={FEE_SPLIT} color={C.rune} />
+            <div style={{ display: "grid", gap: 0, marginTop: 22, borderTop: `1px solid ${C.lineLo}` }}>
+              {RUNE_SPECS.map(([k, v]) => (
+                <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "9px 0", borderBottom: `1px solid ${C.lineLo}` }}>
+                  <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: "0.92rem", color: C.faint }}>{k}</span>
+                  <span style={{ fontFamily: display, fontSize: "0.82rem", color: k === "Name" ? C.ember : C.bone }}>{v}</span>
+                </div>
+              ))}
+            </div>
+          </Plate>
+        </div>
+        <p style={{ fontFamily: serif, fontSize: "0.92rem", color: C.faint, margin: "20px 0 0", lineHeight: 1.6 }}>
+          Reward emissions are proposed over 48 months on a declining schedule. $GRAVE is an ecosystem utility token, not an
+          investment — no price appreciation, financial return or liquidity is promised.
+        </p>
+      </Section>
+
+      {/* Evolution */}
+      <Section tone="ash">
+        <SectionHead designation="Evolution" title="Death is permanent. Your look isn't." color={C.rune}
+          standfirst="Your original inscription stays untouched. Your Undead, however, can become something much worse. Spend materials and $GRAVE to unlock it." />
+        <div style={{ display: "grid", gap: 10, gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))" }}>
+          {EVOLUTION.map((e, i) => (
+            <div key={e} style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.stone, padding: "16px 18px", display: "flex", gap: 11, alignItems: "flex-start" }}>
+              <span style={{ fontFamily: display, fontWeight: 700, fontSize: "0.82rem", color: C.rune }}>{String(i + 1).padStart(2, "0")}</span>
+              <span style={{ fontFamily: serif, fontSize: "1rem", color: C.bone, lineHeight: 1.5 }}>{e}</span>
+            </div>
+          ))}
+        </div>
+        <p style={{ fontFamily: black, fontSize: "clamp(1.1rem,3vw,1.5rem)", color: C.boneHi, margin: "26px 0 0" }}>
+          Same corpse. <span style={{ color: C.rune }}>Different problems.</span>
+        </p>
+      </Section>
+
+      {/* What lives where */}
+      <Section tone="slab">
+        <SectionHead designation="Bitcoin-native, not Bitcoin cosplay" title="We live on the orange chain." color={C.ember}
+          standfirst="We build around Bitcoin because permanence matters. But not everything magically happens on-chain, and we won't pretend it does." />
+        <div style={{ position: "relative", border: `1px solid ${C.stoneUp}` }}>
+          <Corners color={C.rune} />
+          {LIVES_WHERE.map(([k, v], i) => (
+            <div key={k} className="uo-ledger-row" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 5, padding: "15px clamp(16px,3vw,24px)", background: i % 2 ? C.slab : "transparent", borderTop: i ? `1px solid ${C.lineLo}` : "none" }}>
+              <span style={{ fontFamily: display, fontSize: "0.78rem", color: C.ember }}>{k}</span>
+              <span style={{ fontFamily: serif, fontSize: "0.98rem", color: C.muted, lineHeight: 1.55 }}>{v}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="ash">
         <SectionHead designation="Trust model" title="What you are actually trusting." color={C.ember} />
         <Reveal>
           <div style={{ position: "relative", border: `1px solid ${C.stoneUp}` }}>
@@ -103,7 +182,7 @@ export default function Whitepaper() {
         </Reveal>
       </Section>
 
-      <Section tone="ash">
+      <Section tone="slab">
         <SectionHead designation="Questions" title="The ones that actually matter." color={C.rune} />
         <div style={{ display: "grid", gap: 10, maxWidth: 780 }}>
           {FAQ.map((f, i) => (
@@ -123,8 +202,8 @@ export default function Whitepaper() {
               Born from forgotten blocks, resurrected on Bitcoin. {PROJECT.supply.toLocaleString()} undead, and no second death.
             </p>
             <div style={{ display: "flex", gap: 13, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/verify"><Btn>Verify holdings</Btn></Link>
-              <Btn href={X_URL} tone="bone">Follow on X</Btn>
+              <Link href="/whitelist"><Btn>Register your Undead</Btn></Link>
+              <Btn href={X_URL} tone="ghost" color={C.rune}>Follow on X</Btn>
             </div>
           </Reveal>
         </div>

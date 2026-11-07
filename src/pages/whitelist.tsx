@@ -1,9 +1,10 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import { useLocation } from "wouter";
-import { Btn, Corners, Seq, C, display, serif, black } from "@/components/ui";
-import { ASSET, X_URL, X_HANDLE, PINNED_URL, ACTIVE_PHASE, WHITELIST_LIVE } from "@/lib/theme";
+import { Link, useLocation } from "wouter";
+import { Btn, Corners, Seq, Sigil, C, display, serif, black } from "@/components/ui";
+import { ASSET, X_URL, X_HANDLE, PINNED_URL, ACTIVE_PHASE, WHITELIST_LIVE, PROJECT } from "@/lib/theme";
 import { submitApplication, hasSupabase } from "@/lib/supabase";
-import { isValidAddress, isXLink } from "@/lib/utils";
+import { FACTIONS } from "@/lib/lore";
+import { isValidAddress, isXLink, shorten } from "@/lib/utils";
 
 type Stage = "intro" | "form" | "open" | "soon";
 
@@ -32,6 +33,102 @@ function GateWord({ label, onClick }: { label: string; onClick: () => void }) {
       letterSpacing: "0.02em", textShadow: `0 0 36px ${C.ember}, 0 3px 16px rgba(0,0,0,0.9)`,
       animation: "blink 1.5s infinite",
     }}>{label}</button>
+  );
+}
+
+/* deterministic passport identity from the holder's address/handle */
+function hash(s: string) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
+function passId(seed: string) { return `UO-${String((hash(seed) % PROJECT.supply) + 1).padStart(4, "0")}`; }
+function passFaction(seed: string) { return FACTIONS[hash(seed + "f") % FACTIONS.length]; }
+
+/* ── The Whitelist Passport: a shareable HUD ID card issued on join,
+   with a one-click pre-written post to X. ── */
+function Passport({ handle, addr, onEnter }: { handle: string; addr: string; onEnter: () => void }) {
+  const seed = (addr || handle || "undead").toLowerCase();
+  const id = passId(seed);
+  const faction = passFaction(seed);
+  const tag = (handle.trim().replace(/^@/, "") || "undead");
+
+  const shareText =
+    `I just clawed my way onto the ${X_HANDLE} whitelist. 🪦\n\n` +
+    `${PROJECT.supply.toLocaleString()} Undead. One blockchain. No second death.\n` +
+    `Dead inside, alive on Bitcoin.\n\n` +
+    `My passport is signed — pass ${id}, ${faction.name}. Claim yours 👇`;
+  const site = typeof window !== "undefined" ? window.location.origin : X_URL;
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(site)}`;
+
+  return (
+    <div style={{ width: "100%", maxWidth: 560, margin: "0 auto" }}>
+      <p style={{ fontFamily: black, fontSize: "clamp(1.9rem,7vw,2.8rem)", color: C.boneHi, margin: "0 0 6px", lineHeight: 1.05, textShadow: "0 3px 18px rgba(0,0,0,0.9)" }}>You're in.</p>
+      <p style={{ fontFamily: serif, fontSize: "1.05rem", color: C.bone, margin: "0 0 20px", textShadow: "0 2px 12px rgba(0,0,0,0.9)" }}>
+        Your passport is signed. Post it to X to lock in your claim.
+      </p>
+
+      {/* passport card */}
+      <div style={{ position: "relative", border: `1px solid ${C.rune}`, background: "linear-gradient(145deg, rgba(14,26,18,0.98), rgba(4,11,7,0.98))", boxShadow: `0 0 50px ${C.rune}26`, textAlign: "left" }}>
+        <Corners color={C.rune} size={16} />
+        {/* header strip */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 15px", borderBottom: `1px solid ${C.stoneUp}`, background: "rgba(59,224,123,0.06)" }}>
+          <span style={{ fontFamily: display, fontWeight: 700, fontSize: "0.68rem", letterSpacing: "0.12em", textTransform: "uppercase", color: C.rune }}>Undead Ordinals · Whitelist Passport</span>
+          <Sigil size={22} color={C.rune} />
+        </div>
+
+        <div style={{ display: "flex", gap: 15, padding: 15 }}>
+          {/* specimen */}
+          <div style={{ position: "relative", flexShrink: 0, width: 108, border: `1px solid ${faction.color}`, background: C.slab, overflow: "hidden" }}>
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(circle at 50% 40%, ${faction.color}2e, transparent 70%)` }} />
+            <img src={faction.image} alt={faction.name} style={{ position: "relative", width: "100%", height: 130, objectFit: "cover" }} />
+            <div style={{ position: "relative", fontFamily: display, fontSize: "0.58rem", textAlign: "center", color: C.bone, padding: "4px 2px", borderTop: `1px solid ${C.stoneUp}` }}>SPECIMEN</div>
+          </div>
+          {/* fields */}
+          <div style={{ flex: 1, display: "grid", gap: 9, alignContent: "start" }}>
+            <Field label="Holder" value={`@${tag}`} color={C.boneHi} />
+            <Field label="Faction" value={faction.name} color={faction.color} />
+            <Field label="Pass No." value={id} color={C.ember} mono />
+            <Field label="Address" value={shorten(addr || "—", 7, 5)} color={C.bone} mono />
+            <Field label="Status" value="WHITELISTED" color={C.rune} />
+          </div>
+        </div>
+
+        {/* MRZ-style strip */}
+        <div style={{ padding: "8px 15px 12px", borderTop: `1px solid ${C.stoneUp}` }}>
+          <div style={{ fontFamily: display, fontSize: "0.62rem", letterSpacing: "0.18em", color: C.faint, wordBreak: "break-all", lineHeight: 1.5 }}>
+            UO&lt;&lt;{tag.toUpperCase()}&lt;&lt;{id.replace("-", "")}&lt;&lt;{(addr || "UNDEAD").slice(0, 12).toUpperCase()}&lt;&lt;{PROJECT.chain.toUpperCase()}
+          </div>
+        </div>
+      </div>
+
+      {/* actions */}
+      <div style={{ display: "flex", gap: 11, marginTop: 18, flexWrap: "wrap" }}>
+        <a href={intent} target="_blank" rel="noopener noreferrer" style={{ flex: "1 1 220px", textDecoration: "none" }}>
+          <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: display, fontWeight: 400, fontSize: "0.86rem", color: C.ash, background: C.ember, border: `1.5px solid ${C.ember}`, padding: "15px 22px", boxShadow: `3px 3px 0 ${C.emberLo}`, cursor: "pointer" }}>
+            <XGlyph /> Post my passport on X
+          </span>
+        </a>
+      </div>
+      <button onClick={onEnter} style={{ width: "100%", marginTop: 11, background: "transparent", color: C.rune, border: `1px solid ${C.rune}`, padding: "13px", fontFamily: display, fontWeight: 600, fontSize: "0.82rem", textTransform: "uppercase", letterSpacing: "0.05em", cursor: "pointer", transition: "background .15s, color .15s" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = C.rune; e.currentTarget.style.color = C.ash; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = C.rune; }}>
+        Enter the Catacombs →
+      </button>
+    </div>
+  );
+}
+
+function Field({ label, value, color, mono }: { label: string; value: string; color: string; mono?: boolean }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, borderBottom: `1px solid ${C.lineLo}`, paddingBottom: 6 }}>
+      <span style={{ fontFamily: display, fontSize: "0.62rem", letterSpacing: "0.08em", textTransform: "uppercase", color: C.faint }}>{label}</span>
+      <span style={{ fontFamily: display, fontWeight: mono ? 700 : 600, fontSize: "0.82rem", color, letterSpacing: mono ? "0.05em" : 0, textAlign: "right" }}>{value}</span>
+    </div>
+  );
+}
+
+function XGlyph() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
   );
 }
 
@@ -119,9 +216,9 @@ export default function Whitelist() {
     setStage("open");
   }
 
-  /* ── OPEN: registered — open door, one blinking word ── */
+  /* ── OPEN: registered — open door + the issued passport ── */
   if (stage === "open") {
-    return <Scene img={ASSET.doorOpen}><GateWord label="Enter" onClick={() => navigate("/crypts")} /></Scene>;
+    return <Scene img={ASSET.doorOpen}><Passport handle={handle} addr={addr} onEnter={() => navigate("/crypts")} /></Scene>;
   }
 
   /* ── SOON: registration off — shut door, one blinking word ── */
@@ -137,7 +234,16 @@ export default function Whitelist() {
 
   /* ── INTRO: shut door, one blinking word ── */
   if (stage === "intro") {
-    return <Scene img={ASSET.doorShut}><GateWord label="Enter" onClick={() => setStage("form")} /></Scene>;
+    return (
+      <Scene img={ASSET.doorShut}>
+        <GateWord label="Enter" onClick={() => setStage("form")} />
+        <div style={{ marginTop: 26 }}>
+          <Link href="/check" style={{ fontFamily: display, fontSize: "0.78rem", letterSpacing: "0.06em", textTransform: "uppercase", color: C.rune, borderBottom: `1px solid ${C.rune}66`, paddingBottom: 2 }}>
+            Already registered? Check your allocation
+          </Link>
+        </div>
+      </Scene>
+    );
   }
 
   /* ── FORM — the five rites ── */

@@ -10,6 +10,8 @@ import Collection from "@/pages/collection";
 import Whitelist from "@/pages/whitelist";
 import Crypts from "@/pages/crypts";
 import Whitepaper from "@/pages/whitepaper";
+import Shop from "@/pages/shop";
+import Check from "@/pages/check";
 
 function ScrollTop() {
   const [loc] = useLocation();
@@ -60,12 +62,16 @@ export default function App() {
           <Route path="/" component={Home} />
           <Route path="/collection" component={Collection} />
           <Route path="/crypts" component={Crypts} />
+          <Route path="/shop" component={Shop} />
+          <Route path="/check" component={Check} />
           <Route path="/whitelist" component={Whitelist} />
           <Route path="/whitepaper" component={Whitepaper} />
           {/* legacy redirects */}
           <Route path="/verify" component={Whitelist} />
           <Route path="/raffle" component={Whitelist} />
           <Route path="/catacombs" component={Crypts} />
+          <Route path="/market" component={Shop} />
+          <Route path="/store" component={Shop} />
           <Route component={NotFound} />
         </Switch>
       </Layout>

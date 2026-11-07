@@ -8,6 +8,7 @@ import { toggleMute, useMuted } from "@/lib/audio";
 const NAV: [string, string][] = [
   ["The Undead", "/collection"],
   ["The Crypts", "/crypts"],
+  ["Black Market", "/shop"],
   ["Codex", "/whitepaper"],
 ];
 const CTA = { label: "Whitelist", to: "/whitelist" };
@@ -24,9 +25,10 @@ function PageBackground({ home }: { home: boolean }) {
       ) : (
         <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${ASSET.wall})`, backgroundSize: "480px", opacity: 0.5 }} />
       )}
+      {/* green necro bloom + grave-black vignette */}
       <div style={{ position: "absolute", inset: 0, background: home
-        ? "radial-gradient(ellipse at 50% 30%, rgba(16,13,22,0.5), rgba(8,6,12,0.86))"
-        : "linear-gradient(rgba(10,8,14,0.68), rgba(10,8,14,0.8))" }} />
+        ? "radial-gradient(ellipse at 50% 24%, rgba(59,224,123,0.10), transparent 46%), radial-gradient(ellipse at 50% 32%, rgba(7,17,11,0.42), rgba(4,11,7,0.9))"
+        : "radial-gradient(ellipse at 50% 0%, rgba(59,224,123,0.07), transparent 42%), linear-gradient(rgba(5,12,8,0.74), rgba(4,11,7,0.86))" }} />
     </div>
   );
 }
@@ -140,7 +142,10 @@ function Footer() {
       <div style={{ maxWidth: 1120, margin: "0 auto", padding: "clamp(30px,5vw,52px) clamp(16px,5vw,44px) clamp(44px,7vw,68px)", display: "grid", gap: 26, textAlign: "center", justifyItems: "center" }}>
         <Sigil size={50} color={C.ember} />
         <p className="standfirst" style={{ fontFamily: serif, fontSize: "1.05rem", color: C.muted, margin: 0 }}>
-          {PROJECT.supply.toLocaleString()} undead. No second death.
+          {PROJECT.supply.toLocaleString()} Undead. One blockchain. No second death.
+        </p>
+        <p style={{ fontFamily: display, fontSize: "0.72rem", letterSpacing: "0.12em", textTransform: "uppercase", color: C.rune, margin: "-10px 0 0" }}>
+          Inscribed on Bitcoin. Dead everywhere else.
         </p>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
           {links.map(([label, href]) => {

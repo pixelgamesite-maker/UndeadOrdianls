@@ -13,8 +13,8 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: #100D16;
-  color: #E8DDC6;
+  background: #07110B;
+  color: #E7E6D2;
   font-family: 'Pixelify Sans', 'Trebuchet MS', sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -27,13 +27,13 @@ img { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; }
-::selection { background: #F7931A; color: #100D16; }
+::selection { background: #3BE07B; color: #07110B; }
 
 /* Thin crypt scrollbar. */
 ::-webkit-scrollbar { width: 11px; height: 11px; }
-::-webkit-scrollbar-track { background: #0B0910; }
-::-webkit-scrollbar-thumb { background: #241E30; border: 3px solid #0B0910; }
-::-webkit-scrollbar-thumb:hover { background: #5E8A86; }
+::-webkit-scrollbar-track { background: #040B07; }
+::-webkit-scrollbar-thumb { background: #1D2E22; border: 3px solid #040B07; }
+::-webkit-scrollbar-thumb:hover { background: #3BE07B; }
 
 /* ── Film grain: a single still SVG-noise tile, very low opacity,
       fixed over everything. Gives the dark base real texture so it
@@ -138,6 +138,30 @@ body::after {
 @keyframes torch {
   0%, 100% { opacity: 0.85; filter: brightness(1); }
   50% { opacity: 1; filter: brightness(1.18); }
+}
+
+/* Loot float — item sprites hover above their plinths. */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* Necro pulse — a breathing green glow behind undead art. */
+@keyframes necro {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.05); }
+}
+
+/* Scanline sweep down the HUD panels (slow, once-feel loop). */
+@keyframes hud {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Chevron nudge for "scroll down" hint. */
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50%      { transform: translateY(7px); opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

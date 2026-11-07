@@ -3,31 +3,30 @@ import {
   Section, SectionHead, Plate, Btn, Wordmark, Reveal, Tag, Corners,
   C, display, serif,
 } from "@/components/ui";
-import { PROJECT, ACTIVE_PHASE, ASSET } from "@/lib/theme";
+import { PROJECT } from "@/lib/theme";
 import { FACTIONS } from "@/lib/lore";
 
 const RECORD: [string, string][] = [
   ["Supply", PROJECT.supply.toLocaleString()],
-  ["Network", "Bitcoin"],
-  ["Format", "Ordinals"],
-  ["Factions", "Four"],
+  ["Blockchain", "Bitcoin"],
+  ["Standard", "Ordinals"],
+  ["Art", "Fantasy × cyber"],
 ];
 
 export default function Collection() {
-  const cta = ACTIVE_PHASE === "raffle" || ACTIVE_PHASE === "minting"
-    ? { label: "Verify holdings", to: "/verify" }
-    : { label: "Join the horde", to: "/raffle" };
+  const cta = { label: "Register your Undead", to: "/whitelist" };
 
   return (
     <>
       <section style={{ padding: "clamp(56px,9vw,100px) clamp(18px,5vw,44px) clamp(28px,5vw,44px)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ display: "inline-flex", marginBottom: 18 }}><Tag>The collection</Tag></div>
+            <div style={{ display: "inline-flex", marginBottom: 18 }}><Tag>The collection · pick your poison</Tag></div>
             <Wordmark size="clamp(1.8rem,6.5vw,3.4rem)" style={{ display: "block" }}>THE UNDEAD</Wordmark>
-            <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.1rem,2.6vw,1.4rem)", color: C.muted, maxWidth: "56ch", margin: "22px 0 0", lineHeight: 1.6 }}>
-              {PROJECT.supply.toLocaleString()} unique inscriptions on Bitcoin Mainnet, undead, cyberpunk, dark fantasy,
-              each carrying the scars of the digital afterlife. The original artwork lives on Bitcoin and never changes.
+            <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.1rem,2.6vw,1.4rem)", color: C.muted, maxWidth: "58ch", margin: "22px 0 0", lineHeight: 1.6 }}>
+              {PROJECT.supply.toLocaleString()} ways to be dead inside. Every Undead is inscribed on Bitcoin Mainnet with
+              the Ordinals protocol, carrying its own identity, traits and place in the afterlife. Your artwork lives on
+              Bitcoin and never changes. Your journey doesn't have to end there.
             </p>
           </Reveal>
         </div>
@@ -92,10 +91,10 @@ export default function Collection() {
 
       <Section tone="ash" style={{ textAlign: "center" }}>
         <Reveal>
-          <h2 style={{ fontFamily: display, fontSize: "clamp(1.2rem,3.4vw,1.9rem)", color: C.boneHi, margin: "0 0 24px" }}>Claim one before the gates close.</h2>
+          <h2 style={{ fontFamily: display, fontSize: "clamp(1.2rem,3.4vw,1.9rem)", color: C.boneHi, margin: "0 0 24px" }}>Claim one before the gate closes.</h2>
           <div style={{ display: "flex", gap: 13, justifyContent: "center", flexWrap: "wrap" }}>
             <Link href={cta.to}><Btn>{cta.label}</Btn></Link>
-            <Link href="/catacombs"><Btn tone="bone">See what they do</Btn></Link>
+            <Link href="/crypts"><Btn tone="ghost" color={C.rune}>See what they do</Btn></Link>
           </div>
         </Reveal>
       </Section>

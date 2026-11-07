@@ -39,3 +39,17 @@ export async function submitApplication(row: Application) {
     },
   ]);
 }
+
+export type AllocTier = "GTD" | "FCFS";
+
+/* Eligibility lookup. Calls a SECURITY DEFINER function so the public
+   can check ONE address at a time without being able to read (scrape)
+   the whole allocation list. Returns the tier, or null if not on the
+   list. See supabase/schema.sql for `check_allocation`. */
+export async function checkAllocation(address: string): Promise<{ tier: AllocTier | null; error: string | null }> {
+  const addr = address.trim();
+  const { data, error } = await supabase.rpc("check_allocation", { addr });
+  if (error) return { tier: null, error: error.message };
+  const tier = (Array.isArray(data) ? data[0]?.tier : data) as string | undefined;
+  return { tier: tier === "GTD" || tier === "FCFS" ? (tier as AllocTier) : null, error: null };
+}

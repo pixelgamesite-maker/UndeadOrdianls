@@ -62,7 +62,7 @@ export function Reveal({ children, delay = 0, y = 16, style }: { children: React
 /* ── Section wrapper. ── */
 export function Section({ children, tone = "ash", id, style }: { children: ReactNode; tone?: "ash" | "slab"; id?: string; style?: CSSProperties }) {
   return (
-    <section id={id} style={{ background: tone === "ash" ? "rgba(16,13,22,0.72)" : "rgba(11,9,16,0.82)", padding: "clamp(64px,10vw,130px) 0", position: "relative", ...style }}>
+    <section id={id} style={{ background: tone === "ash" ? "rgba(7,17,11,0.78)" : "rgba(4,11,7,0.9)", padding: "clamp(64px,10vw,130px) 0", position: "relative", ...style }}>
       <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 clamp(20px,5vw,44px)" }}>{children}</div>
     </section>
   );
@@ -186,6 +186,46 @@ export function Live({ label, color = C.ember }: { label: string; color?: string
       <span style={{ width: 8, height: 8, background: color, animation: "flick 2.2s infinite", boxShadow: `0 0 9px ${color}` }} />
       {label}
     </span>
+  );
+}
+
+/* ── Price: a pixel gold coin + a $GRAVE amount. Used on loot cards. ── */
+export function Price({ amount, size = "0.92rem" }: { amount: number; size?: string }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: display, fontWeight: 600, fontSize: size, color: C.gold }}>
+      <svg width="13" height="13" viewBox="0 0 12 12" aria-hidden style={{ flexShrink: 0 }}>
+        <rect x="2" y="1" width="8" height="10" fill={C.gold} />
+        <rect x="1" y="2" width="10" height="8" fill={C.gold} />
+        <rect x="4" y="3" width="4" height="6" fill="#B8870F" />
+        <rect x="5" y="3" width="2" height="6" fill={C.gold} />
+      </svg>
+      {amount.toLocaleString()}
+    </span>
+  );
+}
+
+/* ── GlowSprite: a transparent PNG sprite floating over a radial glow
+   on a plinth. The signature way loot is shown across the site. ── */
+export function GlowSprite({
+  src, alt, glow = C.rune, h = 112, float = true, pad = 18,
+}: { src: string; alt: string; glow?: string; h?: number; float?: boolean; pad?: number }) {
+  return (
+    <div style={{ position: "relative", display: "grid", placeItems: "center", padding: pad, minHeight: h + pad * 2 }}>
+      <div aria-hidden style={{ position: "absolute", width: "72%", height: "72%", background: `radial-gradient(circle, ${glow}2e, transparent 68%)`, animation: "necro 5s ease-in-out infinite" }} />
+      <img src={src} alt={alt} style={{ position: "relative", maxHeight: h, maxWidth: "80%", width: "auto", objectFit: "contain", filter: `drop-shadow(0 6px 10px rgba(0,0,0,0.6)) drop-shadow(0 0 10px ${glow}55)`, animation: float ? "float 6s ease-in-out infinite" : "none" }} />
+    </div>
+  );
+}
+
+/* ── ScrollCue: a blinking "scroll" chevron for the full-screen hero. ── */
+export function ScrollCue({ label = "Scroll", color = C.rune }: { label?: string; color?: string }) {
+  return (
+    <div aria-hidden style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+      <span style={{ fontFamily: display, fontSize: "0.64rem", letterSpacing: "0.22em", textTransform: "uppercase", color }}>{label}</span>
+      <svg width="20" height="12" viewBox="0 0 20 12" fill="none" style={{ animation: "nudge 1.8s ease-in-out infinite" }}>
+        <path d="M2 2 L10 9 L18 2" stroke={color} strokeWidth="2" strokeLinecap="square" />
+      </svg>
+    </div>
   );
 }
 

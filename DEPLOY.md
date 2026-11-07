@@ -52,9 +52,14 @@ raffle) by changing one string and redeploying. Phases are independent.
 Full step-by-step in [`supabase/README.md`](./supabase/README.md). Short version:
 
 1. Create a Supabase project; grab the **Project URL** + **anon** key.
-2. SQL Editor → run [`supabase/schema.sql`](./supabase/schema.sql) (one
-   table, `wl_applications`).
-3. Set the two `VITE_SUPABASE_*` vars on Railway (step 4) and redeploy.
+2. SQL Editor → run [`supabase/schema.sql`](./supabase/schema.sql). It
+   creates two tables: `wl_applications` (whitelist registrations) and
+   `wl_allocations` (the GTD/FCFS eligibility list the `/check` page
+   reads, via a one-address-at-a-time lookup function).
+3. Populate `wl_allocations` before mint (Table Editor or CSV import):
+   one row per address with `tier` set to `GTD` or `FCFS`. Until it's
+   connected the `/check` page runs in a clearly-labelled preview mode.
+4. Set the two `VITE_SUPABASE_*` vars on Railway (step 4) and redeploy.
 
 > The browser only gets the **anon** key, which can **insert** a
 > registration and nothing else — it can't read, edit or delete rows, so

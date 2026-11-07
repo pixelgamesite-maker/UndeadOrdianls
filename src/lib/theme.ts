@@ -1,31 +1,36 @@
 /* ──────────────────────────────────────────────────────────────
    UNDEAD ORDINALS — design tokens & project config
 
-   Art direction: "Exhumed relic, catalogued." The undead are cursed
-   artifacts pulled off the chain and mounted like museum specimens —
-   raw pixel-horror art in refined reliquary frames. Bone and crypt
-   stone as surfaces, Bitcoin ember as the one source of living light,
-   oxblood and verdigris as the colours of the dead.
+   Art direction: "Dead inside. Alive on Bitcoin." A Bitcoin-native
+   crypt-game HUD. Two living lights fight the dark: NECRO-GREEN (the
+   undead glow — expeditions, life-after-death, the toxin in the jars)
+   and BITCOIN-ORANGE (currency, action, the orange chain). Everything
+   else is grave-black and bone. Oxblood red is reserved for danger.
+
+   Palette brief from the client: black, green, orange — "dark undead
+   and btc vibes."
 
    EVERYTHING a non-engineer edits (supply, dates, links, phase) lives
    in this file.
    ────────────────────────────────────────────────────────────── */
 
 export const C = {
-  ash:     "#100D16",  // base — crypt violet-black
-  stone:   "#191521",  // raised plates / panels
-  stoneUp: "#241E30",  // borders, hover, inputs
-  slab:    "#0B0910",  // recessed / deepest wells
-  ember:   "#F7931A",  // PRIMARY — Bitcoin ember, the living light
-  emberLo: "#C06A15",  // dim ember — rims, pressed states
-  oxblood: "#9A2B22",  // dried-blood red — danger, berserker heat
-  rune:    "#5E8A86",  // verdigris patina — cold occult accent
-  bone:    "#E8DDC6",  // text + parchment relic surfaces
-  boneHi:  "#F3ECDA",  // brightest bone
-  muted:   "rgba(232,221,198,0.56)",
-  faint:   "rgba(232,221,198,0.30)",
-  line:    "rgba(232,221,198,0.11)",
-  lineLo:  "rgba(232,221,198,0.055)",
+  ash:     "#07110B",  // base — necro grave-black (green-tinted)
+  stone:   "#0E1A12",  // raised plates / panels
+  stoneUp: "#1D2E22",  // borders, hover, inputs
+  slab:    "#040B07",  // recessed / deepest wells
+  ember:   "#F7931A",  // Bitcoin orange — currency, action, the chain
+  emberLo: "#B9690F",  // dim ember — rims, pressed states
+  oxblood: "#C13A24",  // dried-blood red — danger, berserker heat
+  rune:    "#3BE07B",  // PRIMARY accent — necro green, the undead glow
+  runeLo:  "#148C42",  // dim green — rules, pressed, recessed
+  gold:    "#F6C945",  // loot gold — item prices only
+  bone:    "#E7E6D2",  // text + parchment relic surfaces
+  boneHi:  "#F4F3E6",  // brightest bone
+  muted:   "rgba(231,230,210,0.58)",
+  faint:   "rgba(231,230,210,0.32)",
+  line:    "rgba(231,230,210,0.12)",
+  lineLo:  "rgba(231,230,210,0.06)",
 } as const;
 
 /** The four factions, re-tuned to filmic/occult tones (not neon). */
@@ -104,9 +109,10 @@ export const TIER_IMG = [
 export type Phase = "teaser" | "raffle" | "waitlist" | "minting" | "minted";
 export const ACTIVE_PHASE: Phase = "raffle";
 
-/* ── Supabase table name (see supabase/schema.sql) ── */
+/* ── Supabase table names (see supabase/schema.sql) ── */
 export const DB = {
   applications: "wl_applications",
+  allocations:  "wl_allocations",
 } as const;
 
 /* Whitelist registration. When true, /whitelist runs the registration
