@@ -131,3 +131,9 @@ export const DB = {
    flow (and saves to Supabase when it's configured). Set false to show a
    clear "opens soon" status with a Follow-on-X action instead. */
 export const WHITELIST_LIVE = true;
+
+/* GTD / FCFS tiers. While false, the status checker shows a single
+   "WAITLISTED" status for everyone (no tier split). Flip to true once
+   the GTD and FCFS allocation lists are imported into wl_allocations,
+   and the checker will show each address's real tier. */
+export const TIERS_LIVE = false;

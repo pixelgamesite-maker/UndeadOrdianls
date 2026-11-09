@@ -4,12 +4,15 @@ import { Btn, Corners, Sigil, C, display, serif, black } from "@/components/ui";
 import { checkAllocation, fetchWaitlistPassport, hasSupabase, type AllocTier } from "@/lib/supabase";
 import { PassportCanvas, DownloadBtn } from "@/components/Passport";
 import type { PassportData, StatusBadge } from "@/lib/passport";
+import { TIERS_LIVE } from "@/lib/theme";
 import { isBtcAny, shorten } from "@/lib/utils";
+
+type Tier = AllocTier | "WL"; // "WL" = plain waitlisted (no tier split yet)
 
 type Result =
   | { kind: "idle" }
   | { kind: "loading" }
-  | { kind: "hit"; tier: AllocTier; preview: boolean; pass: PassportData | null }
+  | { kind: "hit"; tier: Tier; preview: boolean; pass: PassportData | null }
   | { kind: "miss"; preview: boolean }
   | { kind: "error"; msg: string };
 
@@ -36,9 +39,10 @@ function previewTier(addr: string): AllocTier | null {
   return m === 0 ? "GTD" : m === 1 ? "FCFS" : null;
 }
 
-const TIER_META: Record<AllocTier, { title: string; sub: string; color: string }> = {
-  GTD:  { title: "Waitlisted · Guaranteed", sub: "You're waitlisted with a guaranteed spot. Your Undead is reserved.", color: C.rune },
-  FCFS: { title: "Waitlisted · FCFS", sub: "You're waitlisted, first come first served. Be early when the gate opens, or miss it.", color: C.ember },
+const TIER_META: Record<Tier, { label: string; title: string; sub: string; color: string }> = {
+  WL:   { label: "Waitlisted", title: "You're on the waitlist", sub: "You're on the Undead Ordinals waitlist. Hold tight, allocation tiers are assigned closer to mint.", color: C.rune },
+  GTD:  { label: "Waitlisted · GTD",  title: "Waitlisted · Guaranteed", sub: "You're waitlisted with a guaranteed spot. Your Undead is reserved.", color: C.rune },
+  FCFS: { label: "Waitlisted · FCFS", title: "Waitlisted · FCFS", sub: "You're waitlisted, first come first served. Be early when the gate opens, or miss it.", color: C.ember },
 };
 
 export default function Check() {
@@ -51,10 +55,19 @@ export default function Check() {
     if (!valid) return;
     setRes({ kind: "loading" });
     let pass = savedPassFor(addr);
+    if (live && !pass) { const remote = await fetchWaitlistPassport(addr); if (remote) pass = remote as PassportData; }
+
+    // Single-status phase: no GTD/FCFS split yet — everyone on the
+    // waitlist simply shows "WAITLISTED".
+    if (!TIERS_LIVE) {
+      await new Promise((r) => setTimeout(r, 400));
+      setRes({ kind: "hit", tier: "WL", preview: false, pass });
+      return;
+    }
+
     if (live) {
       const { tier, error } = await checkAllocation(addr);
       if (error) { setRes({ kind: "error", msg: "Couldn't reach the waitlist right now. Try again in a moment." }); return; }
-      if (!pass) { const remote = await fetchWaitlistPassport(addr); if (remote) pass = remote as PassportData; }
       setRes(tier ? { kind: "hit", tier, preview: false, pass } : { kind: "miss", preview: false });
     } else {
       await new Promise((r) => setTimeout(r, 450));
@@ -73,11 +86,14 @@ export default function Check() {
           Paste the Bitcoin address you joined with. We'll show your Passport and where you stand, no wallet connection, no signing.
         </p>
 
-        {/* category legend */}
-        <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", margin: "22px 0 30px" }}>
-          <Legend tier="GTD" />
-          <Legend tier="FCFS" />
-        </div>
+        {/* category legend — only while GTD/FCFS tiers are live */}
+        {TIERS_LIVE && (
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", margin: "22px 0 30px" }}>
+            <Legend tier="GTD" />
+            <Legend tier="FCFS" />
+          </div>
+        )}
+        {!TIERS_LIVE && <div style={{ height: 30 }} />}
 
         {/* input panel */}
         <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: "rgba(14,26,18,0.72)", padding: "22px clamp(16px,4vw,26px)", textAlign: "left" }}>
@@ -91,7 +107,9 @@ export default function Check() {
           <div style={{ marginTop: 14 }}>
             <Btn full onClick={run}>{res.kind === "loading" ? "Checking the ledger…" : "Check status"}</Btn>
           </div>
-          {!live && <p style={{ fontFamily: serif, fontSize: "0.82rem", color: C.faint, margin: "12px 0 0", lineHeight: 1.5 }}>Preview mode — the waitlist isn't connected yet, so the status shown is an example.</p>}
+          {!TIERS_LIVE
+            ? <p style={{ fontFamily: serif, fontSize: "0.82rem", color: C.faint, margin: "12px 0 0", lineHeight: 1.5 }}>Allocation tiers (GTD / FCFS) are assigned closer to mint — for now everyone on the list simply shows waitlisted.</p>
+            : (!live && <p style={{ fontFamily: serif, fontSize: "0.82rem", color: C.faint, margin: "12px 0 0", lineHeight: 1.5 }}>Preview mode — the waitlist isn't connected yet, so the status shown is an example.</p>)}
         </div>
 
         {/* result */}
@@ -135,16 +153,16 @@ function PreviewFlag() {
   );
 }
 
-function ResultCard({ tier, addr, preview, pass }: { tier: AllocTier; addr: string; preview: boolean; pass: PassportData | null }) {
+function ResultCard({ tier, addr, preview, pass }: { tier: Tier; addr: string; preview: boolean; pass: PassportData | null }) {
   const m = TIER_META[tier];
-  const badge: StatusBadge = { label: `Waitlisted · ${tier}`, color: m.color };
+  const badge: StatusBadge = { label: m.label, color: m.color };
   return (
     <div style={{ position: "relative", border: `1px solid ${m.color}`, background: C.stone, padding: "24px clamp(16px,4vw,24px) 28px", textAlign: "center", boxShadow: `0 0 50px ${m.color}22` }}>
       <Corners color={m.color} size={16} />
       {preview && <PreviewFlag />}
       <div style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: display, fontWeight: 700, fontSize: "0.78rem", letterSpacing: "0.1em", textTransform: "uppercase", color: m.color, marginBottom: 14 }}>
         <span style={{ width: 10, height: 10, background: m.color, boxShadow: `0 0 12px ${m.color}`, animation: "flick 2.2s infinite" }} />
-        Waitlisted · {tier}
+        {m.label}
       </div>
 
       {/* their actual passport, stamped with the status */}
