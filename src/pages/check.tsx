@@ -26,8 +26,8 @@ function previewTier(addr: string): AllocTier | null {
 }
 
 const TIER_META: Record<AllocTier, { title: string; sub: string; color: string }> = {
-  GTD:  { title: "Guaranteed", sub: "You hold a guaranteed allocation. Your Undead is reserved.", color: C.rune },
-  FCFS: { title: "First Come, First Served", sub: "You're on the FCFS list. Be early when the gate opens, or miss it.", color: C.ember },
+  GTD:  { title: "Waitlisted · Guaranteed", sub: "You're waitlisted with a guaranteed spot. Your Undead is reserved.", color: C.rune },
+  FCFS: { title: "Waitlisted · FCFS", sub: "You're waitlisted, first come first served. Be early when the gate opens, or miss it.", color: C.ember },
 };
 
 export default function Check() {
@@ -41,7 +41,7 @@ export default function Check() {
     setRes({ kind: "loading" });
     if (live) {
       const { tier, error } = await checkAllocation(addr);
-      if (error) { setRes({ kind: "error", msg: "Couldn't reach the allocation list. Try again in a moment." }); return; }
+      if (error) { setRes({ kind: "error", msg: "Couldn't reach the waitlist right now. Try again in a moment." }); return; }
       setRes(tier ? { kind: "hit", tier, preview: false } : { kind: "miss", preview: false });
     } else {
       // preview mode — deterministic, clearly flagged
@@ -56,9 +56,9 @@ export default function Check() {
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(59,224,123,0.1), transparent 55%)" }} />
       <div style={{ position: "relative", zIndex: 1, maxWidth: 580, margin: "0 auto", textAlign: "center" }}>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}><Sigil size={48} color={C.rune} /></div>
-        <h1 style={{ fontFamily: black, fontWeight: 400, fontSize: "clamp(2rem,6.5vw,3.4rem)", color: C.boneHi, margin: 0, lineHeight: 1.06 }}>Check your allocation</h1>
+        <h1 style={{ fontFamily: black, fontWeight: 400, fontSize: "clamp(2rem,6.5vw,3.4rem)", color: C.boneHi, margin: 0, lineHeight: 1.06 }}>Check your waitlist status</h1>
         <p style={{ fontFamily: serif, fontSize: "clamp(1.02rem,2.4vw,1.22rem)", color: C.muted, margin: "16px auto 0", maxWidth: "46ch", lineHeight: 1.6 }}>
-          Paste the Bitcoin or ETH address you registered with. We'll tell you where you stand, no wallet connection, no signing.
+          Paste the Bitcoin or ETH address you joined with. We'll tell you where you stand, no wallet connection, no signing.
         </p>
 
         {/* category legend */}
@@ -89,11 +89,11 @@ export default function Check() {
             <div style={{ position: "relative", border: `1px solid ${C.stoneUp}`, background: C.stone, padding: "24px 22px", textAlign: "center" }}>
               <Corners color={C.faint} size={14} />
               {res.preview && <PreviewFlag />}
-              <p style={{ fontFamily: black, fontSize: "1.5rem", color: C.bone, margin: "0 0 8px" }}>Not on the list</p>
+              <p style={{ fontFamily: black, fontSize: "1.5rem", color: C.bone, margin: "0 0 8px" }}>Not waitlisted yet</p>
               <p style={{ fontFamily: serif, fontSize: "1rem", color: C.muted, lineHeight: 1.6, margin: "0 0 16px" }}>
-                {shorten(addr, 8, 6)} isn't holding an allocation yet. The whitelist is still filling, register and complete the rites to claim a spot.
+                {shorten(addr, 8, 6)} isn't on the waitlist yet. It's still filling, complete the rites to secure your spot.
               </p>
-              <Link href="/whitelist"><Btn tone="ghost" color={C.rune}>Register your Undead</Btn></Link>
+              <Link href="/whitelist"><Btn tone="ghost" color={C.rune}>Join the waitlist</Btn></Link>
             </div>
           )}
           {res.kind === "error" && (
@@ -131,7 +131,7 @@ function ResultCard({ tier, addr, preview }: { tier: AllocTier; addr: string; pr
       {preview && <PreviewFlag />}
       <div style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: display, fontWeight: 700, fontSize: "0.78rem", letterSpacing: "0.1em", textTransform: "uppercase", color: m.color, marginBottom: 12 }}>
         <span style={{ width: 10, height: 10, background: m.color, boxShadow: `0 0 12px ${m.color}`, animation: "flick 2.2s infinite" }} />
-        Eligible · {tier}
+        Waitlisted · {tier}
       </div>
       <p style={{ fontFamily: black, fontSize: "clamp(1.8rem,6vw,2.6rem)", color: C.boneHi, margin: "0 0 10px", lineHeight: 1.05 }}>{m.title}</p>
       <p style={{ fontFamily: serif, fontSize: "1.04rem", color: C.muted, lineHeight: 1.65, margin: "0 0 14px", maxWidth: "40ch", marginInline: "auto" }}>{m.sub}</p>

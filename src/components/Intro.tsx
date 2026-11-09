@@ -61,7 +61,7 @@ export default function Intro({ onEnter }: { onEnter: () => void }) {
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}><Sigil size={64} color={C.ember} spin /></div>
 
         <p style={{ fontFamily: display, fontSize: "0.72rem", color: C.rune, letterSpacing: "0.04em", margin: "0 0 14px" }}>
-          {PROJECT.supply.toLocaleString()} UNDEAD · BITCOIN
+          {PROJECT.supplyText} UNDEAD · BITCOIN
         </p>
         <h1 style={{ fontFamily: display, fontSize: "clamp(1.1rem,4vw,1.7rem)", color: C.boneHi, lineHeight: 1.45, margin: "0 0 18px", textShadow: `0 0 20px ${C.ember}55` }}>
           WELCOME TO THE<br />CATACOMBS

@@ -61,13 +61,25 @@ export const mono = display;
 export const PROJECT = {
   name: "Undead Ordinals",
   tagline: "The dead don't stay dead on Bitcoin.",
-  /* Whitepaper fixes supply at 3,232. Campaign note says "6K or less,
-     TBC" — change this one value and it updates everywhere. */
+  /* Collection supply is NOT finalised. Everything shown to users reads
+     "TBA" (supplyText). The numeric `supply` is kept only for internal
+     maths and is never displayed. Set supplyText to the real number when
+     the supply is locked. */
+  supplyText: "TBA",
   supply: 3232,
   chain: "Bitcoin",
   token: "$GRAVE",
   tokenSupply: "21,000,000",
 } as const;
+
+/* Pre-written share text for the Waitlist Passport post. The page fills
+   in [FACTION], [PASS ID] and the site [LINK]. */
+export const SHARE_TEMPLATE =
+  `The living are sleeping. The Undead are awakening.\n\n` +
+  `My ${"@UndeadOrdinals"} Passport secured.\n\n` +
+  `[FACTION] | [PASS ID]\n\n` +
+  `Your turn to rise.\n\n` +
+  `Enter the afterlife: [LINK]`;
 
 /* ── Links ── (swap for the real accounts before launch) ── */
 export const X_URL = "https://x.com/UndeadOrdinals";

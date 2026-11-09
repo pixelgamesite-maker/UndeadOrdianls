@@ -80,7 +80,7 @@ export default function Whitepaper() {
               Bitcoin was built to last forever. So were we.
             </p>
             <p style={{ fontFamily: serif, fontSize: "1.06rem", color: C.muted, lineHeight: 1.85, margin: 0 }}>
-              Undead Ordinals is a collection of {PROJECT.supply.toLocaleString()} undead artifacts inscribed on Bitcoin,
+              Undead Ordinals is a collection of undead artifacts inscribed on Bitcoin,
               and the foundation of a Bitcoin native gaming ecosystem. Holders send their Undead into the Catacombs of
               Consensus, earn materials and rewards, evolve their characters, and take part in an economy powered by the
               {" "}{PROJECT.token} Rune. Three ideas drive it: permanence, play, and clarity, the artwork lives on Bitcoin
@@ -199,10 +199,10 @@ export default function Whitepaper() {
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 22 }}><Sigil size={54} color={C.ember} /></div>
             <Wordmark size="clamp(1.3rem,4.6vw,2.3rem)">OUTLIVE THE CYCLE</Wordmark>
             <p style={{ fontFamily: serif, fontSize: "1.08rem", color: C.muted, margin: "20px auto 30px", maxWidth: "48ch", lineHeight: 1.75 }}>
-              Born from forgotten blocks, resurrected on Bitcoin. {PROJECT.supply.toLocaleString()} undead, and no second death.
+              Born from forgotten blocks, resurrected on Bitcoin. The Undead, and no second death.
             </p>
             <div style={{ display: "flex", gap: 13, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/whitelist"><Btn>Register your Undead</Btn></Link>
+              <Link href="/whitelist"><Btn>Join the Waitlist</Btn></Link>
               <Btn href={X_URL} tone="ghost" color={C.rune}>Follow on X</Btn>
             </div>
           </Reveal>

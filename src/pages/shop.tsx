@@ -81,7 +81,7 @@ export default function Shop() {
           The market unlocks with the Catacombs. Items are earned and spent in-game using $GRAVE, never with real money, and every price here is subject to the final game specification.
         </p>
         <div style={{ display: "flex", gap: 13, justifyContent: "center", flexWrap: "wrap", marginTop: 26 }}>
-          <Link href="/whitelist"><Btn>Register your Undead</Btn></Link>
+          <Link href="/whitelist"><Btn>Join the Waitlist</Btn></Link>
           <Link href="/crypts"><Btn tone="ghost" color={C.rune}>Enter the Catacombs</Btn></Link>
         </div>
       </section>

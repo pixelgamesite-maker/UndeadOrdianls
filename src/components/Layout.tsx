@@ -11,7 +11,7 @@ const NAV: [string, string][] = [
   ["Black Market", "/shop"],
   ["Codex", "/whitepaper"],
 ];
-const CTA = { label: "Whitelist", to: "/whitelist" };
+const CTA = { label: "Waitlist", to: "/whitelist" };
 
 /* Fixed game background: the title video on the home screen, the mossy
    dungeon wall everywhere else. No logo poster — if the video can't
@@ -146,7 +146,7 @@ function Footer() {
       <div style={{ maxWidth: 1120, margin: "0 auto", padding: "clamp(30px,5vw,52px) clamp(16px,5vw,44px) clamp(44px,7vw,68px)", display: "grid", gap: 26, textAlign: "center", justifyItems: "center" }}>
         <Sigil size={50} color={C.ember} />
         <p className="standfirst" style={{ fontFamily: serif, fontSize: "1.05rem", color: C.muted, margin: 0 }}>
-          {PROJECT.supply.toLocaleString()} Undead. One blockchain. No second death.
+          The Undead. One blockchain. No second death.
         </p>
         <p style={{ fontFamily: display, fontSize: "0.72rem", letterSpacing: "0.12em", textTransform: "uppercase", color: C.rune, margin: "-10px 0 0" }}>
           Inscribed on Bitcoin. Dead everywhere else.

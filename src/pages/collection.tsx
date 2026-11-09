@@ -7,14 +7,14 @@ import { PROJECT } from "@/lib/theme";
 import { FACTIONS } from "@/lib/lore";
 
 const RECORD: [string, string][] = [
-  ["Supply", PROJECT.supply.toLocaleString()],
+  ["Supply", PROJECT.supplyText],
   ["Blockchain", "Bitcoin"],
   ["Standard", "Ordinals"],
   ["Art", "Fantasy × cyber"],
 ];
 
 export default function Collection() {
-  const cta = { label: "Register your Undead", to: "/whitelist" };
+  const cta = { label: "Join the Waitlist", to: "/whitelist" };
 
   return (
     <>
@@ -24,7 +24,7 @@ export default function Collection() {
             <div style={{ display: "inline-flex", marginBottom: 18 }}><Tag>The collection · pick your poison</Tag></div>
             <Wordmark size="clamp(1.8rem,6.5vw,3.4rem)" style={{ display: "block" }}>THE UNDEAD</Wordmark>
             <p className="standfirst" style={{ fontFamily: serif, fontSize: "clamp(1.1rem,2.6vw,1.4rem)", color: C.muted, maxWidth: "58ch", margin: "22px 0 0", lineHeight: 1.6 }}>
-              {PROJECT.supply.toLocaleString()} ways to be dead inside. Every Undead is inscribed on Bitcoin Mainnet with
+              So many ways to be dead inside. Every Undead is inscribed on Bitcoin Mainnet with
               the Ordinals protocol, carrying its own identity, traits and place in the afterlife. Your artwork lives on
               Bitcoin and never changes. Your journey doesn't have to end there.
             </p>

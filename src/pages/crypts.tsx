@@ -78,7 +78,7 @@ export default function Crypts() {
         </div>
 
         <p style={{ fontFamily: serif, fontSize: "0.98rem", color: C.faint, textAlign: "center", margin: "28px auto 0", maxWidth: "54ch", lineHeight: 1.6 }}>
-          Not on the whitelist yet? <Link href="/whitelist" style={{ color: C.ember }}>Register your Undead</Link> to claim your place before the crypts open.
+          Not on the waitlist yet? <Link href="/whitelist" style={{ color: C.ember }}>Join the waitlist</Link> to claim your place before the crypts open.
         </p>
       </Section>
 

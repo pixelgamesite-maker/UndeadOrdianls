@@ -75,16 +75,16 @@ export default function Home() {
           <Wordmark size="clamp(2.6rem,11vw,6.2rem)" style={{ display: "block", marginTop: -4 }}>Alive on Bitcoin.</Wordmark>
 
           <p style={{ fontFamily: serif, fontSize: "clamp(1.1rem,2.6vw,1.4rem)", color: C.bone, margin: "24px auto 0", maxWidth: "46ch", lineHeight: 1.6, textShadow: "0 2px 18px rgba(0,0,0,0.95)" }}>
-            {PROJECT.supply.toLocaleString()} Undead have crawled out of forgotten blocks. Inscribed forever, sent into the Catacombs, and built to make some terrible financial decisions.
+            The Undead have crawled out of forgotten blocks. Inscribed forever, sent into the Catacombs, and built to make some terrible financial decisions.
           </p>
 
           <p style={{ fontFamily: display, fontSize: "0.82rem", letterSpacing: "0.1em", textTransform: "uppercase", color: C.rune, margin: "22px 0 0", textShadow: "0 0 14px rgba(0,0,0,0.9)" }}>
-            3,232 Inscriptions · One Blockchain · Zero Pulse
+            {PROJECT.supplyText} Inscriptions · One Blockchain · Zero Pulse
           </p>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", alignItems: "center", margin: "34px 0 0" }}>
             {liveReg
-              ? <Link href="/whitelist"><Btn>Register your Undead</Btn></Link>
+              ? <Link href="/whitelist"><Btn>Join the Waitlist</Btn></Link>
               : <Btn href={X_URL}>{`Follow ${X_HANDLE}`}</Btn>}
             <Link href="/crypts"><Btn tone="ghost" color={C.rune}>Enter the Catacombs</Btn></Link>
           </div>
@@ -105,7 +105,7 @@ export default function Home() {
               Another NFT collection? Technically, yes. Another collection that vanishes after mint, changes its profile picture, and starts posting partnership announcements? <span style={{ color: C.bone }}>Hopefully not.</span>
             </p>
             <p style={{ fontFamily: serif, fontSize: "1.1rem", color: C.muted, lineHeight: 1.8, margin: "16px 0 0" }}>
-              Undead Ordinals is 3,232 digital corpses inscribed permanently on Bitcoin. But we're not here to collect JPEGs and stare at floor prices. We're building a Bitcoin-native gaming ecosystem where your Undead explores, collects, evolves, and fights to survive, powered by the <span style={{ color: C.ember }}>$GRAVE</span> Rune.
+              Undead Ordinals is a horde of digital corpses inscribed permanently on Bitcoin. But we're not here to collect JPEGs and stare at floor prices. We're building a Bitcoin-native gaming ecosystem where your Undead explores, collects, evolves, and fights to survive, powered by the <span style={{ color: C.ember }}>$GRAVE</span> Rune.
             </p>
             <p style={{ fontFamily: black, fontSize: "clamp(1.1rem,3vw,1.5rem)", color: C.boneHi, margin: "24px 0 0", lineHeight: 1.25 }}>
               Your Undead has a life after death. <span style={{ color: C.rune }}>Unlike most NFT roadmaps.</span>
@@ -131,7 +131,7 @@ export default function Home() {
       <Band bg="green">
         <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto clamp(32px,5vw,52px)" }}>
           <Eyebrow color={C.rune}>The collection · pick your poison</Eyebrow>
-          <Head>3,232 ways to be dead inside.</Head>
+          <Head>So many ways to be dead inside.</Head>
           <p style={{ fontFamily: serif, fontSize: "1.08rem", color: C.muted, lineHeight: 1.7, margin: "18px auto 0", maxWidth: "52ch" }}>
             Four factions clawed out of the Catacombs of Consensus. Each one wears its curse differently.
           </p>
@@ -331,12 +331,12 @@ export default function Home() {
           </p>
           <div style={{ display: "flex", gap: 13, justifyContent: "center", flexWrap: "wrap" }}>
             {liveReg
-              ? <Link href="/whitelist"><Btn>Register your Undead</Btn></Link>
+              ? <Link href="/whitelist"><Btn>Join the Waitlist</Btn></Link>
               : <Btn href={X_URL}>{`Follow ${X_HANDLE}`}</Btn>}
             <Link href="/whitepaper"><Btn tone="ghost" color={C.rune}>Read the codex</Btn></Link>
           </div>
           <p style={{ fontFamily: display, fontSize: "0.78rem", letterSpacing: "0.1em", textTransform: "uppercase", color: C.rune, margin: "30px 0 0" }}>
-            3,232 Undead · One Blockchain · No Second Death
+            {PROJECT.supplyText} Undead · One Blockchain · No Second Death
           </p>
         </div>
       </Band>

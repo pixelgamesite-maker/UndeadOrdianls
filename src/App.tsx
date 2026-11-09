@@ -65,6 +65,7 @@ export default function App() {
           <Route path="/shop" component={Shop} />
           <Route path="/check" component={Check} />
           <Route path="/whitelist" component={Whitelist} />
+          <Route path="/waitlist" component={Whitelist} />
           <Route path="/whitepaper" component={Whitepaper} />
           {/* legacy redirects */}
           <Route path="/verify" component={Whitelist} />

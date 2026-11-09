@@ -142,7 +142,7 @@ export const ROADMAP: RoadmapPhase[] = [
   {
     numeral: "I", title: "Resurrection",
     points: [
-      "Finalize the 3,232 Undead collection",
+      "Finalize the Undead collection",
       "Publish traits and rarity methodology",
       "Launch the website and documentation",
       "Test wallet verification",
@@ -191,11 +191,11 @@ export type Faq = { q: string; a: string };
 export const FAQ: Faq[] = [
   {
     q: "Do I have to connect my wallet to register?",
-    a: "No. We never ask you to connect a wallet, sign a transaction, or share a seed phrase to join the whitelist. You paste your public address and we check it. Nothing can touch your funds.",
+    a: "No. We never ask you to connect a wallet, sign a transaction, or share a seed phrase to join the waitlist. You paste your public address and we check it. Nothing can touch your funds.",
   },
   {
     q: "What am I actually buying?",
-    a: "One of 3,232 Undead inscribed on Bitcoin using the Ordinals protocol. The original artwork lives on Bitcoin and never changes. Holding one gives access to eligible ecosystem features under their published rules.",
+    a: "One of the Undead inscribed on Bitcoin using the Ordinals protocol. The original artwork lives on Bitcoin and never changes. Holding one gives access to eligible ecosystem features under their published rules.",
   },
   {
     q: "What is the Catacombs of Consensus?",
