@@ -25,9 +25,10 @@ export type Application = {
   quote_url: string;
   comment_url: string;
   phase: string;
+  passport?: unknown; // the generated passport (jsonb), so status lookups can redraw it
 };
 
-/** Whitelist registration. Inserts one row into wl_applications. */
+/** Waitlist registration. Inserts one row into wl_applications. */
 export async function submitApplication(row: Application) {
   return supabase.from(DB.applications).insert([
     {
@@ -36,6 +37,7 @@ export async function submitApplication(row: Application) {
       quote_url: row.quote_url.trim(),
       comment_url: row.comment_url.trim(),
       phase: row.phase,
+      passport: row.passport ?? null,
     },
   ]);
 }
@@ -52,4 +54,17 @@ export async function checkAllocation(address: string): Promise<{ tier: AllocTie
   if (error) return { tier: null, error: error.message };
   const tier = (Array.isArray(data) ? data[0]?.tier : data) as string | undefined;
   return { tier: tier === "GTD" || tier === "FCFS" ? (tier as AllocTier) : null, error: null };
+}
+
+/* Best-effort fetch of a holder's stored passport (for cross-device
+   status cards). Returns null on any error so the page can fall back to
+   the browser's locally-saved card. */
+export async function fetchWaitlistPassport(address: string): Promise<unknown | null> {
+  try {
+    const { data, error } = await supabase.rpc("get_waitlist_passport", { addr: address.trim() });
+    if (error || !data) return null;
+    return data;
+  } catch {
+    return null;
+  }
 }

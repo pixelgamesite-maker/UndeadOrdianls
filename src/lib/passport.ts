@@ -108,9 +108,13 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
 const FONT = '"Pixelify Sans", "Trebuchet MS", system-ui, sans-serif';
 const W = 1200, H = 628, SCALE = 2;
 
+export type StatusBadge = { label: string; color: string };
+
 /** Draw the passport onto the canvas. Resolves when fully rendered
-    (including the NFT art). */
-export async function drawPassport(canvas: HTMLCanvasElement, d: PassportData, fallbackSrc = "/SKELETON_TWO.png") {
+    (including the NFT art). Pass `status` to stamp a waitlist status
+    pill (e.g. "WAITLISTED · GTD") onto the card. */
+export async function drawPassport(canvas: HTMLCanvasElement, d: PassportData, status?: StatusBadge) {
+  const fallbackSrc = "/SKELETON_TWO.png";
   canvas.width = W * SCALE;
   canvas.height = H * SCALE;
   const ctx = canvas.getContext("2d")!;
@@ -152,6 +156,20 @@ export async function drawPassport(canvas: HTMLCanvasElement, d: PassportData, f
   ctx.fillStyle = p.sub;
   ctx.textAlign = "right";
   ctx.fillText(spaced("WAITLIST PASS"), W - 56, 86);
+
+  // status pill (e.g. WAITLISTED · GTD), top-right under the label
+  if (status) {
+    ctx.font = `700 19px ${FONT}`;
+    const lab = spaced(status.label.toUpperCase());
+    const tw = ctx.measureText(lab).width;
+    const pw = tw + 36, ph = 42, px = W - 56 - pw, py = 104;
+    roundRect(ctx, px, py, pw, ph, 9);
+    ctx.fillStyle = status.color;
+    ctx.fill();
+    ctx.fillStyle = "#06100A";
+    ctx.textAlign = "center";
+    ctx.fillText(lab, px + pw / 2, py + 28);
+  }
 
   // ── avatar ──
   const ax = 56, ay = 150, asz = 300;

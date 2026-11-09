@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { Btn, Corners, Sigil, C, display, serif, black } from "@/components/ui";
 import { X_URL, X_HANDLE, PINNED_URL, SHARE_TEMPLATE, WHITELIST_LIVE } from "@/lib/theme";
 import { submitApplication, hasSupabase } from "@/lib/supabase";
-import { rollPassport, drawPassport, type PassportData } from "@/lib/passport";
-import { isValidAddress, isXLink } from "@/lib/utils";
+import { rollPassport, type PassportData } from "@/lib/passport";
+import { PassportCanvas, DownloadBtn } from "@/components/Passport";
+import { isBtcAny, isXLink } from "@/lib/utils";
 
 /* ── X intent helpers ───────────────────────────────────────── */
 const POST_URL = PINNED_URL; // set to the real pinned tweet before launch
@@ -74,17 +75,18 @@ export default function Whitelist() {
   }
 
   async function finish() {
-    if (!isValidAddress(addr) || !pass) return;
+    if (!isBtcAny(addr) || !pass) return;
     try {
       if (hasSupabase()) {
         await submitApplication({
           address: addr, twitter: handle, quote_url: tweet, comment_url: pass.serial, phase: "waitlist",
+          passport: pass,
         });
       }
     } catch { /* proceed locally regardless */ }
     try {
       localStorage.setItem("uo_wl_sent", "true");
-      localStorage.setItem(LS, JSON.stringify({ pass }));
+      localStorage.setItem(LS, JSON.stringify({ pass, address: addr.trim() }));
     } catch {}
     const nd = [...done]; nd[6] = true; setDone(nd);
     setFinished(true);
@@ -154,7 +156,7 @@ export default function Whitelist() {
 
                   {i === 4 && pass && (
                     <div>
-                      <DownloadBtn pass={pass} />
+                      <div style={{ marginBottom: 10 }}><DownloadBtn pass={pass} /></div>
                       <ActionLink href={postIntent(pass)}>Open X → Post my passport</ActionLink>
                       <p style={{ fontFamily: serif, fontSize: "0.9rem", color: C.faint, margin: "10px 0 0", lineHeight: 1.5 }}>
                         Download the card first, then attach it to the pre-filled post on X.
@@ -179,9 +181,9 @@ export default function Whitelist() {
                   {i === 6 && (
                     <div>
                       <label style={lbl}>Your Bitcoin address</label>
-                      <input value={addr} onChange={(e) => setAddr(e.target.value)} placeholder="bc1p…   or   0x…" spellCheck={false}
+                      <input value={addr} onChange={(e) => setAddr(e.target.value)} placeholder="bc1p…   /   bc1q…   /   1…   /   3…" spellCheck={false}
                         style={{ ...field, marginTop: 8 }} onFocus={(e) => (e.target.style.borderColor = C.rune)} onBlur={(e) => (e.target.style.borderColor = C.stoneUp)} />
-                      {addr && !isValidAddress(addr) && <p style={errTxt}>That doesn't look like a valid Bitcoin or ETH address.</p>}
+                      {addr && !isBtcAny(addr) && <p style={errTxt}>That doesn't look like a valid Bitcoin address.</p>}
                       <div style={{ marginTop: 12 }}>
                         <Btn full onClick={finish}>Submit & secure my spot</Btn>
                       </div>
@@ -253,39 +255,6 @@ function Nudge({ children }: { children: ReactNode }) {
   return <p style={{ fontFamily: serif, fontSize: "0.94rem", color: C.ember, margin: 0 }}>{children}</p>;
 }
 
-/* ── canvas passport preview ──────────────────────────────────── */
-function PassportCanvas({ pass }: { pass: PassportData }) {
-  const ref = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    if (ref.current) { (document as any).fonts?.ready?.then?.(() => ref.current && drawPassport(ref.current, pass)); drawPassport(ref.current, pass); }
-  }, [pass]);
-  return (
-    <div style={{ position: "relative", border: `1px solid ${C.stoneUp}` }}>
-      <canvas ref={ref} style={{ width: "100%", height: "auto", display: "block" }} />
-    </div>
-  );
-}
-
-function DownloadBtn({ pass }: { pass: PassportData }) {
-  const [busy, setBusy] = useState(false);
-  async function dl() {
-    setBusy(true);
-    const canvas = document.createElement("canvas");
-    await drawPassport(canvas, pass);
-    canvas.toBlob((blob) => {
-      if (blob) {
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = `undead-passport-${pass.handle}.png`;
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-      }
-      setBusy(false);
-    }, "image/png");
-  }
-  return <div style={{ marginBottom: 10 }}><Btn full onClick={dl}>{busy ? "Rendering…" : "⬇ Download card"}</Btn></div>;
-}
-
 /* ── finished ─────────────────────────────────────────────────── */
 function Done({ pass, onCheck }: { pass: PassportData | null; onCheck: () => void }) {
   return (
@@ -297,7 +266,12 @@ function Done({ pass, onCheck }: { pass: PassportData | null; onCheck: () => voi
         <p style={{ fontFamily: serif, fontSize: "1.1rem", color: C.muted, margin: "16px auto 26px", maxWidth: "44ch", lineHeight: 1.65 }}>
           Your Passport is signed and your Bitcoin address is in the ledger. Welcome to the afterlife.
         </p>
-        {pass && <div style={{ marginBottom: 24 }}><PassportCanvas pass={pass} /></div>}
+        {pass && (
+          <div style={{ marginBottom: 20 }}>
+            <PassportCanvas pass={pass} />
+            <div style={{ maxWidth: 320, margin: "14px auto 0" }}><DownloadBtn pass={pass} /></div>
+          </div>
+        )}
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <Btn onClick={onCheck}>Check my waitlist status</Btn>
           {pass && <Btn href={postIntent(pass)} tone="ghost" color={C.rune}>Share again on X</Btn>}

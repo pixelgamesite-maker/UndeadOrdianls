@@ -10,13 +10,16 @@
 --  you need the mint list.
 create table if not exists public.wl_applications (
   id          bigint generated always as identity primary key,
-  address     text not null unique,            -- mint address (bc1p… or 0x…)
+  address     text not null unique,            -- Bitcoin mint address (bc1p… / bc1q… / 1… / 3…)
   twitter     text not null,                   -- X handle (without the @)
-  quote_url   text,                            -- their quote-post link
-  comment_url text,                            -- their comment link
-  phase       text not null default 'raffle',  -- campaign phase at entry
+  quote_url   text,                            -- their passport-tweet link
+  comment_url text,                            -- their passport serial
+  phase       text not null default 'waitlist',-- campaign phase at entry
+  passport    jsonb,                           -- the generated passport, so status lookups can redraw it
   created_at  timestamptz not null default now()
 );
+-- If the table already exists from an earlier run, add the column:
+alter table public.wl_applications add column if not exists passport jsonb;
 
 alter table public.wl_applications enable row level security;
 
@@ -62,6 +65,24 @@ $$;
 
 revoke all on function public.check_allocation(text) from public;
 grant execute on function public.check_allocation(text) to anon, authenticated;
+
+-- Returns the passport a given address generated (so the status page can
+-- redraw the holder's card on any device). Only ever returns one row's
+-- passport for the exact address passed in — the table stays unreadable.
+create or replace function public.get_waitlist_passport(addr text)
+returns jsonb
+language sql
+security definer
+set search_path = public
+as $$
+  select passport
+  from public.wl_applications
+  where lower(address) = lower(trim(addr))
+  limit 1;
+$$;
+
+revoke all on function public.get_waitlist_passport(text) from public;
+grant execute on function public.get_waitlist_passport(text) to anon, authenticated;
 
 -- Example rows (delete these; add the real list before launch):
 -- insert into public.wl_allocations (address, tier, note) values
